@@ -1,7 +1,7 @@
 Sample
 ======
 
-![sim city man](https://raw.github.com/enochchu/lrdcom-recipes/master/js/sample/sample.jpg)
+![sim city man](https://github.com/enochchu/lrdcom-recipes/blob/master/sample/sample.jpg?raw=true)
 
 This is a sample recipe. It consists of
 - Code
