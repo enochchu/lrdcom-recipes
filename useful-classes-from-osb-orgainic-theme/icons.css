@@ -1,0 +1,142 @@
+.icon-btn {
+	background: no-repeat;
+	display: inline-block;
+	font-weight: bold;
+	min-height: 27px;
+	padding: 6px 0 3px 32px;
+	text-decoration: none;
+}
+
+.icon-btn-chalkboard {
+	background-image: url(../images/custom/icons/icon_chalkboard_32x32.png);
+}
+
+.icon-btn-community {
+	background-image: url(../images/custom/icons/icon_community_32x32.png);
+}
+
+.icon-btn-doc {
+	background-image: url(../images/custom/icons/icon_doc_32x32.png);
+}
+
+.icon-btn-doc-locked {
+	background-image: url(../images/custom/icons/icon_doc_locked_32x32.png);
+}
+
+.icon-btn-download {
+	background-image: url(../images/custom/icons/icon_download_32x32.png);
+}
+
+.icon-btn-jpg {
+	background-image: url(../images/custom/icons/icon_jpg_32x32.png);
+}
+
+.icon-btn-jpg-locked {
+	background-image: url(../images/custom/icons/icon_jpg_locked_32x32.png);
+}
+
+.icon-btn-liferay_in_action {
+	background-image: url(../images/custom/icons/icon_liferay_in_action_32x32.png);
+}
+
+.icon-btn-mp3 {
+	background-image: url(../images/custom/icons/icon_mp3_32x32.png);
+}
+
+.icon-btn-mp3-locked {
+	background-image: url(../images/custom/icons/icon_mp3_locked_32x32.png);
+}
+
+.icon-btn-partner {
+	background-image: url(../images/custom/icons/icon_partner_32x32.png);
+}
+
+.icon-btn-pdf {
+	background-image: url(../images/custom/icons/icon_pdf_32x32.png);
+}
+
+.icon-btn-pdf-locked {
+	background-image: url(../images/custom/icons/icon_pdf_locked_32x32.png);
+}
+
+.icon-btn-png {
+	background-image: url(../images/custom/icons/icon_png_32x32.png);
+}
+
+.icon-btn-png-locked {
+	background-image: url(../images/custom/icons/icon_png_locked_32x32.png);
+}
+
+.icon-btn-ppt {
+	background-image: url(../images/custom/icons/icon_ppt_32x32.png);
+}
+
+.icon-btn-ppt-locked {
+	background-image: url(../images/custom/icons/icon_ppt_locked_32x32.png);
+}
+
+.icon-btn-services {
+	background-image: url(../images/custom/icons/icon_services_32x32.png);
+}
+
+.icon-btn-vid {
+	background-image: url(../images/custom/icons/icon_vid_32x32.png);
+}
+
+.icon-btn-vid-locked {
+	background-image: url(../images/custom/icons/icon_vid_locked_32x32.png);
+}
+
+.icon-btn-xls {
+	background-image: url(../images/custom/icons/icon_xls_32x32.png);
+}
+
+.icon-btn-xls-locked {
+	background-image: url(../images/custom/icons/icon_xls_locked_32x32.png);
+}
+
+.icon-btn-xls {
+	background-image: url(../images/custom/icons/icon_xls_32x32.png);
+}
+
+.icon-asset {
+	background: no-repeat;
+	display: inline-block;
+	font-weight: bold;
+	height: 27px;
+	text-decoration: none;
+	vertical-align: top;
+	width: 23px;
+}
+
+.icon-asset-blog {
+	background-image: url(../images/custom/icons/icon_asset_blog_23x23.png);
+}
+
+.icon-asset-book {
+	background-image: url(../images/custom/icons/icon_asset_book_23x23.png);
+}
+
+.icon-asset-javadoc {
+	background-image: url(../images/custom/icons/icon_asset_javadoc_23x23.png);
+}
+
+.icon-asset-lifecast {
+	background-image: url(../images/custom/icons/icon_asset_lifecast_23x23.png);
+}
+
+.icon-asset-online_reader {
+	background-image: url(../images/custom/icons/icon_asset_online_reader_23x23.png);
+}
+
+.icon-asset-pdf {
+	background-image: url(../images/custom/icons/icon_asset_pdf_23x23.png);
+}
+
+.icon-asset-wiki {
+	background-image: url(../images/custom/icons/icon_asset_wiki_23x23.png);
+}
+
+.icon-asset-zip {
+	background-image: url(../images/custom/icons/icon_asset_zip_23x23.png);
+}

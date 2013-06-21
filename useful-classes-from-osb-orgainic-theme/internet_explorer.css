@@ -1,0 +1,8 @@
+.ie7 .ie-seven-hidden {
+	display: none !important;
+}
+
+.ie6 .display-ib {
+	display: inline;
+	zoom: 1;
+}

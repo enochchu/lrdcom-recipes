@@ -1,0 +1,32 @@
+.callout-a, .callout-a-head, .callout-a-foot, .portlet .portlet-content {
+	background-color: #FAFDFE;
+}
+
+.callout-b, .callout-b-head, .callout-b-foot, .portlet .portlet-topper {
+	background-color: #939598;
+	border-color: #939598;
+}
+
+.callout-c, .callout-c-head, .callout-c-foot {
+	background-color: #DCDCDC;
+}
+
+.callout-a, .callout-c, .callout-d, .callout-a-head, .callout-a-foot, .callout-c-head, .callout-c-body, .callout-c-foot, .callout-d-head, .callout-d-body, .callout-d-foot, .portlet .portlet-content {
+	border-color: #D0D1D3;
+}
+
+.callout-c-body, .callout-c-foot {
+	background-color: #F1F1F1;
+}
+
+.callout-d-body, .callout-d-foot {
+	background-color: #D9D9D9;
+}
+
+.callout-e, .callout-e-head, .callout-e-foot {
+	background-color: #FFF;
+}
+
+.callout-a, .callout-b, .callout-c, .callout-d, .callout-e {
+	padding: 10px;
+}

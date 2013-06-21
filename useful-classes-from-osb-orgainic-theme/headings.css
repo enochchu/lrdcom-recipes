@@ -1,0 +1,92 @@
+.page-heading {
+	margin: 0 0 18px;
+
+	h1 {
+		border-bottom: 1px solid #CCC;
+		color: #1A4265;
+		font-family: "CartoGothicStd", Arial, sans-serif;
+		font-size: 36px;
+		font-weight: normal;
+		line-height: 45px;
+		margin: 0;
+		padding: 0 0 8px;
+	}
+
+	h2 {
+		font-size: 16px;
+		font-weight: normal;
+		line-height: 18px;
+		margin: 9px 0;
+	}
+
+	p {
+		font-size: 14px;
+		line-height: 18px;
+		margin: 9px 0 0;
+		min-height: 54px;
+		width: 460px;
+	}
+}
+
+.section-heading {
+	color: #1D6799;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 27px;
+	letter-spacing: -0.05em;
+	margin: 0 0 9px;
+}
+
+.section-heading-b {
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 27px;
+	margin: 0 0 9px;
+}
+
+.section-heading-hr {
+	height: 0;
+	border-bottom: 1px solid #CACED2;
+	margin: -1px 0 0;
+}
+
+.section-heading-lite {
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 18px;
+	margin: 0;
+
+	a {
+		text-decoration: underline;
+
+		strong {
+			line-height: 1;
+		}
+	}
+}
+
+.section-subheading, .hd2 {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 18px;
+	margin: 0 0 9px;
+}
+
+.section-terheading, .hd3 {
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	text-decoration: underline;
+}
+
+.section-quaheading, .hd4 {
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+.section-quiheading, .hd5 {
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 18px;
+}

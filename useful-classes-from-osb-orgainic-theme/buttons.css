@@ -1,0 +1,64 @@
+.btn, .btn-a, .btn-b, .btn-c, .large-btn, .large-btn-a, .large-btn-b, .large-btn-c {
+	background-color: #00ADEF;
+	color: #FFF;
+	display: inline-block;
+	font-weight: bold;
+	margin: -2px 0;
+	padding: 2px 8px;
+	text-align: center;
+	vertical-align: top;
+	*display: inline;
+}
+
+.large-btn {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 18px;
+	padding: 11px 20px;
+}
+
+input.btn {
+	border: 1px solid #00ADEF;
+}
+
+.btn, .btn-a {
+	background-color: #00ADEF;
+}
+
+.btn-b {
+	background-color: #F08000;
+}
+
+.btn-c {
+	background-color: #EF000B;
+}
+
+.btn-d {
+	margin: 0;
+	padding: 0 4px;
+
+	&.Community {
+		background-color: #4CC417;
+	}
+
+	&.grey {
+		background-color: #CCC;
+	}
+
+	&.Staff {
+		background-color: #1D6799;
+	}
+}
+
+.btn {
+	&:ative, &:focus, &:hover {
+		background-color: #F08000;
+		color: #FFF;
+	}
+}
+
+.btn-a, .btn-b, .btn-c {
+	&:active, &:focus, &:hover {
+		color: #FFF;
+	}
+}

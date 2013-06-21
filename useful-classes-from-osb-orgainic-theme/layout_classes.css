@@ -1,0 +1,23 @@
+.full-screen {
+	max-width: none !important;
+
+	.portlet-column {
+		max-width: none;
+	}
+}
+
+.content-column, .portlet-column {
+	float: left;
+
+	.left-column {
+		padding-right: 10px;
+	}
+
+	.middle-column {
+		padding: 0 10px;
+	}
+
+	.right-column {
+		padding-left: 10px;
+	}
+}
