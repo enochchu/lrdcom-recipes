@@ -1,0 +1,140 @@
+<style>
+.container {
+	margin: 0 auto;
+	max-width: 960px;
+}
+
+.section {
+	height: 2000px;
+}
+
+.on-screen-helper {
+	height: 500px;
+	margin: 10px;
+	max-width: 960px;
+	padding: 20px;
+	width: 100%;
+}
+
+.on-screen-bottom {
+	background: green;
+}
+
+.on-screen-top {
+	background: yellow;
+	position: relative;
+}
+
+.on-screen-helper.small {
+	background: blue;
+	height: 20%;
+	margin: 10%;
+	width: 50%;
+}
+
+.on-screen-bottom.small {
+	background: red;
+	width: 50%;
+}
+
+.on-screen-top.small {
+	background: orange;
+	width: 50%;
+}
+
+.on-screen-top.fixable {
+	z-index: -1;
+}
+
+.on-screen-top.fixable .fixed-container {
+	background: yellow;
+	height: 500px;
+	padding: 20px;
+	position: fixed;
+	top: 0;
+}
+</style>
+
+<script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
+<link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+
+<script>
+YUI().use(
+	'aui-base',
+	function(A) {
+		var WIN = A.getWin();
+
+		var onScreenHelperNode = A.all('.on-screen-helper');
+
+		var updateOnScreen = function() {
+			var currentScrollPos = WIN.get('docScrollY');
+
+			var winHeight = WIN.get('innerHeight');
+
+			// code to support ie 7 and 8
+			// if (winHeight == undefined) {
+			// 	winHeight = document.documentElement.­clientHeight;
+			// }
+
+			onScreenHelperNode.each(
+				function(item, index, collection) {
+					var topEdge = item.getY();
+
+					var bottomEdge = topEdge + item.get('clientHeight');
+
+					var screenBottom = topEdge - winHeight;
+
+					if ((currentScrollPos > topEdge) && (currentScrollPos <= bottomEdge)) {
+						item.addClass('on-screen-top');
+					}
+					else {
+						item.removeClass('on-screen-top');
+					}
+
+					if ((currentScrollPos > screenBottom) && (currentScrollPos <= bottomEdge)) {
+						item.addClass('on-screen-bottom');
+					}
+					else {
+						item.removeClass('on-screen-bottom');
+					}
+				}
+			);
+		};
+
+		if (!onScreenHelperNode.isEmpty()) {
+			A.on('scroll', updateOnScreen);
+			A.on('resize', updateOnScreen);
+
+			updateOnScreen();
+		}
+	}
+);
+</script>
+
+<div class="container">
+	<div class="on-screen-helper">A div with On Screen Helper
+		<div class="on-screen-helper small">A div with On Screen Helper</div>
+	</div>
+	<div class="on-screen-helper">A div with On Screen Helper</div>
+	<div class="on-screen-helper">A div with On Screen Helper
+		<div class="on-screen-helper small">A div with On Screen Helper
+			<div class="on-screen-helper small">A div with On Screen Helper</div>
+		</div>
+	</div>
+	<div class="on-screen-helper fixable">
+		<div class="fixed-container">
+			<img src="http://www.liferay.com/image/image_gallery?uuid=a9d9003c-017f-487e-9b2b-db7c15a2d4e0&groupId=14&t=1355426234988" />
+		</div>
+	</div>
+	<div class="on-screen-helper fixable">
+		<div class="fixed-container">r
+			<img src="http://cdn.www.liferay.com/image/image_gallery?uuid=30854166-dda8-4669-bb1b-c9e53da4f37c&groupId=14&t=1355426234994" />
+		</div>
+	</div>
+	<div class="on-screen-helper fixable">
+		<div class="fixed-container">
+			<img src="http://www.liferay.com/documents/14/8441573/2013-NA-Symp-Homepage-Banner-960-2.png/6c9bbf1a-4e53-4af8-8299-3dbc438c0be3?t=1370968793154" />
+		</div>
+	</div>
+	<div class="on-screen-helper">A div with On Screen Helper</div>
+</div>
