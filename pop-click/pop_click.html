@@ -1,0 +1,142 @@
+<style>
+ul {
+	list-style: none;
+}
+
+li {
+	float: left;
+	position: relative;
+}
+
+li a, .pop-click-content {
+	background: lightgray;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.container {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.pop-click-content {
+	display: none;
+	left: 0;
+	margin: 0;
+	position: absolute;
+	width: 83px;
+}
+
+.pop-click-active .pop-click-content {
+	display: block;
+}
+
+.pop-click-content {
+	float: none;
+}
+
+.pop-click-content li {
+	float: none;
+	margin: 5px 0;
+}
+
+</style>
+
+<script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
+<link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+
+<script>
+YUI().use(
+	'aui-base',
+	function(A) {
+		var popClicks = A.all('.pop-click');
+
+		var popClickHandle;
+
+		var togglePopClick = function(event) {
+			event.stopPropagation();
+
+			var targetNode = event.target;
+
+			if (targetNode.hasClass('pop-click-content') || targetNode.ancestor('.pop-click-content')) {
+				return;
+			}
+
+			var activePopClick = A.one('.pop-click-active');
+
+			if (activePopClick) {
+				activePopClick.removeClass('pop-click-active');
+			}
+
+			var currentTargetNode = event.currentTarget;
+
+			if (currentTargetNode.hasClass('pop-click') && (currentTargetNode != activePopClick)) {
+				currentTargetNode.addClass('pop-click-active');
+			}
+
+			activePopClick = A.one('.pop-click-active');
+
+			if (activePopClick && !popClickHandle) {
+				popClickHandle = A.getDoc().on('click', togglePopClick);
+			}
+			else if (popClickHandle && !activePopClick) {
+				popClickHandle.detach();
+
+				popClickHandle = null;
+			}
+		};
+
+		popClicks.on('click', togglePopClick);
+	}
+);
+</script>
+
+<div class="container">
+	<ul>
+		<li class="pop-click">
+			<a href="#">Item-1</a>
+			<ul class="pop-click-content">
+				<li><a href="#">Sub Item-1</a></li>
+				<li><a href="#">Sub Item-2</a></li>
+				<li><a href="#">Sub Item-3</a></li>
+				<li><a href="#">Sub Item-4</a></li>
+			</ul>
+		</li>
+		<li class="pop-click">
+			<a href="#">Item-2</a>
+			<ul class="pop-click-content">
+				<li><a href="#">Sub Item-1</a></li>
+				<li><a href="#">Sub Item-2</a></li>
+				<li><a href="#">Sub Item-3</a></li>
+				<li><a href="#">Sub Item-4</a></li>
+			</ul>
+		</li>
+		<li class="pop-click">
+			<a href="#">Item-3</a>
+			<ul class="pop-click-content">
+				<li><a href="#">Sub Item-1</a></li>
+				<li><a href="#">Sub Item-2</a></li>
+				<li><a href="#">Sub Item-3</a></li>
+				<li><a href="#">Sub Item-4</a></li>
+			</ul>
+		</li>
+		<li class="pop-click">
+			<a href="#">Item-4</a>
+			<ul class="pop-click-content">
+				<li><a href="#">Sub Item-1</a></li>
+				<li><a href="#">Sub Item-2</a></li>
+				<li><a href="#">Sub Item-3</a></li>
+				<li><a href="#">Sub Item-4</a></li>
+			</ul>
+		</li>
+		<li class="pop-click">
+			<a href="#">Item-5</a>
+			<ul class="pop-click-content">
+				<li><a href="#">Sub Item-1</a></li>
+				<li><a href="#">Sub Item-2</a></li>
+				<li><a href="#">Sub Item-3</a></li>
+				<li><a href="#">Sub Item-4</a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
