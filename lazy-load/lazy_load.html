@@ -1,0 +1,61 @@
+<style>
+.section {
+	height: 2000px;
+	margin: 0 auto;
+	max-width: 960px;
+}
+
+.lazy-loaded {
+	background: yellow;
+}
+
+div.lazy-load {
+	height: 100px;
+	margin: 10px;
+}
+
+#numOfLoadedWrapper {
+	font-size: 3em;
+	left: 20px;
+	line-height: 1em;
+	position: fixed;
+	top: 20px;
+}
+
+#numOfLoaded {
+	background: red;
+	padding: 5px;
+}
+</style>
+
+<script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
+<link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+
+<script src="./lazy_load.js"></script>
+
+<script>
+var setNumber = function () {
+	var number = document.getElementsByClassName('lazy-loaded').length;
+	document.getElementById("numOfLoaded").innerHTML= number;
+	console.log(document.getElementsByClassName('lazy-load'))
+}
+
+window.onload = setNumber;
+window.onscroll = setNumber;
+</script>
+
+<div>
+	<span id="numOfLoadedWrapper">number loaded<span id="numOfLoaded">0</span></span>
+	<div class="section">
+		<img datasrc="http://www.liferay.com/image/image_gallery?uuid=a9d9003c-017f-487e-9b2b-db7c15a2d4e0&groupId=14&t=1355426234988" class="lazy-load" alt="an image with lazy load" />
+		<div class="lazy-load">A div with Lazy Load</div>
+	</div>
+	<div class="section">
+		<img datasrc="http://cdn.www.liferay.com/image/image_gallery?uuid=30854166-dda8-4669-bb1b-c9e53da4f37c&groupId=14&t=1355426234994" class="lazy-load" alt="an image with lazy load" />
+		<div class="lazy-load">A div with Lazy Load</div>
+	</div>
+	<div class="section">
+		<img datasrc="http://www.liferay.com/documents/14/8441573/2013-NA-Symp-Homepage-Banner-960-2.png/6c9bbf1a-4e53-4af8-8299-3dbc438c0be3?t=1370968793154" class="lazy-load" alt="an image with lazy load" />
+		<div class="lazy-load">A div with Lazy Load</div>
+	</div>
+</div>
