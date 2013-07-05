@@ -7,11 +7,31 @@
 
 .lazy-loaded {
 	background: yellow;
+	-webkit-transition:  background 1.5s;
+	-moz-transition: background 1.5s;
+	-o-transition: background 1.5s;
+	transition: background 1.5s;
 }
 
 div.lazy-load {
 	height: 100px;
 	margin: 10px;
+}
+
+img.lazy-load {
+	opacity: 0;
+	-webkit-transition:  opacity 1.5s;
+	-moz-transition: opacity 1.5s;
+	-o-transition: opacity 1.5s;
+	transition: opacity 1.5s;
+}
+
+img.lazy-loaded {
+	opacity: 1;
+	-webkit-transition:  opacity 1.5s;
+	-moz-transition: opacity 1.5s;
+	-o-transition: opacity 1.5s;
+	transition: opacity 1.5s;
 }
 
 #numOfLoadedWrapper {
