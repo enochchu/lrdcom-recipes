@@ -31,9 +31,53 @@ div.lazy-load {
 <script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
 <link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
 
-<script src="./lazy_load.js"></script>
-
 <script>
+YUI().use(
+	'aui-base',
+	function(A) {
+		var WIN = A.getWin();
+
+		var lazyLoadNode = A.all('.lazy-load');
+
+		var lazyLoad = function() {
+			var currentScrollPos = WIN.get('docScrollY');
+
+			var winHeight = WIN.get('innerHeight');
+
+			// code to support ie 7 and 8
+			// if (winHeight == undefined) {
+			// 	winHeight = document.documentElement.­clientHeight;
+			// }
+
+			lazyLoadNode.each(
+				function(item, index, collection) {
+					if (!item.hasClass('lazy-loaded')) {
+						var loadPos = item.getY() - winHeight;
+
+						if (currentScrollPos > loadPos) {
+							var datasrc = item.attr('datasrc');
+							var src = item.attr('src');
+
+							if (src != datasrc) {
+								item.attr('src', datasrc);
+							}
+
+							item.addClass('lazy-loaded');
+						}
+					}
+				}
+			);
+		};
+
+		if (!lazyLoadNode.isEmpty()) {
+			A.on('scroll', lazyLoad);
+			A.on('resize', lazyLoad);
+
+			lazyLoad();
+		}
+	}
+);
+
 var setNumber = function () {
 	var number = document.getElementsByClassName('lazy-loaded').length;
 	document.getElementById("numOfLoaded").innerHTML= number;

@@ -1,5 +1,4 @@
-// AUI().use(
-YUI().use(
+AUI().use(
 	'aui-base',
 	function(A) {
 		var WIN = A.getWin();
@@ -11,10 +10,9 @@ YUI().use(
 
 			var winHeight = WIN.get('innerHeight');
 
-			// code to support ie 7 and 8
-			// if (winHeight == undefined) {
-			// 	winHeight = document.documentElement.­clientHeight;
-			// }
+			if (winHeight == undefined) {
+				winHeight = document.documentElement.­clientHeight;
+			}
 
 			lazyLoadNode.each(
 				function(item, index, collection) {
