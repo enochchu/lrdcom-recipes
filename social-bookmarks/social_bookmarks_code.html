@@ -1,0 +1,72 @@
+<span>Script versions of social bookmarks</span><br />
+
+<!-- Facebook -->
+
+<script src='http://connect.facebook.net/en_US/all.js'></script>
+<script>
+	FB.init({appId: "XXXXXXXXXXXXXXX", status: true, cookie: true});
+
+	function postToFeed(redirectUri, link, name, caption, description) {
+
+		// calling the API ...
+		var obj = {
+			method: 'feed',
+			redirect_uri: redirectUri,
+			link: link,
+			picture: 'http://www.liferay.com/osb-community-theme/images/custom/facebook_link.png',
+			name: name,
+			caption: caption,
+			description: description
+		};
+
+		function callback(response) {
+			document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+		}
+
+		FB.ui(obj, callback);
+	}
+</script>
+<a onclick="postToFeed('http://www.liferay.com/about-us/careers', 'http://www.liferay.com/about-us/careers', 'Title Name', 'Caption Phrase', 'This is the description'); return false;" href="javascript:;">Post to Feed</a><br />
+
+<!-- Twitter -->
+
+<a class="twitter-share-button" data-lang="en" data-text="Here is the data text" data-url="http://www.liferay.com/about-us/careers" href="https://twitter.com/share">Tweet</a>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script><br />
+
+<!-- LinkedIn -->
+
+<script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+<script type="IN/Share" data-counter="right" data-onsuccess="LinkedInShare" data-url="http://www.liferay.com/about-us/careers"></script><br />
+
+<!-- Google Plus -->
+
+<div class="g-plus" data-action="share" data-annotation="bubble" data-url="http://www.liferay.com/about-us/careers"></div>
+
+<script type="text/javascript">
+	(function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+</script><br /><br />
+
+<span>Anchor versions of social bookmarks</span><br />
+
+<!-- Facebook -->
+
+<a href="https://www.facebook.com/dialog/feed?app_id=XXXXXXXXXXXXXXX&link=https://developers.facebook.com/docs/reference/dialogs/&picture=http://cdn.www.liferay.com/osb-community-theme/images/custom/facebook_link.png&name=Title%20Name&caption=Caption%20phrase&description=This%20is%20the%20description.&redirect_uri=http://www.liferay.com/about-us/careers" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">Facebook</a>
+
+<a href="https://www.facebook.com/sharer/sharer.php?u=http://www.liferay.com/careers/north-america" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">Share on Facebook</a><br />
+
+<!-- Twitter -->
+
+<a href="http://www.twitter.com/share?url=http://www.liferay.com/careers/north-america&text=Here%20is%20some%20text" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">Twitter</a><br />
+
+<!-- LinkedIn -->
+
+<a href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.liferay.com/careers/north-america&title=Here%20is%20the%20title&summary=This%20is%20the%20summary&source=http://www.liferay.com/careers/north-america" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">LinkedIn</a><br />
+
+<!-- Google Plus -->
+
+<a href="https://plus.google.com/share?url=http://www.liferay.com/careers/north-america" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;">Share on Google+</a>
