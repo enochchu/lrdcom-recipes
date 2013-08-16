@@ -1,0 +1,93 @@
+<style>
+	#wrapper {
+		margin: 0 auto;
+		max-width: 960px;
+	}
+
+	.section {
+		height: 1000px;
+	}
+
+	a {
+		display: block;
+	}
+</style>
+
+<script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
+<link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+
+<script>
+	YUI().use(
+		'anim',
+		function(A) {
+			A.on(
+				'load',
+				function(event) {
+					A.all('.animate-scroll').on(
+						'click',
+						function(event) {
+							event.preventDefault();
+
+							var section = A.one(event.currentTarget.get('hash'));
+							var scrollTo = section.get('offsetTop');
+
+							new A.Anim(
+								{
+									duration: 0.5,
+									easing: 'easeBoth',
+									node: 'win',
+									to: {
+										scroll: [0, scrollTo]
+									}
+								}
+							).run();
+						}
+					);
+				}
+			);
+		}
+	);
+</script>
+
+<div id="wrapper">
+	<div class="section" id="section1">
+		<h1>Section 1</h1>
+		<a class="animate-scroll" href="#section2">Go Down One Section</a>
+		<a class="animate-scroll" href="#section3">Go to Section 3</a>
+		<a class="animate-scroll" href="#section4">Go to Section 4</a>
+		<a class="animate-scroll" href="#section5">Go to Section 5</a>
+	</div>
+
+	<div class="section" id="section2">
+		<h1>Section 2</h1>
+		<a class="animate-scroll" href="#section1">Go Up One Section</a>
+		<a class="animate-scroll" href="#section3">Go Down One Section</a>
+		<a class="animate-scroll" href="#section4">Go to Section 4</a>
+		<a class="animate-scroll" href="#section5">Go to Section 5</a>
+	</div>
+
+	<div class="section" id="section3">
+		<h1>Section 3</h1>
+		<a class="animate-scroll" href="#section2">Go Up One Section</a>
+		<a class="animate-scroll" href="#section4">Go Down One Section</a>
+		<a class="animate-scroll" href="#section1">Go to Section 1</a>
+		<a class="animate-scroll" href="#section5">Go to Section 5</a>
+	</div>
+
+	<div class="section" id="section4">
+		<h1>Section 4</h1>
+		<a class="animate-scroll" href="#section3">Go Up One Section</a>
+		<a class="animate-scroll" href="#section5">Go Down One Section</a>
+		<a class="animate-scroll" href="#section1">Go to Section 1</a>
+		<a class="animate-scroll" href="#section2">Go to Section 2</a>
+	</div>
+
+	<div class="section" id="section5">
+		<h1>Section 5</h1>
+		<a class="animate-scroll" href="#section4">Go Up One Section</a>
+		<a class="animate-scroll" href="#section1">Go to Section 1</a>
+		<a class="animate-scroll" href="#section2">Go to Section 2</a>
+		<a class="animate-scroll" href="#section3">Go to Section 3</a>
+		<a href="#section1">Go to Section 1 (without animation)</a>
+	</div>
+</div>
