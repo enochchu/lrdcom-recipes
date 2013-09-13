@@ -1,0 +1,131 @@
+<style>
+@keyframes flashy
+{
+	from {
+		color: red;
+		transform: matrix(1, 0, 0, 1, 0, 0);
+		-moz-transform: matrix(1, 0, 0, 1, 0, 0);
+		-ms-transform: matrix(1, 0, 0, 1, 0, 0);
+		-webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+	}
+	25% {
+		color: green;
+		transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-moz-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-ms-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-webkit-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+	}
+	50% {
+		color: blue;
+		transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-moz-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-ms-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-webkit-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+	}
+	75% {
+		color: magenta;
+		transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-moz-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-ms-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-webkit-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+	}
+	to {
+		color: orange;
+		transform: matrix(1, 0, 0, 1, 0, 0);
+		-moz-transform: matrix(1, 0, 0, 1, 0, 0);
+		-ms-transform: matrix(1, 0, 0, 1, 0, 0);
+		-webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+	}
+}
+
+@-webkit-keyframes flashy
+{
+	from {
+		color: red;
+		transform: matrix(1, 0, 0, 1, 0, 0);
+		-moz-transform: matrix(1, 0, 0, 1, 0, 0);
+		-ms-transform: matrix(1, 0, 0, 1, 0, 0);
+		-webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+	}
+	25% {
+		color: green;
+		transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-moz-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-ms-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+		-webkit-transform: matrix(1, -0.2, 0.5, 1.6, 330, 120);
+	}
+	50% {
+		color: blue;
+		transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-moz-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-ms-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+		-webkit-transform: matrix(1, -.3, 0.7, 2.6, -170, -258);
+	}
+	75% {
+		color: magenta;
+		transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-moz-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-ms-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+		-webkit-transform: matrix(1, 0, -.7, 2.6, -200, 380);
+	}
+	to {
+		color: orange;
+		transform: matrix(1, 0, 0, 1, 0, 0);
+		-moz-transform: matrix(1, 0, 0, 1, 0, 0);
+		-ms-transform: matrix(1, 0, 0, 1, 0, 0);
+		-webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+	}
+}
+
+#konami {
+	font-size: 3em;
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	animation: flashy 3s infinite;
+	-webkit-animation: flashy 3s infinite;
+}
+</style>
+
+<div style="text-align: center;">Do the Konami Code (up up down down left right left right b a)</div>
+
+<script src="http://cdn.alloyui.com/2.0.0pr5/aui/aui-min.js"></script>
+<link href="http://cdn.alloyui.com/2.0.0pr5/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+
+<script>
+YUI().use(
+	'aui-base',
+	'node',
+	function (A) {
+		var onScreens = A.all('.on-screen-helper');
+		var keys = [];
+		var konami  = '38,38,40,40,37,39,37,39,66,65';
+
+		var keystrokeListen = A.on (
+			'keydown',
+			function (e) {
+				keys.push(e.keyCode);
+				if (keys.toString().indexOf( konami ) >= 0 ){
+					//do your action here
+					console.log('konami');
+
+					var body = A.getBody();
+					body.append('<div id="konami">YOU DID IT!</div>');
+
+					var konamiNode = body.one('#konami');
+					setTimeout(function() {
+						konamiNode.remove();
+					}, 10000);
+
+					//this clears the recorded keys so it can listen again for the code
+					keys = [];
+
+					//uncomment this if you want the event listener to be detached after one use
+					//keystrokeListen.detach();
+				}
+			}
+		);
+		keystrokeListen;
+	}
+);
+</script>
