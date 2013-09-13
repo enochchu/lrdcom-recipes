@@ -11,13 +11,19 @@ AUI().use(
 			var winHeight = WIN.get('innerHeight');
 
 			if (winHeight == undefined) {
-				winHeight = document.documentElement.­clientHeight;
+				winHeight = document.documentElement.clientHeight;
 			}
 
 			lazyLoadNode.each(
 				function(item, index, collection) {
 					if (!item.hasClass('lazy-loaded')) {
 						var loadPos = item.getY() - winHeight;
+
+						var dataOffset = parseInt(item.attr('data-offset'));
+
+						if (dataOffset) {
+							loadPos = loadPos + dataOffset;
+						}
 
 						if (currentScrollPos > loadPos) {
 							var datasrc = item.attr('datasrc');

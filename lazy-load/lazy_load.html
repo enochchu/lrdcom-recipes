@@ -65,14 +65,20 @@ YUI().use(
 			var winHeight = WIN.get('innerHeight');
 
 			// code to support ie 7 and 8
-			// if (winHeight == undefined) {
-			// 	winHeight = document.documentElement.­clientHeight;
-			// }
+			//if (winHeight == undefined) {
+			//	winHeight = document.documentElement.clientHeight;
+			//}
 
 			lazyLoadNode.each(
 				function(item, index, collection) {
 					if (!item.hasClass('lazy-loaded')) {
 						var loadPos = item.getY() - winHeight;
+
+						var dataOffset = parseInt(item.attr('data-offset'));
+
+						if (dataOffset) {
+							loadPos = loadPos + dataOffset;
+						}
 
 						if (currentScrollPos > loadPos) {
 							var datasrc = item.attr('datasrc');
@@ -111,11 +117,11 @@ window.onscroll = setNumber;
 <div>
 	<span id="numOfLoadedWrapper">number loaded<span id="numOfLoaded">0</span></span>
 	<div class="section">
-		<img datasrc="http://www.liferay.com/image/image_gallery?uuid=a9d9003c-017f-487e-9b2b-db7c15a2d4e0&groupId=14&t=1355426234988" class="lazy-load" alt="an image with lazy load" />
+		<img datasrc="http://www.liferay.com/image/image_gallery?uuid=a9d9003c-017f-487e-9b2b-db7c15a2d4e0&groupId=14&t=1355426234988" data-offset="200" class="lazy-load" alt="an image with lazy load" />
 		<div class="lazy-load">A div with Lazy Load</div>
 	</div>
 	<div class="section">
-		<img datasrc="http://cdn.www.liferay.com/image/image_gallery?uuid=30854166-dda8-4669-bb1b-c9e53da4f37c&groupId=14&t=1355426234994" class="lazy-load" alt="an image with lazy load" />
+		<img datasrc="http://cdn.www.liferay.com/image/image_gallery?uuid=30854166-dda8-4669-bb1b-c9e53da4f37c&groupId=14&t=1355426234994" data-offset="400" class="lazy-load" alt="an image with lazy load" />
 		<div class="lazy-load">A div with Lazy Load</div>
 	</div>
 	<div class="section">
