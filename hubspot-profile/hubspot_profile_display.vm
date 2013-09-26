@@ -1,0 +1,19 @@
+#set ($portletBeanLocator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortletBeanLocatorUtil'))
+#set ($hsContactLocalService = $portletBeanLocator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService.velocity"))
+
+#set ($hsContact = $hsContactLocalService.getHSContactByEmailAddress("ronald.sarayudej@liferay.com"))
+
+#set ($firstName = $hsContact.getFirstName())
+#set ($lastName = $hsContact.getLastName())
+#set ($emailAddress = $hsContact.getEmailAddress())
+#set ($hsContactJSONObject = $hsContact.getHSContactJSONObject())
+
+#set ($hsContactJSONObjectString = $hsContactJSONObject.toString())
+
+<b>First Name</b>: ${firstName}<br />
+<b>Last Name</b>: ${lastName}<br />
+<b>Email Address</b>: ${emailAddress}<br />
+<b>Job Title</b>:$hsContact.getJobTitle()<br />
+<br /><br /><br />
+
+${hsContactJSONObjectString}
