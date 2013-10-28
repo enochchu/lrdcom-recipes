@@ -9,14 +9,14 @@ In order to add translations to existing keys, you need to edit the article titl
 
 In order to call a language key all you need to do is call the Localization template once:
 
-#parse("$journalTemplatesPath/30798505")
+\#parse("$journalTemplatesPath/30798505")
 
 and then call the localize macro for as many keys you want to translate. When you call the macro it will set the variable "$translation" to the correct translation of the value, so you could either save that into a variable if you need to add any other keys, or just print out the variable $translation where you need it. (Each time you call the macro #localize it will reset the value of the $translation variable). Here is what it will probably look like:
 
-#localize("apply_now")
-#set ($textApplyNow = $translation)
+\#localize("apply_now")
+\#set ($textApplyNow = $translation)
 
-#localize("find_more_jobs")
-#set ($textFindMoreJobs = $translation)
+\#localize("find_more_jobs")
+\#set ($textFindMoreJobs = $translation)
 
 <h3>You can $textApplyNow or click here to $textFindMoreJobs</h3>
