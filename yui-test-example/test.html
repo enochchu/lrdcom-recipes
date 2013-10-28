@@ -1,0 +1,69 @@
+<script src="http://cdn.alloyui.com/2.0.0pr7/aui/aui-min.js"></script>
+
+<div id="test" class="yui3-skin-sam"></div>
+
+<div class="container">
+	<input class="shiny-grey-textfield" type="text" />
+	<input class="shiny-grey-button" type="button" value="Click Me!" />
+</div>
+
+<script>
+
+YUI().use(
+	'aui-base',
+	function(Y) {
+		var button = Y.one('.shiny-grey-button');
+		var textfield = Y.one('.shiny-grey-textfield');
+
+		button.on(
+			'click',
+			function(node) {
+				var instance = this;
+				var textField = Y.one('.shiny-grey-textfield');
+
+				Window.test = textfield;
+				console.log(textfield.value);
+
+				if (textField._node.value) {
+					instance._node.value = textField._node.value;
+				} else {
+					instance._node.value = "Click Me!";
+				}
+			}
+		);
+	}
+);
+
+YUI().use(
+	'test-console', 'node-event-simulate',
+	function(Y) {
+		var button = Y.one('.shiny-grey-button');
+		var textfield = Y.one('.shiny-grey-textfield');
+
+		var testCase = new Y.Test.Case(
+			{
+				name: 'Some test',
+
+				'If the field is empty, the button value should return to Click Me' : function() {
+					textfield._node.value = "";
+					button.simulate('click');
+
+					Y.Assert.areSame('Click Me!', button._node.value);
+				},
+
+				'If the field has a value, the button value should return the same message as the text value' : function() {
+					textfield._node.value = "hello";
+					button.simulate('click');
+
+					Y.Assert.areSame(textfield._node.value, button._node.value);
+				}
+			}
+		);
+
+		//new Y.Test.Console().render('#demo');
+
+		Y.Test.Runner.add(testCase);
+		Y.Test.Runner.run();
+	}
+);
+</script>
