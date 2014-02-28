@@ -1,0 +1,543 @@
+<script src="http://cdn.alloyui.com/1.7.0/aui/aui-min.js"></script>
+
+<style type="text/css">
+#closePopUp {
+	background: url(/documents/32293462/32314376/close-pop-up.png/98401a14-9fcf-4f9a-8f1d-4fdcb7ff0207) no-repeat;
+	cursor: pointer;
+	float: right;
+	height: 60px;
+	width: 60px;
+}
+
+#pagePopUp {
+	background: rgba(255,255,255,.95);
+	border: 1px solid #CCC;
+	position: absolute;
+	width: 95%;
+	z-index: 2000;
+}
+
+#pagePopUp .pop-up-content {
+	padding: 50px 35px 30px;
+}
+
+#pagePopUp .pop-up-content .speaker-company, #pagePopUp .pop-up-content .speaker-name, #pagePopUp .pop-up-content .speaker-title {
+	display: block;
+}
+
+#pagePopUp .speaker-company {
+	font-style: italic;
+}
+
+#pagePopUp .speaker-name {
+	color: #3AA0D5;
+	font-size: 1.2em;
+	margin: 5px 0;
+}
+
+#pagePopUp .speaker-title, #pagePopUp .speaker-company {
+	font-weight: bold;
+}
+
+.ie7 #pagePopUp, .ie8 #pagePopUp {
+	background: #FFF;
+}
+
+.ie8 #heading .company-title .logo {
+	background-color: #F5FAFD;
+}
+
+.ie8.show-nav #navigation {
+	background: #F5FAFD;
+}
+
+@media all and (min-width: 720px) {
+	#pagePopUp {
+		width: 440px;
+	}
+
+	#pagePopUp:after, #pagePopUp:before {
+		border: 30px solid transparent;
+		content: "";
+		display: block;
+		margin: -30px;
+		position: absolute;
+	}
+
+	#pagePopUp.bottom:after {
+		border-top-color: #FFF;
+		bottom: -29px;
+		right: 50%;
+	}
+
+	#pagePopUp.bottom:before {
+		border-top-color: #CCC;
+		bottom: -30px;
+		right: 50%;
+	}
+
+	#pagePopUp.left:after {
+		border-left-color: #FFF;
+		right: -29px;
+		top: 50%;
+	}
+
+	#pagePopUp.left:before {
+		border-left-color: #CCC;
+		right: -30px;
+		top: 50%;
+	}
+
+	#pagePopUp.right:after {
+		border-right-color: #FFF;
+		left: -29px;
+		top: 50%;
+	}
+
+	#pagePopUp.right:before {
+		border-right-color: #CCC;
+		left: -30px;
+		top: 50%;
+	}
+
+	#pagePopUp.top:after {
+		border-bottom-color: #FFF;
+		right: 50%;
+		top: -29px;
+	}
+
+	#pagePopUp.top:before {
+		border-bottom-color: #CCC;
+		right: 50%;
+		top: -30px;
+	}
+}
+</style>
+
+<script>
+AUI().ready(
+	'aui-overlay-mask',
+	'node',
+	function(A) {
+		var WIN = A.getWin();
+
+		var pagePopUp = A.one('#pagePopUp');
+
+		if (!pagePopUp) {
+			A.one('body').append('<div class="aui-helper-hidden" id="pagePopUp" data-pop-up-position="target" data-pop-up-direction="top"><div id="closePopUp"></div></div>')
+
+			pagePopUp = A.one('#pagePopUp');
+		};
+
+		var centerOnPage = function(node) {
+			var currentScrollPos = WIN.get('docScrollY');
+
+			var winHeight = WIN.get('innerHeight');
+
+			if (winHeight == undefined) {
+				winHeight = document.documentElement.clientHeight;
+			}
+
+			var contentWidth = A.one('#content').get('clientWidth');
+
+			var nodeHeight = node.get('clientHeight');
+			var nodeWidth = node.get('clientWidth');
+
+			xCenter = (contentWidth / 2) - (nodeWidth / 2);
+			yCenter = ((winHeight / 2) - (nodeHeight / 2)) + currentScrollPos;
+
+			node.setStyle('left', 'auto');
+			node.setStyle('right', xCenter);
+			node.setStyle('top', yCenter);
+
+			if (node.getAttribute('data-overlay')) {
+				createOverlayMask();
+			}
+		};
+
+		var centerOnTarget = function(node) {
+			var targetNode = A.one('#' + node.getAttribute('data-target-node-id'));
+
+			if (!targetNode) {
+				return
+			}
+
+			var targetNodeCenterX = targetNode.getX() + (targetNode.get('clientWidth') / 2);
+			var targetNodeCenterY = targetNode.getY() + (targetNode.get('clientHeight') / 2);
+
+			var nodeHeight = node.get('clientHeight');
+			var nodeWidth = node.get('clientWidth');
+
+			var nodeCenterX = (nodeWidth / 2);
+			var nodeCenterY = (nodeHeight / 2);
+
+			var nodeClass = 'middle';
+
+			var nodeLeft = targetNodeCenterX - nodeCenterX;
+			var nodeTop = targetNodeCenterY - nodeCenterY;
+
+			var popUpDirection = node.getAttribute('data-pop-up-direction');
+
+			if (targetNode.getAttribute('data-pop-up-direction')) {
+				popUpDirection = targetNode.getAttribute('data-pop-up-direction');
+			}
+
+			var popUpOffset = parseInt(node.getAttribute('data-pop-up-offset'));
+
+			if (!popUpOffset) {
+				popUpOffset = 30;
+			}
+
+			if (popUpDirection == 'bottom') {
+				nodeClass = 'bottom';
+				nodeTop = targetNodeCenterY - nodeHeight - popUpOffset;
+			} else if (popUpDirection == 'left') {
+				nodeClass = 'left';
+				nodeLeft = targetNodeCenterX - nodeWidth - popUpOffset;
+			} else if (popUpDirection == 'right') {
+				nodeClass = 'right';
+				nodeLeft = targetNodeCenterX + popUpOffset;
+			} else if (popUpDirection == 'top') {
+				nodeClass = 'top';
+				nodeTop = targetNodeCenterY + popUpOffset;
+			}
+
+			if (nodeLeft < 0) {
+				nodeClass += ' repositioned';
+
+				nodeLeft = 2;
+			}
+
+			if (nodeLeft + nodeWidth > WIN.get('innerWidth')) {
+				nodeClass += ' repositioned';
+
+				nodeLeft =  WIN.get('innerWidth') - nodeWidth - 18;
+			}
+
+			if (nodeTop < 0) {
+				nodeClass += ' repositioned';
+
+				nodeTop = 2;
+			}
+
+			node.removeClass('bottom');
+			node.removeClass('left');
+			node.removeClass('middle');
+			node.removeClass('repositioned');
+			node.removeClass('right');
+			node.removeClass('top');
+
+			node.addClass(nodeClass);
+			node.setStyle('left', nodeLeft);
+			node.setStyle('top', nodeTop);
+		};
+
+		var copyToPopUp = function(node) {
+			var newPopUpContent = node.one('.pop-up-content');
+
+			var oldPopUpContent = pagePopUp.one('.pop-up-content');
+
+			if (!newPopUpContent) {
+				return
+			}
+
+			if (oldPopUpContent) {
+				oldPopUpContent.remove();
+			}
+
+			pagePopUp.append(newPopUpContent.cloneNode(true));
+			pagePopUp.removeClass('aui-helper-hidden');
+
+			pagePopUp.setAttribute('data-target-node-id', node.generateID());
+
+			positionPopUp(pagePopUp);
+
+			var popUpContent = pagePopUp.one('.pop-up-content')
+
+			popUpContent.on(
+				'clickoutside',
+				function(event) {
+					var overlayMask = A.one('.aui-overlaymask');
+
+					if (overlayMask) {
+						overlayMask.remove();
+					}
+
+					pagePopUp.addClass('aui-helper-hidden');
+
+					popUpContent.detach('clickoutside');
+				}
+			);
+		};
+
+		var createOverlayMask = function() {
+			var bindUI = function() {
+				var overlayMask = A.one('.aui-overlaymask');
+
+				if (overlayMask) {
+					overlayMask.on(
+						'click',
+						function() {
+							overlayMask.remove(true);
+						}
+					);
+				}
+			}
+
+			var init = function() {
+				if (A.one('.aui-overlaymask')) {
+					return
+				}
+
+				var overlay = new A.OverlayMask().render();
+
+				overlay.set('z-index', 20);
+				overlay.show();
+
+				bindUI();
+			}
+
+			return init();
+		}
+
+		var positionPopUp = function(node) {
+			if (node.hasClass('aui-helper-hidden')) {
+				return
+			}
+
+			var popUpCentered = true;
+
+			if ((node.getAttribute('data-pop-up-position') == "target") && (WIN.get('innerWidth') > 720)) {
+				popUpCentered = false;
+			}
+
+			if (popUpCentered) {
+				centerOnPage(node);
+			} else {
+				centerOnTarget(node);
+			}
+		};
+
+		A.on(
+			'load',
+			function() {
+				var url = document.URL;
+
+				var popUpId = url.substring(url.indexOf('popUp'));
+
+				var popUp = A.one('#' + popUpId);
+
+				if (popUp) {
+					copyToPopUp(popUp);
+				}
+			}
+		);
+
+		var iOS = /iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent);
+		var mouseEvent = 'click';
+
+		if (iOS) {
+			mouseEvent = 'mousemove';
+		}
+
+		A.all('.pop-up').on(
+			mouseEvent,
+			function(event) {
+				event.stopPropagation();
+
+				copyToPopUp(event.currentTarget);
+			}
+		);
+
+		A.on(
+			'resize',
+			function() {
+				positionPopUp(pagePopUp);
+			}
+		);
+	}
+);
+</script>
+
+
+
+<style type="text/css">
+#agendaWrapper {
+	margin: 0 10px;
+}
+
+#agendaWrapper tr {
+	border-bottom: 1px solid #58585A;
+}
+
+#agendaWrapper td {
+	padding: 10px;
+}
+
+#agendaWrapper td:hover {
+	background-color: #FDDAA7;
+}
+
+#agendaWrapper .first-col {
+	display: table-cell;
+	text-align: right;
+	vertical-align: top;
+	width: 120px;
+}
+
+#agendaWrapper .first-col:hover {
+	background-color: transparent;
+}
+
+#agendaWrapper .pop-up-content {
+	display: none;
+}
+
+#agendaLegend span, #agendaWrapper .multi-room-td {
+	border-left: 3px solid #1DA99E;
+}
+
+#agendaLegend .room-2, #agendaWrapper .room-2 {
+	border-left-color: #E95B27;
+}
+
+#agendaLegend .room-3, #agendaWrapper .room-3 {
+	border-left-color: #FAA325;
+}
+
+#agendaLegend .room-4, #agendaWrapper .room-4 {
+	border-left-color: #662F8A;
+}
+
+.controls-hidden .edit-only {
+	display: none;
+}
+
+.keynote {
+	color: #005E8E;
+	font-weight: bold;
+}
+
+@media all and (max-width: 720px) {
+	#agendaWrapper td {
+		display: block;
+	}
+}</style>
+<div id="agendaWrapper">
+	<table class="agenda-table" id="agenda-day-2014-06-11">
+		<tbody id="aui_3_4_0_1_583">
+			<tr id="aui_3_4_0_1_582">
+				<td class="first-col">
+					14:00 - 14:15</td>
+				<td class="pop-up " colspan="2" id="aui_3_4_0_1_581">
+					<span class="trigger">Registration</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 14:00 - 14:15</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32293825"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					14:15 - 14:30</td>
+				<td class="pop-up " colspan="2">
+					<span class="trigger">Opening Remarks</span><br />
+					<span>Bryan Chueng </span>
+					<div class="pop-up-content">
+						<span><span class="data"><i>Room: Salon Bonaparte, Time: 14:15 - 14:30</i></span></span><br />
+						<h3 class="column-heading">
+							<span><span class="data">Bryan Chueng</span></span></h3>
+						<p>
+							<span><span class="data">Chief Executive Officer and Founder</span></span></p>
+						<p>
+							<span><span class="data"><i>Liferay, Inc.</i></span></span></p>
+						<span><span class="data"><b>Speaker Bio:</b></span></span><br />
+						<p>
+							<span><span class="data">Bryan Cheung steers the company's strategic direction and worldwide business development efforts as one of the founders serving with the company since its inception in 2004. Drawing on his technical experience, understanding of customer needs, and a passion for end users, Bryan leads Liferay in meeting its commitment to deliver focused and effective business solutions to its customers and its community. Bryan graduated from the University of California, Berkeley with a degree in Computer Science, and is a sought-after keynote speaker at major IT and open source industry events.</span></span></p>
+					</div>
+					<span><i>Chief Executive Officer and Founder , Liferay, Inc. </i> <a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32293830"> <img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a> </span></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					14:30 - 15:00</td>
+				<td class="pop-up " colspan="2" id="popUp1234">
+					<span class="trigger">Liferay Speaker</span><br />
+					<span>Bryan Chueng </span>
+					<div class="pop-up-content">
+						<span><span class="data"><i>Room: Salon Bonaparte, Time: 14:30 - 15:00</i></span></span><br />
+						<h3 class="column-heading">
+							<span><span class="data">Bryan Chueng</span></span></h3>
+						<p>
+							<span><span class="data">Chief Executive Officer and Founder</span></span></p>
+						<p>
+							<span><span class="data"><i>Liferay, Inc.</i></span></span></p>
+						<span><span class="data"><b>Speaker Bio:</b></span></span><br />
+						<p>
+							<span><span class="data">Bryan Cheung steers the company's strategic direction and worldwide business development efforts as one of the founders serving with the company since its inception in 2004. Drawing on his technical experience, understanding of customer needs, and a passion for end users, Bryan leads Liferay in meeting its commitment to deliver focused and effective business solutions to its customers and its community. Bryan graduated from the University of California, Berkeley with a degree in Computer Science, and is a sought-after keynote speaker at major IT and open source industry events.</span></span></p>
+					</div>
+					<span><i>Chief Executive Officer and Founder , Liferay, Inc. </i> <a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32293835"> <img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a> </span></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					15:00 - 15:30</td>
+				<td class="pop-up " colspan="2">
+					<span class="trigger">Liferay Speaker</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 15:00 - 15:30</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295788"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					15:30 - 16:00</td>
+				<td class="pop-up " colspan="2">
+					<span class="trigger">Liferay Speaker</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 15:30 - 16:00</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295793"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					16:00 - 16:15</td>
+				<td class="pop-up " colspan="2">
+					<span class="trigger">Coffee Break</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 16:00 - 16:15</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295798"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					16:15 - 16:45</td>
+				<td class="pop-up " colspan="2" data-pop-up-direction="top">
+					<span class="trigger">Liferay Speaker</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 16:15 - 16:45</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295817"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					16:45 - 17:15</td>
+				<td class="pop-up " colspan="2" data-pop-up-direction="bottom">
+					<span class="trigger">Liferay Speaker</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 16:45 - 17:15</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295822"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					17:15 - 17:30</td>
+				<td class="pop-up " colspan="2" data-pop-up-direction="right">
+					<span class="trigger">Closing Remarks</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 17:15 - 17:30</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295827"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+			<tr>
+				<td class="first-col">
+					18:00 - 21:00</td>
+				<td class="pop-up " colspan="2" data-pop-up-direction="left" id="popUp123">
+					<span class="trigger">Community Meetup</span><br />
+					<div class="pop-up-content">
+						<span class="data"><i>Room: Salon Bonaparte, Time: 18:00 - 21:00</i></span></div>
+					<a class="taglib-icon edit-only" href="https://vm-29.liferay.com/web/france2014/admin?p_p_id=169_INSTANCE_4jQmRRvtO4Ib&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_id=column-1&amp;p_p_col_pos=2&amp;p_p_col_count=6&amp;_169_INSTANCE_4jQmRRvtO4Ib_struts_action=%2Fdynamic_data_list_display%2Fedit_record&amp;_169_INSTANCE_4jQmRRvtO4Ib_cmd=update&amp;_169_INSTANCE_4jQmRRvtO4Ib_redirect=https%3A%2F%2Fvm-29.liferay.com%2Fweb%2Fconference-symposium-france-2014%2Fday-1%3Fp_p_id%3D169_INSTANCE_4jQmRRvtO4Ib%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_pos%3D2%26p_p_col_count%3D6%26_169_INSTANCE_4jQmRRvtO4Ib_currentURL%3D%252Fweb%252Fconference-symposium-france-2014%252Fadmin%26_169_INSTANCE_4jQmRRvtO4Ib_portletAjaxable%3D1&amp;_169_INSTANCE_4jQmRRvtO4Ib_recordId=32295832"><img alt="Edit DDL Record" class="icon" src="/osb-community-theme/images/common/edit.png" title="Edit DDL Record" /> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
