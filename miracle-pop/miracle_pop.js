@@ -264,6 +264,7 @@ AUI().ready(
 					pagePopUp.addClass('aui-helper-hidden');
 
 					popUpContent.detach('clickoutside');
+					popUpContent.remove();
 				}
 			);
 		};
