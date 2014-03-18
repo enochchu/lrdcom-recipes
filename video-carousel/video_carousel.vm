@@ -1,0 +1,156 @@
+<style>
+#videoCarousel {
+	margin: 0 auto;
+	padding: 30px;
+}
+
+#videoContent .carousel-title {
+	font-size: 1.3em;
+	padding: 15px 15px 25px;
+}
+
+#videoThumbnailCarousel {
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 5px 0;
+	visibility: hidden;
+	width: 100%;
+}
+
+#videoThumbnailCarouselContent {
+	visibility: visible;
+	width: 3000px;
+}
+
+#videoThumbnailCarouselWrapper {
+	border-top: 1px solid #A7A7A7;
+	position: relative;
+}
+
+.carousel-button {
+	border: 15px solid transparent;
+	border-right-color: #A7A7A7;
+	left: -35px;
+	position: absolute;
+	top: 49px;
+}
+
+.carousel-button.right-btn {
+	border-left-color: #A7A7A7;
+	border-right-color: transparent;
+	right: -35px;
+	left: auto;
+}
+
+.carousel-item {
+	float: left;
+	margin: 10px 15px;
+}
+
+.carousel-thumbnail {
+	background-position: center;
+	background-size: cover;
+	border: 4px solid transparent;
+	height: 100px;
+	width: 170px;
+}
+
+.selected .carousel-thumbnail {
+	border-color: #01B9BA;
+}
+
+@media (max-width: 720px) {
+	#videoContent iframe {
+		height: 300px !important;
+	}
+
+	.touch #videoThumbnailCarousel {
+		visibility: visible;
+	}
+}
+</style>
+
+<div id="videoCarousel" class="max-full">
+	<div id="videoContent">
+		<iframe allowfullscreen="true" frameborder="0" height="450px" src="https://www.youtube.com/embed/${video_embed.data}?wmode=transparent" width="100%"></iframe>
+		<div class="carousel-title">$video_embed.title.data</div>
+	</div>
+
+	<div id="videoThumbnailCarouselWrapper">
+		<a class="carousel-button left-btn" data-scroll-value="-208" href="javascript:;"></a>
+		<div id="videoThumbnailCarousel" data-length="$video_embed.siblings.size()">
+			<div id="videoThumbnailCarouselContent">
+				#foreach($video in $video_embed.siblings)
+					#set ($carousel_css_class = "carousel-item")
+
+					#if ($velocityCount == 1)
+						#set ($carousel_css_class = "$carousel_css_class selected")
+					#end
+
+					#set ($thumbnail = "http://img.youtube.com/vi/${video.data}/0.jpg")
+
+					#if ($video.thumbnail.data != "")
+						#set ($thumbnail = "$video.thumbnail.data")
+					#end
+
+					<div class="$carousel_css_class">
+						<div class="carousel-thumbnail" style="background-image: url($thumbnail);" data-embed="https://www.youtube.com/embed/${video.data}?wmode=transparent"> </div>
+						<span class="carousel-title">$video.title.data</span>
+					</div>
+				#end
+			</div>
+		</div>
+		<a class="carousel-button right-btn" data-scroll-value="208" href="javascript:;"></a>
+	</div>
+</div>
+
+<script>
+AUI().ready(
+	'anim',
+	function(A) {
+		var videoCarousel = A.one('#videoCarousel');
+		var videoThumbnailCarousel = videoCarousel.one('#videoThumbnailCarousel')
+
+		videoCarousel.all('.carousel-item').on(
+			'click',
+			function(event) {
+				var item = event.currentTarget;
+
+				var embed = item.one('.carousel-thumbnail').getAttribute('data-embed');
+				videoCarousel.one('#videoContent iframe').set('src', embed);
+
+				var title = item.one('.carousel-title').getContent();
+				videoCarousel.one('#videoContent .carousel-title').setContent(title);
+
+				videoThumbnailCarousel.all('.selected').removeClass('selected');
+				item.addClass('selected');
+			}
+		);
+
+		videoCarousel.all('.carousel-button').on(
+			'click',
+			function(event) {
+				var scrollValue = parseInt(event.currentTarget.getAttribute('data-scroll-value'));
+				var startScrollPos = parseInt(videoThumbnailCarousel.get('scrollLeft'));
+
+				var scrollTo = startScrollPos + scrollValue;
+
+				new A.Anim(
+					{
+						duration: 0.5,
+						easing: 'easeBoth',
+						node: videoThumbnailCarousel,
+						to: {
+							scroll: [scrollTo, 0]
+						}
+					}
+				).run();
+			}
+		);
+
+		var carouselLength = parseInt(videoThumbnailCarousel.getAttribute('data-length'));
+		var width = carouselLength * 215;
+		videoThumbnailCarousel.one('#videoThumbnailCarouselContent').setStyle('width', width + 'px');
+	}
+);
+</script>
