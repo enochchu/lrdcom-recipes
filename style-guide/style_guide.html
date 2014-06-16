@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<head>
+	<title>
+		Liferay.com Style Guide
+	</title>
+	<link class="lfr-css-file" href="http://cdn.www.liferay.com/osb-community-theme/css/main.css?browserId…osbcommunitytheme&minifierType=css&languageId=en_US&b=6120" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: #DFDFDF;
+			margin: 20px auto;
+			max-width: 1080px;
+		}
+
+		#mockPage .content {
+			padding-top: 75px;
+			position: relative;
+		}
+
+		#mockPage #banner {
+			position: absolute;
+		}
+
+		.style-section {
+			background: #FFF;
+			padding: 15px;
+			margin: 30px 0;
+		}
+
+		.style-heading {
+			border-bottom: 1px solid #dfdfdf;
+			padding-bottom: 5px;
+		}
+
+		.style-item {
+			border: 1px solid #DFDFDF;
+			display: inline-block;
+			margin: 10px;
+			padding: 10px;
+			vertical-align: top;
+		}
+
+		.style-details {
+			background: #DFDFDF;
+			padding: 5px;
+		}
+
+		#pageNavigation {
+			background: #EFEFEF;
+			border: 1px solid #BFBFBF;
+			padding: 10px;
+			position: fixed;
+			left: 0;
+		}
+
+		#pageNavigation li {
+			list-style: none;
+		}
+
+		#toggleGoTo {
+			font-weight: bold;
+			margin-top: 8px;
+		}
+
+		.show-go-to .go-to {
+			display: inline;
+		}
+
+		.go-to {
+			display: none;
+			font-size: 15px;
+			text-decoration: none;
+		}
+	</style>
+	<script src="http://cdn.alloyui.com/1.5.1/aui/aui-min.js"></script>
+	<script>
+		AUI().use(
+			'anim',
+			'aui-node',
+			function(A) {
+				A.all('.animate-scroll').on(
+					'click',
+					function(event) {
+						event.preventDefault();
+
+						var node = event.currentTarget;
+
+						var section = A.one(node.get('hash'));
+
+						var offset = parseInt(node.attr('data-offset'));
+
+						var scrollTo = parseInt(section.getY());
+
+						if (offset) {
+							scrollTo -= offset;
+						}
+
+						new A.Anim(
+							{
+								duration: 0.5,
+								easing: 'easeBoth',
+								node: 'win',
+								to: {
+									scroll: [0, scrollTo]
+								}
+							}
+						).run();
+					}
+				);
+
+				A.one('#toggleGoTo').on(
+					'click',
+					function(event) {
+						A.one('body').toggleClass('show-go-to');
+					}
+				);
+			}
+		);
+	</script>
+</head>
+<body class="show-go-to">
+	<h1 class="style-heading">Liferay.com Style Guide</h1>
+
+	<ul id="pageNavigation">
+		<li><a class="animate-scroll" href="#mockPage">Mock Page</a></li>
+		<li><a class="animate-scroll" href="#detailLegend">Detail Legend</a></li>
+		<li><a class="animate-scroll" href="#buttonSection">Buttons</a></li>
+		<li><a class="animate-scroll" href="#calloutSection">Callouts</a></li>
+		<li><a class="animate-scroll" href="#headingSection">Headings</a></li>
+		<li><a class="animate-scroll" href="#navSection">Navs</a></li>
+		<li><a class="animate-scroll" href="#tableSection">Tables</a></li>
+		<li><a class="animate-scroll" href="#defaultSection">Defaults</a></li>
+		<li><a class="animate-scroll" href="#bestPracticesSection">Best Practices</a></li>
+
+		<li id="toggleGoTo"><a>Toggle Arrows</a></li>
+	</ul>
+
+	<div id="mockPage" class="style-section">
+		<div id="wrapper">
+			<div class="content">
+				<header class="doc-header on-screen-helper on-screen-bottom" id="banner" role="banner">
+					<div class="banner-content">
+					<a class="aui-helper-clearfix doc-heading" href="/"><img alt="Liferay" height="36" src="http://www-uat.liferay.com/osb-community-theme/images/custom/heading.png"></a>
+					<div class="class-toggle responsive-only" data-target-node="#navigationContainer" id="navigationToggle"></div>
+					<div class="responsive-content-height" id="navigationContainer" style="max-height: 987px;">
+						<div id="mainNavigation">
+							<nav class="sort-pages modify-pages">
+								<ul class="nav-menu">
+									<li class="nav-item root-item"><a href="/nav/products">Products</a></li>
+									<li class="class-toggle-off-click nav-item parent-item root-item">
+										<a href="javascript:;">For Business</a>
+										<span class="children-marker responsive-only"></span>
+										<ul class="child-menu class-toggle-off-click-content drop-down-menu">
+											<li class="child-item nav-item" id="childItem1"><a href="/nav/enterprise-subscription">Enterprise Subscription</a></li>
+											<li class="child-item nav-item" id="childItem2"><a href="/nav/user-stories">Case Studies</a></li>
+											<li class="child-item nav-item" id="childItem3"><a href="/nav/whitepapers">Whitepapers</a></li>
+											<li class="child-item nav-item" id="childItem4"><a href="/bnav/events">Events</a></li>
+											<li class="child-item nav-item" id="childItem5"><a href="/nav/consulting">Consulting</a></li>
+											<li class="child-item nav-item" id="childItem6"><a href="/bnav/training">Training</a></li>
+											<li class="child-item nav-item" id="childItem7"><a href="/nav/certification">Certification</a></li>
+											<li class="child-item nav-item" id="childItem8"><a href="/nav/partners">Partners</a></li>
+											<li class="child-item nav-item" id="childItem9"><a href="/nav/newsroom">Newsroom</a></li>
+										</ul>
+									</li>
+									<li class="class-toggle-off-click nav-item parent-item root-item">
+										<a href="javascript:;">Developers</a>
+										<span class="children-marker responsive-only"></span>
+										<ul class="child-menu class-toggle-off-click-content drop-down-menu">
+											<li class="child-item nav-item" id="childItem1"><a href="/nav/downloads">Downloads</a></li>
+											<li class="child-item nav-item" id="childItem2"><a href="/nav/documentation">Documentation</a></li>
+											<li class="child-item nav-item" id="childItem3"><a href="/nav/community">Community</a></li>
+											<li class="child-item nav-item" id="childItem4"><a href="/nav/marketplace">Marketplace</a></li>
+											<li class="child-item nav-item" id="childItem5"><a href="/nav/events">Events</a></li>
+											<li class="child-item nav-item" id="childItem6"><a href="/nav/training">Training</a></li>
+											<li class="child-item nav-item" id="childItem7"><a href="/nav/forums">Forums</a></li>
+											<li class="child-item nav-item" id="childItem8"><a href="/nav/blog">Blogs</a></li>
+											<li class="child-item nav-item" id="childItem9"><a href="/nav/wiki">Wiki</a></li>
+										</ul>
+									</li>
+									<li class="nav-item root-item"><a href="/nav/about-us">About Us</a></li>
+								</ul>
+							</nav>
+						</div>
+						<div class="class-toggle-off-click" id="mainSearch">
+							<div id="mainSearchContent">
+								<span class="class-toggle-off-click-content">
+									<form action="http://www-uat.liferay.com/home" class="doc-search" method="get" name="_1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm" onsubmit="event.preventDefault(); _1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeSearch();"><input name="p_p_id" type="hidden" value="1_WAR_googlesearchapplianceportlet_INSTANCE_0000"><input name="p_p_lifecycle" type="hidden" value="0"><input name="p_p_state" type="hidden" value="maximized">
+										<input class="doc-search-input" name="_1_WAR_googlesearchapplianceportlet_INSTANCE_0000_keywords" value="">
+									</form>
+									<script type="text/javascript">function _1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeSearch() {var keywords = document._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_keywords.value;
+										if (keywords != '') {document._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm.submit();}}
+									</script>
+								</span>
+							</div>
+						</div>
+						<div class="class-toggle-off-click" id="mainMenu">
+							<ul class="class-toggle-off-click-content drop-down-menu responsive-content-height" style="max-height: 987px;">
+								<li class="class-toggle language-toggle parent-item">
+									<a href="javascript:;">Languag</a>
+									<span class="children-marker"></span>
+									<ul class="taglib-settings">
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=de_DE" lang="de-DE">Deutsch</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=en_GB" lang="en-GB">English (United Kingdom)</a></li>
+										<li class="selected"><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=en_US" lang="en-US">English (United States)</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=es_ES" lang="es-ES">Español</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=fr_FR" lang="fr-FR">Français</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=it_IT" lang="it-IT">Italiano</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=pt_BR" lang="pt-BR">Português</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=zh_CN" lang="zh-CN">中文</a></li>
+										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=ja_JP" lang="ja-JP">日本語</a></li>
+									</ul>
+								</li>
+								<li id="registerBtn"><a href="https://www-uat.liferay.com/home?p_p_id=58&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_count=30&amp;saveLastPath=0&amp;_58_struts_action=%2Flogin%2Fcreate_account">Registe</a></li>
+								<li class="sign-in-button" id="signInBtn"><a href="/c/portal/login?p_l_id=8440537">Sign In</a></li>
+							</ul>
+						</div>
+						</div
+					</div>
+				</header>
+
+				<div id="main-content aui-helper-clearfix">
+					<div class="portlet-column" style="width: 25%;">
+						<div class="portlet-column-content left-column">
+							<nav class="doc-sub-nav">
+								<h1> Products</h1>
+								<ul>
+									<li class="has-sub-nav"><a href="#"> Liferay Portal</a>
+										<ul class="sub-nav">
+											<li><a href="#"> What is a Portal?</a></li>
+											<li><a href="#"> Product Overview</a></li>
+											<li><a class="sel" href="#"> Features</a></li>
+											<li><a href="#"> Benefits</a></li>
+											<li><a href="#"> Tech Specs</a></li>
+											<li><a href="#"> User Stories</a></li>
+											<li><a href="#"> Enterprise Edition (EE)</a></li>
+											<li><a href="#"> Get Enterprise Edition</a></li>
+										</ul>
+									</li>
+									<li class="has-sub-nav"><a href="#"> Liferay Social Office Overview</a>
+										<ul class="sub-nav">
+											<li><a href="#"> Social Office Features</a></li>
+											<li><a href="#"> Benefits</a></li>
+											<li><a href="#"> Get it Now</a></li>
+										</ul>
+									</li>
+									<li class="has-sub-nav"><a href="#"> Liferay Sync</a>
+										<ul class="sub-nav">
+											<li><a href="#"> Features</a></li>
+											<li><a href="#"> Get it Now</a></li>
+										</ul>
+									</li>
+								</ul>
+							</nav>
+							<a class="animate-scroll go-to" href="#navSection">&#8595;</a>
+						</div>
+					</div>
+					<div class="portlet-column" style="width: 75%;">
+						<div class="portlet-column-content right-column">
+							<div class="page-heading">
+								<h1>page-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
+								<p>page-sub-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></p>
+							</div>
+
+							<a class="animate-scroll go-to" href="#navSection" style="float: right;">&#8595;</a>
+							<nav class="tab-nav">
+								<ul>
+									<li class="f selected">
+										<a class="animate-scroll" href="#">Item 1</a>
+									</li>
+										<li class="">
+											<a class="animate-scroll" href="#">Item 2</a>
+									</li>
+										<li class="l">
+											<a class="animate-scroll" href="#">Item 3</a>
+									</li>
+								</ul>
+							</nav>
+
+							<div class="section-heading">section-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></div>
+
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a></p>
+							<a href="#buttonSection" class="btn animate-scroll">btn</a>
+							<a href="#buttonSection" class="btn style-a animate-scroll">btn style-a</a>
+							<a href="#buttonSection" class="btn style-b animate-scroll">btn style-b</a>
+							<a class="animate-scroll go-to" href="#buttonSection">&#8595;</a>
+						</div>
+					</div>
+					<div class="cleared"></div>
+					<div style="margin-top: 50px;">
+						<div style="text-align: center;">
+							<h1 class="heading redesign large">h1.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
+							<span class="sub-heading redesign">sub-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></span>
+						</div>
+
+						<h1 class="heading redesign">h1.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
+						<div class="content-column" style="width: 30%;">
+							<div class="content-column-content left-column">
+								<div class="callout-a">
+									<div class="callout-content">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+									</div>
+								</div>
+							</div>
+							<a class="animate-scroll go-to" href="#calloutSection">&#8595;</a>
+						</div>
+						<div class="content-column" style="width: 70%;">
+							<div class="content-column-content right-column">
+								<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<a class="animate-scroll go-to" href="#defuaultSection">&#8595;</a></p>
+								<a href="#buttonSection" class="btn large animate-scroll">btn large</a>
+								<a href="#buttonSection" class="btn large style-a animate-scroll">btn large style-a</a>
+								<a href="#buttonSection" class="btn large style-b animate-scroll">btn large style-b</a>
+								<a class="animate-scroll go-to" href="#buttonSection">&#8595;</a>
+								<h2 class="heading redesign">h2.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h2>
+								<div class="callout-b-head">
+									<div class="callout-content">
+										<h1 class="title" style="font-size: 12px; line-height: 18px;">Callout B Head</h1>
+									</div>
+								</div>
+								<div class="callout-e" style="border-color: #d0d1d3; border-top-width: 0; border-radius: 0 0 2px 2px;">
+									<div class="callout-content">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+									</div>
+								</div>
+								<a class="animate-scroll go-to" href="#calloutSection">&#8595;</a>
+							</div>
+						</div>
+
+
+						<h3 class="heading redesign">h3.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h3>
+
+
+						<ul>
+							<li>item 1</li>
+							<li>item 2</li>
+							<li>item 3</li>
+							<li>item 4</li>
+						</ul>
+						<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a>
+
+						<div>
+							<form>
+								<i>input:</i><br/>
+								<input type="text" name="firstname"><br/>
+								<input class="btn" type="submit" value="Submit">
+							</form>
+							<form>
+								<i>radio:</i><br/>
+								<input type="radio" name="sex" value="male">Male<br/>
+								<input type="radio" name="sex" value="female">Female
+							</form>
+							<form>
+								<i>checkbox:</i><br/>
+								<input type="checkbox" name="item1" value="item1">Item 1<br>
+								<input type="checkbox" name="item1" value="item1">Item 2
+							</form>
+							<form>
+								<i>select:</i><br/>
+								<select>
+									<option value="item1">item 1</option>
+									<option value="item2">item 2</option>
+									<option value="item3">item 3</option>
+								</select>
+							</form>
+							<form>
+								<i>mulit-select:</i><br/>
+								<select multiple>
+									<option value="item1">item 1</option>
+									<option value="item2">item 2</option>
+									<option value="item3">item 3</option>
+								</select>
+							</form>
+							<textarea>
+								Textarea text.
+							</textarea>
+						</div>
+						<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a>
+					</div>
+				</div>
+
+				<footer class="doc-footer" style="position: relative;">
+					<nav class="aui-helper-clearfix bottom-navigation social-nav"> <ul> <li class="responsive-hidden"> <a href="http://www.liferay.com/about-us/news"> <span class="rss social-img"></span> <span>News</span> </a> </li> <li class="responsive-hidden"> <a href="http://www.liferay.com/community/blogs"> <span class="rss social-img"></span> <span>Blogs</span> </a> </li> <li> <a href="http://www.twitter.com/liferay" target="_blank"> <span class="social-img twitter"></span> <span class="responsive-hidden">Twitter</span> </a> </li> <li> <a href="http://www.facebook.com/pages/Liferay/45119213107" target="_blank"> <span class="facebook social-img"></span> <span class="responsive-hidden">Facebook</span> </a> </li> <li> <a href="http://www.linkedin.com/company/83609?trk=NUS_CMPY_TWIT" target="_blank"> <span class="linkedin social-img"></span> <span class="responsive-hidden">LinkedIn</span> </a> </li> </ul>
+					</nav>
+					<nav class="sort-pages modify-pages bottom-navigation"> <ul class="child-menu child-menu-1"> <li class="first last"> <a href="http://www.liferay.com/privacy-policy">Privacy Policy</a> </li> </ul> <ul class="child-menu child-menu-2"> <li class="first last"> <a href="http://www.liferay.com/contact-us">Contact Us</a> </li> </ul> <ul class="child-menu child-menu-3"> <li class="first last"> <a href="http://www.liferay.com/about-us">About Us</a> </li> </ul> <ul class="child-menu child-menu-4"> <li class="first last"> <a href="http://www.liferay.com/careers">Careers</a> </li> </ul>
+					</nav>
+					<p class="copyright">&#169; 2013 Liferay Inc. All Rights Reserved </p>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+	<div id="detailLegend" class="style-section">
+		<h2 class="style-heading">Item x</h2>
+		<div class="style-item">
+			<div class="item-example">
+				Example of x
+			</div>
+			<div class="ux-details">
+				Brief explanation of user experience details for item x.
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>inherting notes</td></tr>
+					<tr><td>css properties</td></tr>
+					<tr><td>css properties</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="buttonSection" class="style-section">
+		<h2 class="style-heading">Buttons</h2>
+
+		<div class="style-item">
+			<div class="item-example">
+				<a href="#" class="btn">btn</a>
+			</div>
+			<div class="ux-details">
+				This is the default button styling.
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background: #f49b45;</td></tr>
+					<tr><td>border-width: 0;</td></tr>
+					<tr><td>color: #FFF;</td></tr>
+					<tr><td>display: inline-block;</td></tr>
+					<tr><td>font-size: 12px;</td></tr>
+					<tr><td>font-weight: bold;</td></tr>
+					<tr><td>padding: 5px 15px;</td></tr>
+					<tr><td>text-align: center;</td></tr>
+					<tr><td>vertical-align: top;</td></tr>
+					<tr><td>hover-background: #ef8131;</td></tr>
+					<tr><td>hover-color: #7d342d;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<a href="#" class="btn style-a">btn style-a</a>
+			</div>
+			<div class="ux-details">
+				This is the secondary button. Commonly used for downloads.
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>inherits .btn styles</td></tr>
+					<tr><td>background: #1baae1;</td></tr>
+					<tr><td>hover-background: #0093d8;</td></tr>
+					<tr><td>hover-color: #064975;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<a href="#" class="btn style-b">btn style-b</a>
+			</div>
+			<div class="ux-details">
+				This is the tertiary button.
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>inherits .btn styles</td></tr>
+					<tr><td>background: #FFF;</td></tr>
+					<tr><td>color: #6d6e71;</td></tr>
+					<tr><td>hover-background: #ef8131;</td></tr>
+					<tr><td>hover-color: #7d342d;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<a href="#" class="btn large">btn large</a>
+				<a href="#" class="btn large style-a">btn large style-a</a>
+				<a href="#" class="btn large style-b">btn large style-b</a>
+			</div>
+			<div class="ux-details">
+				This is the large button style.
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>inherits .btn styles</td></tr>
+					<tr><td>font-size: 15px;</td></tr>
+					<tr><td>padding: 5px 20px;</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="calloutSection" class="style-section">
+		<h2 class="style-heading">Callouts</h2>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-a">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-a
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background-color: #fafdfe;</td></tr>
+					<tr><td>border: 1px solid;</td></tr>
+					<tr><td>border-color: #d0d1d3;</td></tr>
+					<tr><td>border-radius: 2px;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td>padding: 17px 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-b">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-b
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background-color: #939598;</td></tr>
+					<tr><td>border: 1px solid;</td></tr>
+					<tr><td>border-color: #939598;</td></tr>
+					<tr><td>border-radius: 2px;</td></tr>
+					<tr><td>color: #fff;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td>padding: 17px 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-c">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-c
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background-color: #dcdcdc;</td></tr>
+					<tr><td>border: 1px solid;</td></tr>
+					<tr><td>border-color: #d0d1d3;</td></tr>
+					<tr><td>border-radius: 2px;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td>padding: 17px 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-d">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-d
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background-color: #fff;</td></tr>
+					<tr><td>border: 1px solid;</td></tr>
+					<tr><td>border-radius: 2px;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td>padding: 17px 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-e">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-e
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>background-color: #939598;</td></tr>
+					<tr><td>border: 1px solid;</td></tr>
+					<tr><td>border-color: #939598;</td></tr>
+					<tr><td>border-radius: 2px;</td></tr>
+					<tr><td>color: #fff;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td>padding: 17px 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="callout-b-head">
+					<div class="callout-content">
+						<h1 class="title" style="font-size: 12px; line-height: 18px;">Callout B Head</h1>
+					</div>
+				</div>
+				<div class="callout-e" style="border-color: #d0d1d3; border-top-width: 0; border-radius: 0 0 2px 2px;">
+					<div class="callout-content">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+			</div>
+			<div class="ux-details">
+				callout-b-head and callout-e (used in marketplace)
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>heading-font-size: 12px;</td></tr>
+					<tr><td>border: 1px solid #d0d1d3;</td></tr>
+					<tr><td>border-top-width: 0;</td></tr>
+					<tr><td>border-radius: 0 0 2px 2px;</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="headingSection" class="style-section">
+		<h2 class="style-heading">Headings</h2>
+
+		<div class="style-item">
+			<div class="item-example">
+				<h1>h1</h1>
+			</div>
+			<div class="ux-details">
+				default h1
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>font-size: 2.5em;</td></tr>
+					<tr><td>line-height: 1.2;</td></tr>
+					<tr><td>margin: 0 0 .3em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h2>h2</h2>
+			</div>
+			<div class="ux-details">
+				default h2
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>font-size: 1.333em;</td></tr>
+					<tr><td>line-height: 1.125;</td></tr>
+					<tr><td>margin: 0 0 .5625em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h3>h3</h3>
+			</div>
+			<div class="ux-details">
+				default h3
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>font-size: 1.333em;</td></tr>
+					<tr><td>line-height: 1.125;</td></tr>
+					<tr><td>margin: 0 0 .5625em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h1 class="heading redesign">h1.heading</h1>
+			</div>
+			<div class="ux-details">
+				default h1 with class heading
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #404040;</td></tr>
+					<tr><td>font-size: 2.4em;</td></tr>
+					<tr><td>line-height: 1.5;</td></tr>
+					<tr><td>margin: 0 0 .3em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h2 class="heading redesign">h2.heading</h2>
+			</div>
+			<div class="ux-details">
+				default h2 with class heading
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #404040;</td></tr>
+					<tr><td>font-size: 1.6em;</td></tr>
+					<tr><td>line-height: 1.5;</td></tr>
+					<tr><td>margin: 0 0 .3em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h3 class="heading redesign">h3.heading</h3>
+			</div>
+			<div class="ux-details">
+				default h3 with class heading
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #404040;</td></tr>
+					<tr><td>font-size: 1em;</td></tr>
+					<tr><td>line-height: 1.5;</td></tr>
+					<tr><td>margin: 0 0 .5625em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<h1 class="heading redesign large">h1.heading.large</h1>
+			</div>
+			<div class="ux-details">
+				default h1 with class heading and large
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #404040;</td></tr>
+					<tr><td>font-size: 4.7em;</td></tr>
+					<tr><td>line-height: 1.5;</td></tr>
+					<tr><td>margin: 0 0 .3em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<span class="sub-heading redesign">sub-heading</span>
+			</div>
+			<div class="ux-details">
+				default subheading
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #585858;</td></tr>
+					<tr><td>font-size: 1.6em;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="page-heading">
+					<h1>page-heading</h1>
+					<p>page-sub-heading</p>
+				</div>
+			</div>
+			<div class="ux-details">
+				page heading used with h1 and p
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td><b>page heading</b></td></tr>
+					<tr><td>border-bottom: 1px solid #CCC;</td></tr>
+					<tr><td>color: #1a4265;</td></tr>
+					<tr><td>font-family: "CartoGothicStd",Arial,sans-serif;</td></tr>
+					<tr><td>font-size: 36px;</td></tr>
+					<tr><td>font-weight: normal;</td></tr>
+					<tr><td>line-height: 45px;</td></tr>
+					<tr><td>margin: 0;</td></tr>
+					<tr><td>padding: 0 0 8px;</td></tr>
+					<tr style="padding-top: 10px; display: block;"><td><b>page sub-heading</b></td></tr>
+					<tr><td>font-size: 14px;</td></tr>
+					<tr><td>line-height: 18px;</td></tr>
+					<tr><td>margin: 9px 0 0;</td></tr>
+					<tr><td>min-height: 54px;</td></tr>
+					<tr><td>width: 460px;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<div class="section-heading">section-heading</div>
+			</div>
+			<div class="ux-details">
+				section heading
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #1d6799;</td></tr>
+					<tr><td>font-size: 20px;</td></tr>
+					<tr><td>font-weight: bold;</td></tr>
+					<tr><td>line-height: 27px;</td></tr>
+					<tr><td>letter-spacing: -0.05em;</td></tr>
+					<tr><td>margin: 0 0 9px;</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="navSection" class="style-section">
+		<h2 class="style-heading">Navs</h2>
+		<div class="style-item">
+			<div class="item-example">
+				<nav class="tab-nav" style="width: 215px;">
+					<ul>
+						<li class="f selected">
+							<a class="animate-scroll" href="#">Item 1</a>
+						</li>
+							<li class="">
+								<a class="animate-scroll" href="#">Item 2</a>
+						</li>
+							<li class="l">
+								<a class="animate-scroll" href="#">Item 3</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="ux-details">
+				Tab Nav styling
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td><b>nav.tab-nav</b></td></tr>
+					<tr><td>border-width: 0 0 1px 0;</td></tr>
+					<tr><td>padding: 0;</td></tr>
+					<tr><td>border: 1px solid #d0d1d3;</td></tr>
+					<tr><td>text-align: center;</td></tr>
+					<tr><td>margin: 0 0 18px;</td></tr>
+					<tr><td><b>.tab-nav ul</b></td></tr>
+					<tr><td>display: inline-block;</td></tr>
+					<tr><td>vertical-align: bottom;</td></tr>
+					<tr><td><b>.tab-nav li</b></td></tr>
+					<tr><td>float: left;</td></tr>
+					<tr><td><b>.tab-nav a</b></td></tr>
+					<tr><td>background: #f49b45;</td></tr>
+					<tr><td>color: #FFF;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<nav class="doc-sub-nav">
+					<h1> Products</h1>
+					<ul>
+						<li class="has-sub-nav"><a class="animate-scroll" href="#"> Liferay Portal</a>
+							<ul class="sub-nav">
+								<li><a class="animate-scroll" href="#"> What is a Portal?</a></li>
+								<li><a class="animate-scroll" href="#"> Product Overview</a></li>
+								<li><a class="sel" class="animate-scroll" href="#"> Features</a></li>
+								<li><a class="animate-scroll" href="#"> Benefits</a></li>
+								<li><a class="animate-scroll" href="#"> Tech Specs</a></li>
+								<li><a class="animate-scroll" href="#"> User Stories</a></li>
+								<li><a class="animate-scroll" href="#"> Enterprise Edition (EE)</a></li>
+								<li><a class="animate-scroll" href="#"> Get Enterprise Edition</a></li>
+							</ul>
+						</li>
+						<li class="has-sub-nav"><a class="animate-scroll" href="#"> Liferay Social Office Overview</a>
+							<ul class="sub-nav">
+								<li><a class="animate-scroll" href="#"> Social Office Features</a></li>
+								<li><a class="animate-scroll" href="#"> Benefits</a></li>
+								<li><a class="animate-scroll" href="#"> Get it Now</a></li>
+							</ul>
+						</li>
+						<li class="has-sub-nav"><a class="animate-scroll" href="#"> Liferay Sync</a>
+							<ul class="sub-nav">
+								<li><a class="animate-scroll" href="#"> Features</a></li>
+								<li><a class="animate-scroll" href="#"> Get it Now</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="ux-details">
+				Side Nav styling
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td><b>nav heading</b></td></tr>
+					<tr><td>border-bottom: 1px solid #caced2;</td></tr>
+					<tr><td>font-size: 16px;</td></tr>
+					<tr><td>line-height: 18px;</td></tr>
+					<tr><td>margin: 0;</td></tr>
+					<tr><td>padding: 0 20px 8px;</td></tr>
+					<tr><td>text-transform: uppercase;</td></tr>
+					<tr><td><b>li.has-children</b></td></tr>
+					<tr><td>border-bottom: 1px solid #caced2;</td></tr>
+					<tr><td><b>anchor</b></td></tr>
+					<tr><td>border-bottom: 0;</td></tr>
+					<tr><td>font-weight: normal;</td></tr>
+					<tr><td>line-height: 12px;</td></tr>
+					<tr><td>max-height: 21px;</td></tr>
+					<tr><td>min-height: 12px;</td></tr>
+					<tr><td>padding: 3px 0 3px 30px;</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="tableSection" class="style-section">
+		<h2 class="style-heading">Table</h2>
+		<div class="style-item">
+			<div class="item-example">
+				<table>
+					<tr>
+						<th>TH</th>
+						<th>TH</th>
+						<th>TH</th>
+						<th>TH</th>
+					</tr>
+					<tr>
+						<td>TD</td>
+						<td>TD</td>
+						<td>TD</td>
+						<td>TD</td>
+					</tr>
+				</table>
+			</div>
+			<div class="ux-details">
+				Default table styling
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>nothing set</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<table class="osb-table">
+					<tr class="header-row">
+						<th class="col-1 first-col">TH</th>
+						<th class="col-2">TH</th>
+						<th class="col-3">TH</th>
+						<th class="col-4 last-col">TH</th>
+					</tr>
+					<tr>
+						<td class="col-1 first-col">TD</td>
+						<td class="col-2">TD</td>
+						<td class="col-3">TD</td>
+						<td class="col-4 last-col">TD</td>
+					</tr>
+				</table>
+			</div>
+			<div class="ux-details">
+				Default table styling
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>nothing set</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="defaultSection" class="style-section">
+		<h2 class="style-heading">Defaults</h2>
+		<div class="style-item">
+			<div class="item-example">
+				<a>anchor</a>
+			</div>
+			<div class="ux-details">
+				default anchor
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>color: #009ad6;</td></tr>
+					<tr><td>hover-color: #dd5f13</td></tr>
+					<tr><td>text-decoration: underline;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.</p>
+			</div>
+			<div class="ux-details">
+				Default paragraph
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>margin: .75em 0;</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<ul>
+					<li>item 1</li>
+					<li>item 2</li>
+					<li>item 3</li>
+					<li>item 4</li>
+				</ul>
+			</div>
+			<div class="ux-details">
+				Default list
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>ul-margin: .75em 0;</td></tr>
+					<tr><td>ul-padding: 0 0 0 2.5em;</tr></td>
+					<tr><td>li-list-style-type: disc;</tr></td>
+				</table>
+			</div>
+		</div>
+		<div class="style-item">
+			<div class="item-example">
+				<form>
+					<i>input:</i><br/>
+					<input type="text" name="firstname"><br/>
+					<input class="btn" type="submit" value="Submit">
+				</form>
+				<form>
+					<i>radio:</i><br/>
+					<input type="radio" name="sex" value="male">Male<br/>
+					<input type="radio" name="sex" value="female">Female
+				</form>
+				<form>
+					<i>checkbox:</i><br/>
+					<input type="checkbox" name="item1" value="item1">Item 1<br>
+					<input type="checkbox" name="item1" value="item1">Item 2
+				</form>
+				<form>
+					<i>select:</i><br/>
+					<select>
+						<option value="item1">item 1</option>
+						<option value="item2">item 2</option>
+						<option value="item3">item 3</option>
+					</select>
+				</form>
+				<form>
+					<i>mulit-select:</i><br/>
+					<select multiple>
+						<option value="item1">item 1</option>
+						<option value="item2">item 2</option>
+						<option value="item3">item 3</option>
+					</select>
+				</form>
+				<textarea>
+					Textarea text.
+				</textarea>
+			</div>
+			<div class="ux-details">
+				Default form
+			</div>
+			<div class="style-details">
+				<table>
+					<tr><td>padding: 1px 0px;</td></tr>
+					<tr><td>outline: -webkit-focus-ring-color auto 5px;</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="bestPracticesSection" class="style-section">
+		<h2 class="style-heading">Best Practices</h2>
+		<strong>lego template best practices</strong>
+		<ul>
+			<li>do not use when:
+				<ul>
+					<li>complex content</li>
+					<li>layout/view of content is repeated in many places (more effecient to create new template)</li>
+					<li>velocity is required</li>
+				</ul>
+			</li>
+
+			<li>avoid using #article-$article-id.data when possible</li>
+			<li>reuse css classes and styles as much as possible for common styling</li>
+			<li>avoid using html as much as possible (if there is too much consider making a new template)</li>
+		</ul>
+		<strong>where to put css styles</strong>
+		<ul>
+			<li>rule of thumb: put css as close to its referent as possible, but reuse styles as much as possible</li>
+			<li>put in article if styles only apply to that article</li>
+			<li>put in article at the bottom of the page if the styles are used across the whole page</li>
+			<li>share style article with multiple pages if there are styles that are used on a couple of pages</li>
+			<li>put in theme if the styles are used in more than 2 or 3 page</li>
+		</ul>
+		<strong>naming conventions</strong>
+		<ul>
+			<li>include friendly url after article title (The Leading Open Source Portal for the Enterprise - /products/liferay-portal/overview)</li>
+		</ul>
+		<strong>general formatting</strong>
+		<ul>
+			<li>velocity variables are named_with_underscores (use underscores in structure element names as well)</li>
+			<li>javascript variables and css ids are namedWithCamelCasing</li>
+			<li>css classes are named-with-dashes</li>
+			<li>velocity and html uses ""</li>
+			<li>javascript uses ''</li>
+		</ul>
+		<strong>javascript usage</strong>
+		<ul>
+			<li>if js is used in multiple places on page or on a couple of pages, put it in an article at the bottom</li>
+			<li>if only used in a lego article add to the custom_content section</li>
+		</ul>
+		<strong>image edicate</strong>
+		<ul>
+			<li>make relative url</li>
+			<li>take off time stamp</li>
+			<li>spritize when possible</li>
+			<li>make sure image size is as small as possible (optimize for web)</li>
+		</ul>
+		<strong>translations</strong>
+		<ul>
+			<li>make sure templates you make can be fully localized</li>
+			<li>if you need add a language key to content and id does not exist in the code, add it to the localization template(do not commit it)</li>
+			<li>if updating content, make sure you check to update translated content as well</li>
+		</ul>
+	</div>
+</body>
