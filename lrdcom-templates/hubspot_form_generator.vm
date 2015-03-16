@@ -1,0 +1,846 @@
+#macro (clean_up $string)
+	#set ($string = $stringUtil.replace($string, "[", ""))
+	#set ($string = $stringUtil.replace($string, "]", ""))
+	#set ($string = $stringUtil.replace($string, '"', ''))
+
+	#if ($string == "_blank")
+		#set ($string = "")
+	#end
+#end
+
+#macro (get_tactic_info $tactic_id $map $map_string)
+	#set ($record = $ddlRecordLocalService.fetchDDLRecord($getterUtil.getLong($tactic_id)))
+
+	#if ($record)
+		#foreach ($field in $hs_field_values)
+			#set ($field_name = $record.getFieldValue($field))
+			#clean_up($field_name)
+
+			#if ($field_name != "")
+				#set ($VOID = $map.put($field, $field_name))
+			#end
+		#end
+
+		#set ($asset_record = $record.getFieldValue("asset"))
+		#set ($asset_type = $record.getFieldValue("asset_type"))
+		#clean_up($asset_type)
+
+		#set ($asset = false)
+		#set ($asset_id = $record.getFieldValue("asset_id"))
+		#set ($asset_json_object = $jsonFactoryUtil.getNullJSON())
+		#if ($stringUtil.startsWith($asset_record, "{") && $stringUtil.endsWith($asset_record, "}"))
+			#set ($asset_json_object = $jsonFactoryUtil.createJSONObject($asset_record))
+		#end
+		#set ($asset_name = $record.getFieldValue("asset_name"))
+		#set ($asset_url = $record.getFieldValue("asset_url"))
+		#set ($dl_file_entry_local_service = $serviceLocator.findService("com.liferay.portlet.documentlibrary.service.DLFileEntryLocalService"))
+
+		#if ($asset_json_object.getString("uuid"))
+			#set ($asset_url = "${request.get('scheme')}://${request.get('theme-display').get('portal-url')}/documents/${groupId}/${asset_json_object.getString('uuid')}")
+			#set ($asset = $dl_file_entry_local_service.getFileEntryByUuidAndGroupId($asset_json_object.getString("uuid"), $groupId))
+
+			#if ($asset)
+				#set ($asset_id = $asset.getUuid())
+				#set ($asset_name = $asset.getTitle())
+			#end
+		#end
+
+		#if ($asset_name != "")
+			#set ($VOID = $map.put("asset_name", $asset_name))
+		#end
+
+		#if ($asset_id != "")
+			#set ($VOID = $map.put("asset_id", $asset_id))
+		#end
+
+		#if ($asset_url != "")
+			#set ($VOID = $map.put("asset_url", $asset_url))
+		#end
+
+		#set ($VOID = $map.put("tactic_id", $record.getRecordId()))
+	#end
+
+	#set ($map_string = "{")
+
+	#foreach ($key in $map.keySet())
+		#if ($velocityCount != 1)
+			#set ($map_string = "${map_string},")
+		#end
+
+		#set ($map_string = "${map_string}&#34;${key}&#34;:&#34;${map.get($key)}&#34;")
+	#end
+
+	#set ($map_string = "${map_string}}")
+#end
+
+#macro (get_options $field $options_map)
+	#set ($options_start = 0)
+	#set ($options_end = $field.getJSONArray('options').length() - 1)
+	#set ($options_range = [$start..$options_end])
+
+	#foreach ($i in $options_range)
+		#set ($option = $field.getJSONArray('options').getJSONObject($i))
+		#set ($order = $option.getInt('displayOrder') + 1000)
+		#set ($VOID = $options_map.put("$order", $option))
+	#end
+#end
+
+#set ($portlet_bean_locator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortletBeanLocatorUtil'))
+#set ($hs_contact_local_service = $portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService.velocity"))
+#set ($hs_form_local_service = $portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSFormLocalService.velocity"))
+
+## Testing Hubspot Account
+## #set ($hs_account_id = "299703")
+
+## Production Hubspot Account
+#set ($hs_account_id = "252686")
+
+#if ($request.lifecycle == 'RENDER_PHASE')
+	<style>
+	@keyframes slide {
+		from {
+			top: -100%;
+		}
+		to {
+			top: 8px;
+		}
+	}
+
+	@-webkit-keyframes slide {
+		from {
+			top: -100%;
+		}
+		to {
+			top: 8px;
+		}
+	}
+
+	.hbspt-form .btn-wrapper {
+		padding: 20px 0;
+	}
+
+	.hbspt-form .aui-field .aui-field-input {
+		background-color: transparent;
+		border: 1px solid #474A4B;
+		color: #474A4B;
+		display: inline-block;
+		font-size: 1em;
+		outline: none;
+		padding: 5px 2.25%;
+		height: 1.5em;
+		width: 95%;
+
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-ms-border-radius: 3px;
+		-o-border-radius: 3px;
+		border-radius: 3px;
+
+		box-sizing: content-box;
+
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+
+	::-webkit-input-placeholder {
+		color: #474A4B;
+	}
+
+	:-moz-placeholder {
+		color: #474A4B;
+	}
+
+	::-moz-placeholder {
+		color: #474A4B;
+	}
+
+	:-ms-input-placeholder {
+		color: #474A4B;
+	}
+
+	.hbspt-form .aui-field-label, .hbspt-form .aui-form-validator-message {
+		font-size: 12px;
+		font-weight: normal;
+		position: absolute;
+		pointer-events: none;
+		right: 10px;
+		top: -100%;
+		z-index: 0;
+
+		-webkit-transition: top .5s;
+		-moz-transition: top .5s;
+		-ms-transition: top .5s;
+		-o-transition: top .5s;
+		transition: top .5s;
+	}
+
+	.hbspt-form .booleancheckbox-field .aui-field-label, .hbspt-form .booleancheckbox-field .aui-form-validator-message {
+		position: static;
+	}
+
+	.hbspt-form .aui-form-validator-stack-error {
+		font-size: inherit;
+	}
+
+	.hbspt-form .field-filled .aui-field-label, .hbspt-form .aui-form-validator-error-container .aui-form-validator-message {
+		top: 8px;
+
+		-webkit-animation: slide .5s;
+		-moz-animation: slide .5s;
+		-ms-animation: slide .5s;
+		-o-animation: slide .5s;
+		animation: slide .5s;
+	}
+
+	.hbspt-form .select-field .aui-field-label, .hbspt-form .select-field .aui-form-validator-message {
+		right: 35px;
+	}
+
+	.hbspt-form .select-field .aui-field-input {
+		background: url(https://www.liferay.com/documents/14/43429917/arrow_down.png/ca985125-5ec8-47aa-b967-fdd622aa4b9a) no-repeat right;
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down.svg/a0a0f579-3f2b-4e0f-a590-e4885bad153f);
+	}
+
+	.hbspt-form .select-field.field-filled .aui-field-input {
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.png/8ff76a13-df82-4d0a-b37c-75bcbc28ab6e);
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.svg/98ec462b-e825-425b-9f20-b869c1fafb9f);
+	}
+
+	.hbspt-form .aui-field {
+		font-weight: normal;
+		max-width: 500px;
+		margin-bottom: 1em;
+		overflow: hidden;
+		padding: 1px;
+		position: relative;
+	}
+
+	.hbspt-form .aui-form-validator-message {
+		background: transparent;
+		clip: auto;
+		color: inherit;
+		margin: 0;
+		padding: 0;
+		text-align: right;
+		width: auto;
+	}
+
+	.hbspt-form .booleancheckbox-field input, .hbspt-form .booleancheckbox-field label {
+		display: inline;
+		font-weight: normal;
+		width: auto;
+	}
+
+	.hbspt-form .aui-field.aui-form-validator-error-container {
+		color: #F5A11D;
+	}
+
+	.hbspt-form .aui-field.aui-form-validator-error-container .aui-field-input {
+		border-color: #F5A11D;
+	}
+
+	.hbspt-form .aui-field.field-filled,
+	.hbspt-form .aui-field.field-filled .aui-field-input {
+		color: #909295;
+	}
+
+	.hbspt-form .aui-field.field-filled .aui-field-input {
+		border-color: #909295;
+	}
+
+	.hbspt-form .aui-field.field-focused {
+		color: #1C75B9;
+	}
+
+	.hbspt-form .aui-field.field-focused .aui-field-input {
+		border-color: #1C75B9;
+	}
+
+	.hbspt-form .aui-field-booleancheckbox .aui-field-label {
+		left: 25px;
+		right: auto;
+		top: 5px;
+	}
+
+	.hbspt-form .aui-field-booleancheckbox .aui-field-input {
+		width: auto;
+
+		-webkit-appearance: checkbox;
+		-moz-appearance: checkbox;
+		appearance: checkbox;
+	}
+
+	</style>
+
+	## Create tree map with all the info pulled from the url
+
+	#set ($ddlRecordLocalService = $serviceLocator.findService("com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService"))
+
+	#set ($hs_field_values = ["asset_type","campaign","leadsource","lead_source_type","product_interest","program","tactic_name","video_type"])
+
+	#set ($complete_url = $request.attributes.CURRENT_COMPLETE_URL)
+	#set ($record_id = $httpUtil.getParameter($complete_url, "tactic_id"))
+
+	#set ($hs_url_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+	#set ($hs_url_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+	#if ($record_id != "")
+		#get_tactic_info($record_id, $hs_url_map, $hs_url_map_string)
+	#end
+
+	#set ($hs_default_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+	#set ($hs_default_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+	#if ($default_tactic_id && ($default_tactic_id.data != ""))
+		#get_tactic_info($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
+	#end
+
+	## Create a state to country map
+
+	#set ($state_country_map = {"Armed Forces Americas": "United States","Armed Forces Europe": "United States","Alaska": "United States","Alabama": "United States","Armed Forces Pacific": "United States","Arkansas": "United States","American Samoa": "United States","Arizona": "United States","California": "United States","Colorado": "United States","Connecticut": "United States","District of Columbia": "United States","Delaware": "United States","Florida": "United States","Federated Micronesia": "United States","Georgia": "United States","Guam": "United States","Hawaii": "United States","Iowa": "United States","Idaho": "United States","Illinois": "United States","Indiana": "United States","Kansas": "United States","Kentucky": "United States","Louisiana": "United States","Massachusetts": "United States","Maryland": "United States","Maine": "United States","Marshall Islands": "United States","Michigan": "United States","Minnesota": "United States","Missouri": "United States","Northern Mariana Islands": "United States","Mississippi": "United States","Montana": "United States","North Carolina": "United States","North Dakota": "United States","Nebraska": "United States","New Hampshire": "United States","New Jersey": "United States","New Mexico": "United States","Nevada": "United States","New York": "United States","Ohio": "United States","Oklahoma": "United States","Oregon": "United States","Pennsylvania": "United States","Puerto Rico": "United States","Palau": "United States","Rhode Island": "United States","South Carolina": "United States","South Dakota": "United States","Tennessee": "United States","Texas": "United States","United States Minor Outlying Islands": "United States","Utah": "United States","Virginia": "United States","US Virgin Islands": "United States","Vermont": "United States","Washington": "United States","Wisconsin": "United States","West Virginia": "United States","Wyoming": "United States","Australian Capital Territory": "Australia","New South Wales": "Australia","Northern Territory": "Australia","Queensland": "Australia","South Australia": "Australia","Tasmania": "Australia","Victoria": "Australia","Western Australia": "Australia","Acre": "Brazil","Alagoas": "Brazil","Amazonas": "Brazil","Amapá": "Brazil","Bahia": "Brazil","Ceará": "Brazil","Distrito Federal": "Brazil","Espírito Santo": "Brazil","Goiás": "Brazil","Maranhão": "Brazil","Minas Gerais": "Brazil","Mato Grosso do Sul": "Brazil","Mato Grosso": "Brazil","Pará": "Brazil","Paraíba": "Brazil","Pernambuco": "Brazil","Piauí": "Brazil","Paraná": "Brazil","Rio de Janeiro": "Brazil","Rio Grande do Norte": "Brazil","Rondônia": "Brazil","Roraima": "Brazil","Rio Grande do Sul": "Brazil","Santa Catarina": "Brazil","Sergipe": "Brazil","São Paulo": "Brazil","Tocantins": "Brazil","Alberta": "Canada","British Columbia": "Canada","Manitoba": "Canada","New Brunswick": "Canada","Newfoundland and Labrador": "Canada","Nova Scotia": "Canada","Northwest Territories": "Canada","Nunavut": "Canada","Ontario": "Canada","Prince Edward Island": "Canada","Quebec": "Canada","Saskatchewan": "Canada","Yukon Territories": "Canada","Beijing": "China","Tianjin": "China","Hebei": "China","Shanxi": "China","Nei Mongol": "China","Liaoning": "China","Jilin": "China","Heilongjiang": "China","Shanghai": "China","Jiangsu": "China","Zhejiang": "China","Anhui": "China","Fujian": "China","Jiangxi": "China","Shandong": "China","Henan": "China","Hubei": "China","Hunan": "China","Guangdong": "China","Guangxi": "China","Hainan": "China","Chongqing": "China","Sichuan": "China","Guizhou": "China","Yunnan": "China","Xizang": "China","Shaanxi": "China","Gansu": "China","Qinghai": "China","Ningxia": "China","Xinjiang": "China","Chinese Taipei": "China","Hong Kong": "China","Macao": "China","Clare": "Ireland","Cavan": "Ireland","Cork": "Ireland","Carlow": "Ireland","Dublin": "Ireland","Donegal": "Ireland","Galway": "Ireland","Kildare": "Ireland","Kilkenny": "Ireland","Kerry": "Ireland","Longford": "Ireland","Louth": "Ireland","Limerick": "Ireland","Leitrim": "Ireland","Laois": "Ireland","Meath": "Ireland","Monaghan": "Ireland","Mayo": "Ireland","Offaly": "Ireland","Roscommon": "Ireland","Sligo": "Ireland","Tipperary": "Ireland","Waterford": "Ireland","Westmeath": "Ireland","Wicklow": "Ireland","Wexford": "Ireland","Andaman and Nicobar Islands": "India","Andhra Pradesh": "India","Arunachal Pradesh": "India","Assam": "India","Bihar": "India","Chandigarh": "India","Chhattisgarh": "India","Daman and Diu": "India","Delhi": "India","Dadra and Nagar Haveli": "India","Goa": "India","Gujarat": "India","Himachal Pradesh": "India","Haryana": "India","Jharkhand": "India","Jammu and Kashmir": "India","Karnataka": "India","Kerala": "India","Lakshadweep": "India","Maharashtra": "India","Meghalaya": "India","Manipur": "India","Madhya Pradesh": "India","Mizoram": "India","Nagaland": "India","Odisha": "India","Punjab": "India","Puducherry": "India","Rajasthan": "India","Sikkim": "India","Tamil Nadu": "India","Tripura": "India","Uttar Pradesh": "India","Uttarakhand": "India","West Bengal": "India","Agrigento": "Italy","Alessandria": "Italy","Ancona": "Italy","Aosta": "Italy","Ascoli Piceno": "Italy","L&#039;Aquila": "Italy","Arezzo": "Italy","Asti": "Italy","Avellino": "Italy","Bari": "Italy","Bergamo": "Italy","Biella": "Italy","Belluno": "Italy","Benevento": "Italy","Bologna": "Italy","Brindisi": "Italy","Brescia": "Italy","Barletta-Andria-Trani": "Italy","Bolzano": "Italy","Cagliari": "Italy","Campobasso": "Italy","Caserta": "Italy","Chieti": "Italy","Carbonia-Iglesias": "Italy","Caltanissetta": "Italy","Cuneo": "Italy","Como": "Italy","Cremona": "Italy","Cosenza": "Italy","Catania": "Italy","Catanzaro": "Italy","Enna": "Italy","Forlì-Cesena": "Italy","Ferrara": "Italy","Foggia": "Italy","Florence": "Italy","Fermo": "Italy","Frosinone": "Italy","Genoa": "Italy","Gorizia": "Italy","Grosseto": "Italy","Imperia": "Italy","Isernia": "Italy","Crotone": "Italy","Lecco": "Italy","Lecce": "Italy","Livorno": "Italy","Lodi": "Italy","Latina": "Italy","Lucca": "Italy","Monza and Brianza": "Italy","Macerata": "Italy","Messina": "Italy","Milan": "Italy","Mantua": "Italy","Modena": "Italy","Massa and Carrara": "Italy","Matera": "Italy","Naples": "Italy","Novara": "Italy","Nuoro": "Italy","Ogliastra": "Italy","Oristano": "Italy","Olbia-Tempio": "Italy","Palermo": "Italy","Piacenza": "Italy","Padua": "Italy","Pescara": "Italy","Perugia": "Italy","Pisa": "Italy","Pordenone": "Italy","Prato": "Italy","Parma": "Italy","Pistoia": "Italy","Pesaro and Urbino": "Italy","Pavia": "Italy","Potenza": "Italy","Ravenna": "Italy","Reggio Calabria": "Italy","Reggio Emilia": "Italy","Ragusa": "Italy","Rieti": "Italy","Rome": "Italy","Rimini": "Italy","Rovigo": "Italy","Salerno": "Italy","Siena": "Italy","Sondrio": "Italy","La Spezia": "Italy","Syracuse": "Italy","Sassari": "Italy","Savona": "Italy","Taranto": "Italy","Teramo": "Italy","Trento": "Italy","Turin": "Italy","Trapani": "Italy","Terni": "Italy","Trieste": "Italy","Treviso": "Italy","Udine": "Italy","Varese": "Italy","Verbano-Cusio-Ossola": "Italy","Vercelli": "Italy","Venice": "Italy","Vicenza": "Italy","Verona": "Italy","Medio Campidano": "Italy","Viterbo": "Italy","Vibo Valentia": "Italy","Aguascalientes": "Mexico","Baja California": "Mexico","Baja California Sur": "Mexico","Chihuahua": "Mexico","Colima": "Mexico","Campeche": "Mexico","Coahuila": "Mexico","Chiapas": "Mexico","Federal District": "Mexico","Durango": "Mexico","Guerrero": "Mexico","Guanajuato": "Mexico","Hidalgo": "Mexico","Jalisco": "Mexico","Mexico State": "Mexico","Michoacán": "Mexico","Morelos": "Mexico","Nayarit": "Mexico","Nuevo León": "Mexico","Oaxaca": "Mexico","Puebla": "Mexico","Querétaro": "Mexico","Quintana Roo": "Mexico","Sinaloa": "Mexico","San Luis Potosí": "Mexico","Sonora": "Mexico","Tabasco": "Mexico","Tlaxcala": "Mexico","Tamaulipas": "Mexico","Veracruz": "Mexico","Yucatán": "Mexico","Zacatecas": "Mexico"})
+
+	## Generate Hubspot form
+
+	#set ($article_namespace = "article${reserved-article-id.data}")
+
+	#set ($namespace = $request.portlet-namespace)
+
+	#set ($hsutk = $request.attributes.OSB_HUBSPOT_UTK)
+
+	#if ($hsutk)
+		#set ($hs_contact = $hs_contact_local_service.fetchHSContactByUserToken($hsutk))
+	#end
+
+	#if ($hs_contact)
+		#set ($hs_contact_object = $hs_contact.getHSContactJSONObject().getJSONObject("properties"))
+	#end
+
+	## Testing Localization Form
+	## #set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060"))
+
+	## Production Localization Form
+	#set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05"))
+
+	#if ($localization_form)
+		#set ($localization_form_fields = $localization_form.getHSFormJSONObject().getJSONArray("fields"))
+	#end
+
+	#set ($hs_form = $hs_form_local_service.fetchHSFormByGUID($hs_form_id.data))
+
+	#set ($submit_params = "'#${article_namespace}fm'")
+
+	#if ($record_id != "")
+		#set ($submit_params = "${submit_params}, this.getAttribute('data-tactic-url-fields')")
+	#end
+
+	#set ($submit_params = "${submit_params}, this.getAttribute('data-tactic-item-fields')")
+
+	#if ($hs_form)
+		#set ($hs_form_fields = $hs_form.getHSFormJSONObject().getJSONArray("fields"))
+		#set ($form_rules_json = $jsonFactoryUtil.createJSONObject())
+
+		#set ($article_field_names_json = $jsonFactoryUtil.createJSONObject())
+		#set ($form_field_strings_json = $jsonFactoryUtil.createJSONObject())
+
+		#foreach ($name in $field_name.siblings)
+			#if ($name.label.data != "")
+				#set ($article_field_name = $jsonFactoryUtil.createJSONObject())
+				#set ($void = $article_field_names_json.put($name.data, $name.label.data))
+			#end
+
+			#if ($name.required_message.data != "")
+				#set ($form_field_string = $jsonFactoryUtil.createJSONObject())
+				#set ($void = $form_field_string.put("required", $name.required_message.data))
+				#set ($void = $form_field_strings_json.put($name.data, $form_field_string))
+			#end
+		#end
+
+		<div class="hbspt-form">
+			<div id="${article_namespace}msg"></div>
+
+			<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-new-tab="true" data-tactic-url-fields="${hs_url_map_string}" data-tactic-item-fields='${hs_default_map_string}' id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${reserved-article-id.data}($submit_params); return false;">
+				#set ($field_count = 0)
+				#set ($start = 0)
+				#set ($end = $hs_form_fields.length() - 1)
+				#set ($range = [$start..$end])
+
+				<div class="form-col form-col-1">
+					#foreach ($i in $range)
+						#set ($item = $hs_form_fields.getJSONObject($i))
+
+						#set ($label_text = "")
+
+						#if ($article_field_names_json.has($item.getString("name")))
+							#set ($label_text = $article_field_names_json.getString($item.getString("name")))
+						#else
+							#set ($label_text = $item.getString("label"))
+						#end
+
+						#set ($hidden = $getterUtil.getBoolean($item.getString("hidden")))
+						#set ($hs_smart_field = $getterUtil.getBoolean($item.getString("isSmartField")))
+						#set ($hs_value = "")
+						#set ($required = "")
+						#set ($value = "")
+
+						#if ($item.getString("defaultValue"))
+							#set ($value = $item.getString("defaultValue"))
+						#end
+
+						#if ($item.getJSONArray("selectedOptions"))
+							#set ($value = $item.getJSONArray("selectedOptions").toString())
+							#clean_up($value)
+
+							#if ($hidden && $item.getString("fieldType") == "booleancheckbox")
+								#set ($value = $stringUtil.replace($value, ",", ";"))
+
+								#if ($hs_contact_object && $hs_contact_object.getJSONObject("$item.getString('name')"))
+									#set ($hs_value = $hs_contact_object.getJSONObject("$item.getString('name')").getString("value"))
+
+									#if ($hs_value.contains($value))
+										#set ($value = $hs_value)
+									#else
+										#set ($value = "${value};${hs_value}")
+									#end
+								#end
+							#end
+						#end
+
+						#if (!$hidden && $hs_contact_object && $hs_contact_object.getJSONObject("$item.getString('name')"))
+							#set ($hs_value = $hs_contact_object.getJSONObject("$item.getString('name')").getString("value"))
+							#set ($value = $hs_value)
+						#end
+
+						#set ($field_css_class = "aui-field aui-field-${item.getString('fieldType')}")
+						#set ($field_input_css_class = "aui-field-input aui-field-input-${item.getString('fieldType')}")
+
+						#if ($value != "")
+							#set ($field_css_class = "$field_css_class field-filled")
+						#end
+
+						#if ($hidden || ($hs_smart_field && ($hs_value != "")))
+							#set ($field_css_class = "$field_css_class aui-helper-hidden")
+						#else
+							#set ($field_count = $field_count + 1)
+						#end
+
+						#set ($field_css_class = "$field_css_class field-${field_count}")
+
+						#if ($item.getString("required") == "true")
+							#set ($field_css_class = "$field_css_class field-required")
+							#set ($field_input_css_class = "$field_input_css_class aui-field-required")
+							#set ($required = "")
+							#set ($label_text = "$label_text *")
+
+							#set ($form_rule = $jsonFactoryUtil.createJSONObject())
+							#set ($void = $form_rule.put("required", true))
+							#set ($void = $form_rules_json.put($item.getString("name"), $form_rule))
+						#end
+
+						#if ($item.getString("name") == "state")
+							#set ($field_css_class = "aui-helper-hidden $field_css_class state")
+						#end
+
+						#if ((($number_of_fields.data != "") && ($field_count > $getterUtil.getInteger($number_of_fields.data)) && !$hidden) || ($hs_smart_field && ($value != "")))
+							##skip
+						#else
+							<div class="$field_css_class" id="article${reserved-article-id.data}field$i">
+								#if ($label_text != "" && ($item.getString("fieldType") != "richtext") && ($item.getString("fieldType") != "booleancheckbox"))
+									<label class="aui-field-label" for="$item.getString('name')">$label_text</label>
+								#end
+
+								#if ($hidden)
+									#if ($hs_url_map.get($item.getString("name")))
+										#set ($value = $hs_url_map.get($item.getString("name")))
+									#end
+
+									<input class="${field_input_css_class}" type="hidden" name="$item.getString('name')" value="$value"/>
+								#elseif ($item.getString("fieldType") == "select")
+									#set ($has_translation = false)
+									#set ($options = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+									#if ($localization_form_fields && ($locale != "en_US"))
+										#set ($new_select_field = "$item.getString('name')" + "_" + "$locale.toString().toLowerCase()")
+										#set ($localization_form_start = 0)
+										#set ($localization_form_end = $localization_form_fields.length() - 1)
+										#set ($localization_form_range = [$localization_form_start..$localization_form_end])
+
+										## Maybe Move this out of loop
+										#foreach ($i in $localization_form_range)
+											#set ($localization_form_field = $localization_form_fields.getJSONObject($i))
+
+											#if ($localization_form_field.getString('name') == $new_select_field)
+												#get_options($localization_form_field, $options)
+
+												#set ($has_translation = true)
+
+												#break
+											#end
+										#end
+									#end
+
+									#if (!$has_translation)
+										#get_options($item, $options)
+									#end
+
+									<select class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required>
+										<option value="">$label_text</option>
+
+										#foreach ($option in $options)
+											#set ($selected = "")
+
+											#if ($value == $option.getString('value'))
+												#set ($selected = "selected")
+											#end
+
+											<option value="$option.getString('value')" $selected>$option.getString('label')</option>
+										#end
+									</select>
+
+									#if ($item.getString("name") == "state")
+										#set ($states_options_json = $jsonFactoryUtil.createJSONObject())
+
+										#foreach ($option in $options)
+											#set ($country_name = "other")
+											#set ($option_value = $htmlUtil.escape($option.getString("value")))
+											#set ($country_name = $state_country_map.get($option_value))
+
+											#if (!$states_options_json.has($country_name))
+												#set ($void = $states_options_json.put($country_name, $jsonFactoryUtil.createJSONObject()))
+											#end
+
+											#if ($value == $option_value)
+												#set ($void = $states_options_json.put("selected_option", $option_value))
+											#end
+
+											#set ($state_option_json = $states_options_json.getJSONObject($country_name))
+
+											#set ($void = $state_option_json.put($option_value, $htmlUtil.escape($option.getString("label"))))
+
+											#if (!$state_option_json.has("key"))
+												#set ($void = $state_option_json.put("key", $jsonFactoryUtil.createJSONArray()))
+											#end
+
+											#set ($void = $state_option_json.getJSONArray("key").put($option_value))
+										#end
+
+										#if ($item.getString("unselectedLabel") != "")
+											#set ($void = $states_options_json.put("unselected_label", $label_text))
+										#end
+									#end
+								#elseif ($item.getString("fieldType") == "richtext")
+									<span class="hs-richtext">$item.getString('defaultValue')</span>
+								#elseif ($item.getString("fieldType") == "textarea")
+									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required></textarea>
+								#elseif ($item.getString("fieldType") == "booleancheckbox")
+									<input class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required type="checkbox" value="$value"/>
+								#else
+									<input
+										class="${field_input_css_class}"
+										id="${item.getString('name')}-$reserved-article-id.data"
+										name="$item.getString('name')"
+										placeholder="$label_text"
+
+										#if ($item.getString("name") == "email")
+											type="email"
+										#else
+											type="$item.getString('fieldType')"
+										#end
+
+										#if ($item.getString('placeholder') != "")
+											placeholder="$item.getString('placeholder')"
+										#end
+
+										$required
+
+										value="$value"
+									/>
+								#end
+
+								#if ($label_text != "" && ($item.getString("fieldType") == "booleancheckbox"))
+									<label class="aui-field-label" for="$item.getString('name')">$label_text</label>
+								#end
+							</div>
+
+							#if (($field_count == $number_of_fields_first_col.data) && !$hidden)
+				</div>
+				<div class="form-col form-col-2">
+							#end
+						#end
+					#end
+
+					#set ($btn_text = $submit_text.data)
+
+					#if ($btn_text == "")
+						#set ($btn_text = $hs_form.getSubmitText())
+					#end
+
+					<div class="btn-wrapper">
+						<input class="aui-button-input aui-button-input-submit btn" type="submit" value="$btn_text" />
+					</div>
+				</div>
+			</form>
+		</div>
+	#end
+
+	#set ($ip_address = $request.attributes.OSB_REMOTE_ADDRESS)
+	#set ($page_url = $request.attributes.FRIENDLY_URL)
+	#set ($page_name = "")
+
+	#set ($redirect_asset_url = "")
+
+	#if ($hs_url_map.get('asset_url'))
+		#set ($redirect_asset_url = $hs_url_map.get('asset_url'))
+	#end
+
+	#set ($redirect_url = "")
+
+	#if ($hs_form.getRedirect())
+		#set ($redirect_url = $hs_form.getRedirect())
+	#end
+
+	#set ($salesforce_campaign_id = "")
+
+	#if ($hs_url_map.get('campaign_id'))
+		#set ($salesforce_campaign_id = $hs_url_map.get('campaign_id'))
+	#elseif ($hs_form.getHSFormJSONObject().getJSONArray("metaData").getJSONObject(0).getString("value"))
+		#set ($salesforce_campaign_id = $hs_form.getHSFormJSONObject().getJSONArray("metaData").getJSONObject(0).getString("value"))
+	#end
+
+	<script type="text/javascript">
+		function submitHSForm${reserved-article-id.data}(formId, primaryTacticFields, secondaryTacticFields) {
+			AUI().ready(
+				'aui-base',
+				'aui-io-plugin',
+				'aui-io-request',
+				'json-parse',
+				function(A) {
+					var form = A.one(formId);
+					var msg = A.one('#${article_namespace}msg');
+
+					if (!form) {
+						return;
+					}
+
+					var fields = {};
+
+					if (primaryTacticFields && (primaryTacticFields != "")) {
+						fields = A.JSON.parse(primaryTacticFields);
+					}
+
+					var leave = false;
+
+					form.all('.aui-field-input').each(
+						function(node) {
+							if (node.hasClass('aui-field-required') && node.get('value') == '') {
+								leave = true;
+
+								return;
+							}
+
+							var value = node.get('value');
+
+							// need to figure out checkbox stuff
+							// if (node.get('type') == 'checkbox') {
+							// 	value = node.getAttribute('checked');
+							// }
+
+							if (value != "") {
+								fields[node.get('name')] = value;
+							}
+						}
+					);
+
+
+					if (leave) {
+						return;
+					}
+
+					if (secondaryTacticFields) {
+						secondaryTacticFields = A.JSON.parse(secondaryTacticFields);
+
+						if (secondaryTacticFields["asset_id"]) {
+							fields["asset_id"] = secondaryTacticFields["asset_id"];
+						}
+						if (secondaryTacticFields["asset_name"]) {
+							fields["asset_name"] = secondaryTacticFields["asset_name"];
+						}
+						if (secondaryTacticFields["asset_type"]) {
+							fields["asset_type"] = secondaryTacticFields["asset_type"];
+						}
+						if (secondaryTacticFields["asset_url"]) {
+							fields["asset_url"] = secondaryTacticFields["asset_url"];
+						}
+					}
+
+					var fieldsString = "";
+
+					for(field in fields) {
+						fieldsString = fieldsString + field + ':;:' + fields[field] + ':;:';
+					}
+
+					var guid = '$hs_form_id.data';
+					var ipAddress = '$ip_address';
+					var pageURL = '$page_url';
+					var pageName = document.title;
+					var redirectAssetURL = '$redirect_asset_url';
+
+					if (fields["asset_url"]) {
+						redirectAssetURL = fields["asset_url"];
+					}
+
+					var redirectURL = '$redirect_url';
+					var salesforceCampaignId = '$salesforce_campaign_id';
+
+					if (fields["campaign"]) {
+						salesforceCampaignId = fields["campaign"];
+					}
+
+					var userToken = '$hsutk';
+
+					if ((redirectAssetURL != "") && (form.getAttribute('data-asset-new-tab') == "true")) {
+						window.open(redirectAssetURL, '_blank');
+					}
+
+					A.io.request(
+						'${request.resource-url}',
+						{
+							data: {
+								${namespace}fields: fieldsString,
+								${namespace}guid: guid,
+								${namespace}ipAddress: ipAddress,
+								${namespace}pageURL: pageURL,
+								${namespace}pageName: pageName,
+								${namespace}redirectURL: redirectURL,
+								${namespace}salesforceCampaignId: salesforceCampaignId,
+								${namespace}userToken: userToken
+							},
+							dataType: 'json',
+							on: {
+								success: function(event, id, obj) {
+									#if ($on_success_js && ($on_success_js.data != ""))
+										$on_success_js.data
+									#else
+										if (redirectURL != "") {
+											window.location.href = redirectURL;
+										}
+										else {
+											msg.setContent('<div class="portlet-msg-success">Your request completed successfully.</div><p class="thank-you-msg">$thank_you_text.getData()</p>');
+
+											form.hide();
+										}
+									#end
+								},
+								failure: function(event, id, obj) {
+									msg.setContent('<div class="portlet-msg-error">Your request failed to complete.</div>');
+								}
+							}
+						}
+					);
+				}
+			);
+		};
+
+		AUI().ready(
+			'aui-base',
+			'aui-form-validator',
+			'json-parse',
+			function(A) {
+				new A.FormValidator(
+					{
+						boundingBox: '#${article_namespace}fm',
+						fieldContainer: '.aui-field',
+						fieldStrings: A.JSON.parse('$form_field_strings_json'),
+						rules: A.JSON.parse('$form_rules_json')
+					}
+				);
+
+				A.all('#${article_namespace}fm .aui-field').each(
+					function(node) {
+						node.on(
+							'focus',
+							function() {
+								node.addClass('field-focused');
+							}
+						);
+
+						node.on(
+							'blur',
+							function() {
+								node.removeClass('field-focused');
+
+								if (node.one('.aui-field-input').get('value') != "") {
+									node.addClass('field-filled');
+								}
+								else {
+									node.removeClass('field-filled');
+								}
+							}
+						);
+					}
+				);
+
+				var countrySelect = A.one('#country-$reserved-article-id.data');
+				var stateSelect = A.one('#state-$reserved-article-id.data');
+
+				if (stateSelect) {
+					var stateWrapper = stateSelect.ancestor('.aui-field');
+				}
+
+				#if ($states_options_json)
+					var stateJSON = A.JSON.parse('$states_options_json');
+				#end
+
+				if (!countrySelect || !stateSelect || !stateWrapper || !stateJSON) {
+					return;
+				}
+
+				var populateStateField = function() {
+					var stateOptions = stateJSON[countrySelect.val()];
+
+					stateSelect.empty();
+
+					if (stateOptions) {
+						if (stateJSON['unselected_label']) {
+							stateSelect.appendChild('<option value="">' + stateJSON['unselected_label'] + '</option>');
+						}
+
+						var keyArray = stateOptions["key"];
+
+						for (var key in keyArray) {
+							var stateValue = keyArray[key];
+							var selected = "";
+
+							if (stateValue == stateJSON['selected_option']) {
+								selected = "selected";
+							}
+
+							stateSelect.appendChild('<option value="' + stateValue + '"' + selected + '>' + stateOptions[stateValue] + '</option>');
+						}
+
+						stateWrapper.removeClass('aui-helper-hidden');
+					}
+					else {
+						stateWrapper.addClass('aui-helper-hidden');
+					}
+				};
+
+				populateStateField();
+
+				countrySelect.on('change', populateStateField);
+			}
+		);
+	</script>
+#elseif ($request.lifecycle == 'RESOURCE_PHASE')
+	#set ($fields = $stringUtil.split($request.parameters.fields, ":;:"))
+
+	#set ($guid = $request.parameters.guid)
+	#set ($ipAddress = $request.parameters.ipAddress)
+	#set ($pageURL = $request.parameters.pageURL)
+	#set ($pageName = $request.parameters.pageName)
+	#set ($redirectURL = $request.parameters.redirectURL)
+	#set ($salesforceCampaignId = $request.parameters.salesforceCampaignId)
+	#set ($userToken = $request.parameters.userToken)
+
+	#set ($VOID = $hs_form_local_service.submitHSForm($guid, $userToken, $ipAddress, $pageURL, $pageName, $redirectURL, $salesforceCampaignId, $fields))
+#end

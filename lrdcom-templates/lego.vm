@@ -1,0 +1,143 @@
+#set ($render_default = true)
+
+#if ($target_user && ($target_user.getData() != ""))
+    #parse("$journalTemplatesPath/43631786")
+
+	#foreach ($targets in $target_user.siblings)
+		#set ($article_id = $targets.article_id.data)
+
+		#foreach ($target in $stringUtil.split($targets.data))
+			#set ($portlet_embedded = false)
+
+			#if (($target == "random") || ($target == $target_country) || ($target == $target_industry) || ($target == $target_persona) || (($target == "hubspot") && $hs_contact))
+				#set ($portlet_embedded = true)
+
+				#if ($article_id == "default")
+					#break
+				#end
+
+				#set ($render_default = false)
+				#set ($namespace = "${reserved-article-id.data}-${velocityCount}")
+
+				#if ($target == "random")
+					#set ($articles = $stringUtil.split($article_id))
+					#set ($namespace = $articles.get($mathTool.random(0, $articles.size())))
+				#elseif ($article_id != "")
+					#set ($namespace = $article_id)
+				#end
+
+				<div id="embedded-targeted-article-$namespace">
+					<runtime-portlet name="56" instance="targeted_$namespace" queryString=""/>
+				</div>
+
+				#break
+			#end
+		#end
+
+		#if ($portlet_embedded)
+			#break
+		#end
+	#end
+#end
+
+#if ($render_default && (!$display_locales || $display_locales.getData() == "" || $display_locales.getData().contains($locale.toString())))
+	#if ($lego_css.data != "" || $lego_media_query.data != "")
+		<style type="text/css">
+			.lego-image {
+				max-height: 100%;
+				max-width: 100%;
+			}
+
+			.max-960 {
+				margin: 0 auto;
+				max-width: 960px;
+			}
+
+			.no-max .max-960 {
+				max-width: none;
+			}
+
+			$lego_css.data
+
+			#foreach ($media_query in $lego_media_query.siblings)
+				#set ($media_query_text = "@media all")
+
+				#if ($media_query.media_query_max.data != "")
+					#set ($media_query_text = $media_query_text + " and (max-width: $media_query.media_query_max.data)")
+				#end
+
+				#if ($media_query.media_query_min.data != "")
+					#set ($media_query_text = $media_query_text + " and (min-width: $media_query.media_query_min.data)")
+				#end
+
+				#if ($media_query.data !="")
+					$media_query_text {
+						$media_query.data
+					}
+				#end
+			#end
+		</style>
+	#end
+
+	#set ($article_css_class = "lego-article")
+
+	#if ($lego_css_class.data != "")
+		#set ($article_css_class = $article_css_class + " $lego_css_class.data")
+	#end
+
+	<div class="$article_css_class" id="article-${reserved-article-id.data}">
+		<div class="lego-article-content max-960">
+			#foreach ($section in $lego_section_attr.siblings)
+				#set ($section_count = $velocityCount)
+				#set ($section_css_class = "aui-helper-clearfix lego-section section-${section_count}")
+
+				#if ($section.section_css_class.data != "")
+					#set ($section_css_class = $section_css_class + " $section.section_css_class.data" )
+				#end
+
+				<div class="$section_css_class" $section.data>
+					#foreach ($block in $section.lego_block_attr.siblings)
+						#set ($block_count = $velocityCount)
+						#set ($block_css_class = "aui-w${block.width.data} block-${block_count} content-column lego-block")
+
+						#if ($block.block_css_class.data != "")
+							#set ($block_css_class = $block_css_class + " $block.block_css_class.data" )
+						#end
+
+						<div class="$block_css_class" $block.data>
+							<div class="content-column-content ${block.column_position.data}-column">
+								#foreach ($element in $block.lego_element_attr.siblings)
+									#set ($element_css_class = "lego-element")
+
+									#if ($element.element_css_class.data != "")
+										#set ($element_css_class = $element_css_class + " $element.element_css_class.data" )
+									#end
+
+
+										#if ($element.element_type.data == "button")
+											<a class="btn $element_css_class" id="button-${reserved-article-id.data}${section_count}${block_count}$velocityCount" $element.data>$element.element_content.data</a>
+										#elseif ($element.element_type.data == "heading")
+											<h2 class="redesign heading $element_css_class" $element.data>$element.element_content.data</h2>
+										#elseif ($element.element_type.data == "image")
+											<img class="lego-img $element_css_class" $element.data src="$element.element_content.data" />
+										#elseif ($element.element_type.data == "sub_heading")
+											<p class="redesign sub-heading $element_css_class" $element.data>$element.element_content.data</p>
+										#else
+											<$element.element_type.data class="$element_css_class" $element.data>
+												$element.element_content.data
+											</$element.element_type.data>
+										#end
+
+								#end
+							</div>
+						</div>
+					#end
+
+					#if ($section.custom_content.data != "")
+						$section.custom_content.data
+					#end
+				</div>
+			#end
+		</div>
+	</div>
+#end
