@@ -1,0 +1,121 @@
+#set ($portalBeanLocator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortalBeanLocatorUtil'))
+#set ($dateFormatFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.util.DateFormatFactoryUtil'))
+
+#set ($scopeGroupId = $getterUtil.getLong($request.theme-display.scope-group-id))
+
+#set ($indexFormat = $dateFormatFactory.getSimpleDateFormat('yyyyMMddHHmmss'))
+#set ($shortFormat = $dateFormatFactory.getSimpleDateFormat('MMM dd, yyyy'))
+#set ($longFormat = $dateFormatFactory.getSimpleDateFormat('MMM dd, yyyy'))
+#set ($hourFormat = $dateFormatFactory.getSimpleDateFormat('HH:mm'))
+
+#set ($startDate = $indexFormat.parse($startDate.data))
+#set ($endDate = $indexFormat.parse($endDate.data))
+
+#set ($startDateShort = $shortFormat.format($startDate))
+#set ($endDateShort = $shortFormat.format($endDate))
+#set ($startDateHour = $hourFormat.format($startDate))
+#set ($endDateHour = $hourFormat.format($endDate))
+
+<style type="text/css">
+    @import url(/c/journal/get_template?groupId=${scopeGroupId}&templateId=EVENTS-CSS);
+</style>
+
+<table class="events-table">
+	<tr>
+		<td valign="top" class="event-description ${event-type.data.toLowerCase()}" style="width: 340px;">
+			<div class="event-description-content">
+				<h1>
+					<a class="highlight" href="${event-page-link.data}">
+						${eventName.data}
+					</a>
+				</h1>
+				#if ($hosted-by.data != '')
+					<h2>Hosted By
+						#if ($hosted-by-url.data != '')<a href="${hosted-by-url.data}">#end
+						${hosted-by.data}
+						#if ($hosted-by-url.data != '')</a>#end
+					</h2>
+				#end
+
+				#if ($event-summary.data != '')
+					<p>${event-summary.data}</p>
+				#end
+
+			</div>
+		</td>
+		<td valign="top" style="width: 150px;">
+			<div class="event-date">
+				#if ($event-date-tba.data == 'true')
+					Date: TBA
+				#else
+					<span class="event-start-date">
+						${startDateShort}
+					</span>
+
+					#if ($endDateShort != '' && ($endDateShort != $startDateShort))
+						to<br/>
+						${endDateShort}
+					#end
+
+					#if ($startDateHour != '' && ($startDateHour != '00:00'))
+						<br/>
+						${startDateHour}
+
+						#if ($endDateHour != '' && ($endDateHour != $startDateHour) && ($endDateHour != '00:00'))
+							- ${endDateHour}
+						#end
+					#end
+
+					#if ($event-time-zone.data != '')
+						 ${event-time-zone.data}
+					#end
+				#end
+			</div>
+		</td>
+		<td valign="top" style="width: 110px;">
+			<div class="event-location">
+				#if ($street1.data != '')
+					${street1.data}
+				#end
+
+				#if ($street2.data != '')
+					<br />
+					${street2.data}
+				#end
+
+				#if ($street3.data != '')
+					<br />
+					${street3.data}
+				#end
+
+				#if ($city.data != '' && ($city.data != 'TBA'))
+					<br />
+					<span class="event-location-city">${city.data}</span>
+
+					#if ($region.data != '')
+						, <span class="event-location-region">${region.data}</span>
+					#end
+
+					#if ($zip.data != '')
+						, ${zip.data}
+					#end
+				#end
+
+				#if ($country.data != '')
+					<br />
+					<span class="event-location-country">${country.data}</span>
+				#end
+			</div>
+		</td>
+		<td valign="top" style="width: 100px;">
+			#if ($event-page-link-text.data != '')
+				#if ($event-page-link.data != '')<a class="btn" href="${event-page-link.data}">#end
+				${event-page-link-text.data}
+				#if ($event-page-link.data != '')</a>#end
+				#if ($event-page-link.data == '')
+					${event-page-link-text.data}
+				#end
+			#end
+		</td>
+	</tr>
+</table>

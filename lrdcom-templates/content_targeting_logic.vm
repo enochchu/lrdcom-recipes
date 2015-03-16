@@ -1,0 +1,182 @@
+## Get Country from Locale
+
+#set ($country_from_locale = "")
+
+#if ($locale == "de_DE")
+    #set ($country_from_locale = "germany")
+#elseif ($locale == "en_GB")
+	#set ($country_from_locale = "united-kingdom")
+#elseif ($locale == "es_ES")
+	#set ($country_from_locale = "spain")
+#elseif ($locale == "fr_FR")
+	#set ($country_from_locale = "france")
+#elseif ($locale == "it_IT")
+	#set ($country_from_locale = "italy")
+#elseif ($locale == "jp_JA")
+	#set ($country_from_locale = "japan")
+#elseif ($locale == "pt_BR")
+	#set ($country_from_locale = "brazil")
+#elseif ($locale == "zh_CN")
+	#set ($country_from_locale = "china")
+#end
+
+## Get Country from IP Address
+
+#set ($ip_geocoder_util = $portal.getClass().forName("com.liferay.ipgeocoder.util.IPGeocoderUtil"))
+#set ($ip_info = $ip_geocoder_util.getIPInfo($request.attributes.OSB_REMOTE_ADDRESS))
+
+#set ($country_from_ip = "")
+
+#if ($ip_info)
+	#set ($country_from_ip = $ip_info.getCountryName())
+#end
+
+## Get Country, Industry, and Persona from Login Info
+
+#set ($company_role_from_login = "")
+#set ($country_from_login = "")
+#set ($department_from_login = "")
+#set ($industry_from_login = "")
+
+#if ($request.attributes.USER_ID)
+	#set ($user_id = $getterUtil.getLong($request.attributes.USER_ID))
+
+	#set ($expando_column_local_service_util = $portal.getClass().forName('com.liferay.portlet.expando.service.ExpandoColumnLocalServiceUtil'))
+	#set ($expando_table_local_service_util = $portal.getClass().forName('com.liferay.portlet.expando.service.ExpandoTableLocalServiceUtil'))
+	#set ($expando_value_local_service_util = $portal.getClass().forName('com.liferay.portlet.expando.service.ExpandoValueLocalServiceUtil'))
+
+	#set ($class_name_id = $portalUtil.getClassNameId("com.liferay.portal.model.User"))
+
+	#set ($expando_table = $expando_table_local_service_util.getDefaultTable($companyId, $class_name_id))
+
+	#set ($company_role_expando_column = $expando_column_local_service_util.getColumn($expando_table.getTableId(), "osbCompanyRole"))
+
+	#set ($company_role_expando_value = $expando_value_local_service_util.getValue($expando_table.getTableId(), $company_role_expando_column.getColumnId(), $user_id))
+
+	#if ($company_role_expando_value)
+		#set ($company_role_from_login = $company_role_expando_value.getData())
+	#end
+
+	#set ($country_expando_column = $expando_column_local_service_util.getColumn($expando_table.getTableId(), "osbCountry"))
+
+	#set ($country_expando_value = $expando_value_local_service_util.getValue($expando_table.getTableId(), $country_expando_column.getColumnId(), $user_id))
+
+	#if ($country_expando_value)
+		#set ($country_from_login = $country_expando_value.getData())
+	#end
+
+	#set ($department_expando_column = $expando_column_local_service_util.getColumn($expando_table.getTableId(), "osbDepartment"))
+
+	#set ($department_expando_value = $expando_value_local_service_util.getValue($expando_table.getTableId(), $department_expando_column.getColumnId(), $user_id))
+
+	#if ($department_expando_value)
+		#set ($department_from_login = $department_expando_value.getData())
+	#end
+
+	#set ($industry_expando_column = $expando_column_local_service_util.getColumn($expando_table.getTableId(), "osbIndustry"))
+
+	#set ($industry_expando_value = $expando_value_local_service_util.getValue($expando_table.getTableId(), $industry_expando_column.getColumnId(), $user_id))
+
+	#if ($industry_expando_value)
+		#set ($industry_from_login = $industry_expando_value.getData())
+	#end
+#end
+
+## Get Country, Industry, and Persona from Hubspot
+
+#set ($portlet_bean_locator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortletBeanLocatorUtil'))
+#set ($hs_contact_local_service = $portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService.velocity"))
+
+#set ($hsutk = $request.attributes.OSB_HUBSPOT_UTK)
+#if ($hsutk)
+	#set ($hs_contact = $hs_contact_local_service.fetchHSContactByUserToken($hsutk))
+#end
+
+#set ($company_role_from_hubspot = "")
+
+#if ($hs_contact.getSFLeadRole())
+	#set ($company_role_from_hubspot = $hs_contact.getSFLeadRole())
+#end
+
+#set ($country_from_hubspot = "")
+
+#if ($hs_contact.getSFLeadCountry())
+	#set ($country_from_hubspot = $hs_contact.getSFLeadCountry())
+#end
+
+#set ($department_from_hubspot = "")
+
+#if ($hs_contact.getSFLeadDepartment())
+	#set ($department_from_hubspot = $hs_contact.getSFLeadDepartment())
+#end
+
+#set ($industry_from_hubspot = "")
+
+#if ($hs_contact.getSFLeadIndustry())
+	#set ($industry_from_hubspot = $hs_contact.getSFLeadIndustry())
+#end
+
+#set ($hs_contact_object = $hs_contact.getHSContactJSONObject())
+
+## Set Target Country
+
+#set ($target_country = "")
+
+#if ($country_from_hubspot != "")
+	#set ($target_country = $country_from_hubspot)
+#elseif ($country_from_login != "")
+	#set ($target_country = $country_from_login)
+#elseif ($country_from_ip != "")
+	#set ($target_country = $country_from_ip)
+#elseif ($country_from_locale != "")
+	#set ($target_country = $country_from_locale)
+#end
+
+#set ($target_country = $stringUtil.replace($target_country, " ", "-").toLowerCase())
+
+## Set Target Industry
+
+#set ($target_industry = "")
+
+#if ($industry_from_hubspot != "")
+	#set ($target_industry = $industry_from_hubspot)
+#elseif ($industry_from_login != "")
+	#set ($target_industry = $industry_from_login)
+#end
+
+#set ($target_industry = $stringUtil.replace($target_industry, " ", "-").toLowerCase())
+
+## Set Target Persona
+
+#set ($COMPANY_ROLES_DECISION_MAKER = ["C-Level/Executive/VP", "Director/Manager"])
+#set ($COMPANY_ROLES_END_USER = ["Administrator", "Associate/Analyst", "Developer/Engineer", "Independent Contractor", "Project Manager"])
+#set ($DEPARTMENTS_BUSINESS = ["finance", "hr", "legal-procurement", "marketing", "operations", "sales", "Business - Finance", "Business - HR", "Business - Legal/Procurement", "Business - Marketing", "Business - Operations", "Business - Sales"])
+#set ($DEPARTMENTS_TECHNICAL = ["development-engineering", "it-support", "Technical - Development/Engineering", "Technical - IT/Support"])
+
+#set ($target_company_role = "")
+
+#if ($company_role_from_hubspot != "")
+	#set ($target_company_role = $company_role_from_hubspot)
+#elseif ($company_role_from_login != "")
+	#set ($target_company_role = $company_role_from_login)
+#end
+
+#set ($target_department = "")
+
+#if ($department_from_hubspot != "")
+	#set ($target_department = $department_from_hubspot)
+#elseif ($department_from_login != "")
+	#set ($target_department = $department_from_login)
+#end
+
+#set ($target_persona = "")
+
+#if ($DEPARTMENTS_BUSINESS.contains($target_department) && $COMPANY_ROLES_DECISION_MAKER.contains($target_company_role))
+	#set ($target_persona = "business-decision-maker")
+#elseif ($DEPARTMENTS_BUSINESS.contains($target_department) && $COMPANY_ROLES_END_USER.contains($target_company_role))
+	#set ($target_persona = "business-end-user")
+#elseif ($DEPARTMENTS_TECHNICAL.contains($target_department) && $COMPANY_ROLES_DECISION_MAKER.contains($target_company_role))
+	#set ($target_persona = "technical-decision-maker")
+#elseif ($DEPARTMENTS_TECHNICAL.contains($target_department) && $COMPANY_ROLES_END_USER.contains($target_company_role))
+	#set ($target_persona = "technical-end-user")
+#end

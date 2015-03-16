@@ -1,0 +1,47 @@
+#set ($render_default = true)
+
+#if ($target_user && ($target_user.getData() != ""))
+    #parse("$journalTemplatesPath/43631786")
+
+	#foreach ($targets in $target_user.siblings)
+		#set ($instance_id = $targets.instance_id.data)
+
+		#foreach ($target in $stringUtil.split($targets.data))
+			#set ($portlet_embedded = false)
+
+			#if (($target == "random") || ($target == $target_country) || ($target == $target_industry) || ($target == $target_persona) || (($target == "hubspot") && $hs_contact))
+				#set ($portlet_embedded = true)
+
+				#if ($instance_id == "default")
+					#break
+				#end
+
+				#set ($render_default = false)
+				#set ($namespace = "${reserved-article-id.data}-${velocityCount}")
+
+				#if ($target == "random")
+					#set ($articles = $stringUtil.split($instance_id))
+					#set ($namespace = $articles.get($mathTool.random(0, $articles.size())))
+				#elseif ($instance_id != "")
+					#set ($namespace = $instance_id)
+				#end
+
+				<div id="embedded-targeted-article-$namespace">
+					<runtime-portlet name="$targets.portlet_id.data" instance="${reserved-article-id.data}targeted_$namespace" queryString=""/>
+				</div>
+
+				#break
+			#end
+		#end
+
+		#if ($portlet_embedded)
+			#break
+		#end
+	#end
+#end
+
+#if ($render_default)
+	<div id="embedded-targeted-article-$namespace">
+		<runtime-portlet name="$default_portlet_id.data" instance="${reserved-article-id.data}targeted_default" queryString=""/>
+	</div>
+#end

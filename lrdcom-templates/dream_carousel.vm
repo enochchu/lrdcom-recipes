@@ -1,0 +1,485 @@
+#set ($render_default = true)
+
+#if ($target_user && ($target_user.getData() != ""))
+    #parse("$journalTemplatesPath/43631786")
+
+    #foreach ($targets in $target_user.siblings)
+		#set ($article_id = $targets.article_id.data)
+
+		#foreach ($target in $stringUtil.split($targets.data))
+			#set ($portlet_embedded = false)
+
+			#if (($target == $target_country) || ($target == $target_industry) || ($target == $target_persona) || (($target == "hubspot") && $hs_contact))
+				#set ($portlet_embedded = true)
+
+				#if ($article_id == "default")
+					#break
+				#end
+
+				#set ($render_default = false)
+				#set ($namespace = "${reserved-article-id}-${velocityCount}")
+
+				#if ($article_id != "")
+					#set ($namespace = $article_id)
+				#end
+
+				<div id="embedded-targeted-article-$namespace">
+					<runtime-portlet name="56" instance="targeted_$namespace" queryString=""/>
+				</div>
+
+				#break
+			#end
+		#end
+
+		#if ($portlet_embedded)
+			#break
+		#end
+	#end
+#end
+
+#if ($render_default)
+	<style>
+		@keyframes slideInLeft {
+			from {
+				left: -100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+
+		@-webkit-keyframes slideInLeft {
+			from {
+				left: -100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+
+		@keyframes slideInRight {
+			from {
+				left: 100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+
+		@-webkit-keyframes slideInRight {
+			from {
+				left: 100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+
+		@keyframes slideOutLeft {
+			from {
+				left: 0;
+			}
+			to {
+				left: -100%;
+			}
+		}
+
+		@-webkit-keyframes slideOutLeft {
+			from {
+				left: 0;
+			}
+			to {
+				left: -100%;
+			}
+		}
+
+		@keyframes slideOutRight {
+			from {
+				left: 0;
+			}
+			to {
+				left: 100%;
+			}
+		}
+
+		@-webkit-keyframes slideOutRight {
+			from {
+				left: 0;
+			}
+			to {
+				left: 100%;
+			}
+		}
+
+		.carousel-content, .carousel-item {
+			height: 100%;
+			overflow: hidden;
+			position: absolute;
+			width: 100%;
+		}
+
+		.carousel-item {
+			display: block;
+			z-index: -1;
+		}
+
+		.carousel-item.active-item {
+			z-index: 2;
+		}
+
+		.carousel-item.last-active-item {
+			z-index: 1;
+		}
+
+		.carousel-wrapper.dots .carousel-navigation {
+			bottom: 0;
+			position: absolute;
+			right: 0;
+			z-index: 100;
+		}
+
+		.carousel-wrapper.arrows .carousel-nav-item {
+			bottom: 0;
+			cursor: pointer;
+			position: absolute;
+			top: 0;
+			width: 10%;
+			z-index: 10;
+		}
+
+		.carousel-nav-item-overlay, .carousel-nav-item-icon {
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.carousel-nav-item-icon {
+			background: url(/documents/14/8441559/arrow.svg/3dae535d-9b34-43c9-8785-6708a0e2d723) center center no-repeat;
+		}
+
+		.next-arrow .carousel-nav-item-icon {
+			background-image: url(/documents/14/8441559/arrow-r.svg/ff150f62-323d-4e56-89e7-81f986995e73);
+		}
+
+		.carousel-nav-item-overlay {
+			opacity: 0;
+			transition: opacity .25s;
+			-webkit-transition: opacity .25s;
+		}
+
+		.carousel-nav-item.prev-arrow .carousel-nav-item-overlay {
+			background: -webkit-linear-gradient(left, rgba(0,0,0,.3) ,rgba(255,255,255,0));
+			background: -o-linear-gradient(right, rgba(0,0,0,.3), rgba(255,255,255,0));
+			background: -moz-linear-gradient(right, rgba(0,0,0,.3), rgba(255,255,255,0));
+			background: linear-gradient(to right, rgba(0,0,0,.3) ,rgba(255,255,255,0));
+		}
+
+		.carousel-nav-item.next-arrow .carousel-nav-item-overlay {
+			background: -webkit-linear-gradient(right, rgba(0,0,0,.3) ,rgba(255,255,255,0));
+			background: -o-linear-gradient(left, rgba(0,0,0,.3), rgba(255,255,255,0));
+			background: -moz-linear-gradient(left, rgba(0,0,0,.3), rgba(255,255,255,0));
+			background: linear-gradient(to left, rgba(0,0,0,.3) ,rgba(255,255,255,0));
+		}
+
+		.prev-arrow:hover .carousel-nav-item-overlay, .next-arrow:hover .carousel-nav-item-overlay {
+			opacity: 1;
+		}
+
+		.carousel-nav-item.next-arrow  {
+			right: 0;
+		}
+
+		.carousel-nav-item.prev-arrow  {
+			left: 0;
+		}
+
+		.carousel-wrapper {
+			box-sizing: border-box;
+			position: relative;
+		}
+
+		.carousel-wrapper.slide .carousel-item.was-former-item.active-item {
+			-webkit-animation: slideInLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-moz-animation: slideInLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-ms-animation: slideInLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-o-animation: slideInLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			animation: slideInLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+		}
+
+		.carousel-wrapper.slide .carousel-item.latter-item.last-active-item {
+			-webkit-animation: slideOutRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-moz-animation: slideOutRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-ms-animation: slideOutRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-o-animation: slideOutRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			animation: slideOutRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+		}
+
+		.carousel-wrapper.slide .carousel-item.active-item {
+			-webkit-animation: slideInRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-moz-animation: slideInRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-ms-animation: slideInRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-o-animation: slideInRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			animation: slideInRight #if($transition_length.data != "")$transition_length.data#else.75s#end;
+		}
+
+		.carousel-wrapper.slide .carousel-item.former-item.last-active-item {
+			-webkit-animation: slideOutLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-moz-animation: slideOutLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-ms-animation: slideOutLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			-o-animation: slideOutLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+			animation: slideOutLeft #if($transition_length.data != "")$transition_length.data#else.75s#end;
+		}
+
+		.carousel-wrapper.fade_in .carousel-item {
+			opacity: 0;
+			transition-property: opacity;
+			-webkit-transition-property: opacity;
+		}
+
+		.carousel-wrapper.fade_in .carousel-item.active-item {
+			opacity: 1;
+		}
+
+		#carousel${reserved-article-id.data} {
+			#if ($height.data != "")
+				padding-bottom: $height.data;
+			#end
+
+			#if ($height.max_height.data != "")
+				max-height: $height.max_height.data;
+			#end
+
+			#if ($height.min_height.data != "")
+				min-height: $height.min_height.data;
+			#end
+		}
+
+		$custom_css.data
+	</style>
+	#set($carousel_items = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+	#foreach ($item in $item_attr.siblings)
+		#set($carousel_item = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+		#set ($void = $carousel_item.put("background_color", $item.background_color.data))
+		#set ($void = $carousel_item.put("content", $item.content.data))
+		#set ($void = $carousel_item.put("css_class", $item.css_class.data))
+		#set ($void = $carousel_item.put("display_time", $item.display_time.data))
+		#set ($void = $carousel_item.put("href", $item.href.data))
+		#set ($void = $carousel_item.put("image", $item.image.data))
+		#set ($void = $carousel_item.put("attr", $item.data))
+		#set ($void = $carousel_item.put("image_horizontal_position", $item.image.horizontal_position.data))
+		#set ($void = $carousel_item.put("image_vertical_position", $item.image.vertical_position.data))
+		#set ($void = $carousel_item.put("priority", $item.priority.data))
+
+		#set ($priority = $getterUtil.getInteger($item.priority.data))
+
+		#if ($priority == 0)
+			#set ($priority = 100)
+		#end
+
+		#set ($number = 1000 - $velocityCount - $priority)
+
+		#set ($void = $carousel_items.put("carousel_item_${number}", $carousel_item))
+	#end
+
+	<div class="carousel-wrapper $navigation_type.data ${transition_type.data}" id="carousel${reserved-article-id.data}" >
+		<div class="carousel-content">
+			#foreach ($carousel_item in $carousel_items.descendingMap())
+				#set ($item_css_class = "carousel-item carousel-item-${velocityCount} ${carousel_item.css_class}")
+
+				#if ($velocityCount == 1)
+					#set ($item_css_class = "${item_css_class} active-item")
+				#elseif ($velocityCount == 2)
+					#set ($item_css_class = "${item_css_class} latter-item next-item")
+				#elseif($velocityCount == $carousel_items.size())
+					#set ($item_css_class = "${item_css_class} former-item last-active-item previous-item")
+				#else
+					#set ($item_css_class = "${item_css_class} latter-item")
+				#end
+
+				#set ($item_attrs = "class='${item_css_class}' ${carousel_item.attr} data-item='${velocityCount}' style='background: ${carousel_item.background_color} url(${carousel_item.image}) ${carousel_item.image_horizontal_position} ${carousel_item.image_vertical_position} no-repeat; background-size: cover;'")
+
+				#if ($carousel_item.href != "")
+					<a href="${carousel_item.href}" ${item_attrs}>
+						${carousel_item.content}
+					</a>
+				#else
+					<div ${item_attrs}>
+						${carousel_item.content}
+					</div>
+				#end
+			#end
+		</div>
+
+		<div class="carousel-navigation">
+			#if ($navigation_type.data == "dots")
+				#foreach($i in [1..$carousel_items.size()])
+					<span class="carousel-nav-item carousel-nav-item-${i}" onclick="changeCarouselItem${reserved-article-id.data}(AUI().one('#carousel${reserved-article-id.data}').one('.carousel-item-${i}'));">o</span>
+				#end
+			#else
+				<span class="carousel-nav-item prev-arrow" onclick="advanceCarouselItem${reserved-article-id.data}(true)">
+					<span class="carousel-nav-item-overlay"></span>
+					<span class="carousel-nav-item-icon"></span>
+				</span>
+				<span class="carousel-nav-item next-arrow" onclick="advanceCarouselItem${reserved-article-id.data}()">
+					<span class="carousel-nav-item-overlay"></span>
+					<span class="carousel-nav-item-icon"></span>
+				</span>
+			#end
+
+			#if ($auto_advance_time.data != "")
+				<span class="carousel-nav-item play-item" onclick="toggleAutoAdvance${reserved-article-id.data}()">Play/Pause</span>
+			#end
+		</div>
+	</div>
+#end
+
+<script>
+function advanceCarouselItem${reserved-article-id.data}(previous) {
+	AUI().use(
+		'aui-base',
+		function(A) {
+			var carouselContent = A.one('#carousel${reserved-article-id.data} .carousel-content');
+
+			var oldItem = carouselContent.one('.active-item');
+
+			if (previous) {
+				var newItem = oldItem.previous();
+
+				if (!newItem) {
+					newItem = carouselContent.get('children').slice(-1).item(0);
+				}
+			}
+			else {
+				var newItem = oldItem.next();
+
+				if (!newItem) {
+					newItem = carouselContent.one('.carousel-item');
+				}
+			}
+
+			changeCarouselItem${reserved-article-id.data}(newItem, oldItem);
+		}
+	);
+}
+
+function changeCarouselItem${reserved-article-id.data}(newItem, oldItem) {
+	AUI().use(
+		'aui-base',
+		function(A) {
+			if (!newItem) {
+				return;
+			}
+			var carouselContent = A.one('#carousel${reserved-article-id.data} .carousel-content');
+			var firstChild = carouselContent.one('.carousel-item');
+			var lastChild = carouselContent.get('children').slice(-1).item(0);
+
+			var isBefore = newItem.hasClass('former-item');
+
+			carouselContent.one('.active-item').removeClass('active-item');
+			carouselContent.one('.next-item').removeClass('next-item');
+			carouselContent.one('.previous-item').removeClass('previous-item');
+
+			if (carouselContent.one('.was-former-item')) {
+				carouselContent.one('.was-former-item').removeClass('was-former-item');
+			}
+
+			carouselContent.all('.former-item').removeClass('former-item');
+			carouselContent.all('.latter-item').removeClass('latter-item');
+
+			if (oldItem) {
+				carouselContent.one('.last-active-item').removeClass('last-active-item');
+				oldItem.addClass('last-active-item');
+			}
+
+			newItem.addClass('active-item');
+
+			if (isBefore) {
+				newItem.addClass('was-former-item');
+			}
+
+			var checkNext = function(item, originalItem) {
+				if((item == originalItem) && (item == lastChild)) {
+					firstChild.addClass('latter-item');
+					firstChild.addClass('next-item');
+				}
+				else if(item.next()) {
+					if(item == originalItem) {
+						item.next().addClass('next-item');
+					}
+
+					if((originalItem != firstChild) || (item != lastChild.previous())) {
+						item.next().addClass('latter-item');
+					}
+
+					checkNext(item.next(), originalItem);
+				}
+			};
+
+			checkNext(newItem, newItem);
+
+			var checkPrevious = function(item, originalItem) {
+				if((item == originalItem) && (item == firstChild)) {
+					lastChild.addClass('former-item');
+					lastChild.addClass('previous-item');
+				}
+				else if(item.previous()) {
+					if(item == originalItem) {
+						item.previous().addClass('previous-item');
+					}
+
+					if ((originalItem != lastChild) || (item != firstChild.next())) {
+						item.previous().addClass('former-item');
+					}
+
+					checkPrevious(item.previous(), originalItem);
+				}
+			};
+
+			checkPrevious(newItem, newItem);
+
+			#if ($auto_advance_time.data != "")
+				if (window.autoAdvanceActive) {
+					startAutoAdvance${reserved-article-id.data}();
+				}
+			#end
+		}
+	);
+}
+
+#if ($auto_advance_time.data != "")
+	window.scrollInterval${reserved-article-id.data};
+
+	startAutoAdvance${reserved-article-id.data} = function(backwards) {
+		clearInterval(window.scrollInterval);
+		window.autoAdvanceActive = true;
+
+		window.scrollInterval = setInterval(
+			function() {
+				advanceCarouselItem${reserved-article-id.data}(backwards);
+			},
+			$auto_advance_time.data
+		);
+	};
+
+	stopAutoAdvance${reserved-article-id.data} = function() {
+		window.autoAdvanceActive = false;
+
+		clearInterval(window.scrollInterval);
+	};
+
+	toggleAutoAdvance${reserved-article-id.data} = function() {
+		if (window.autoAdvanceActive) {
+			stopAutoAdvance${reserved-article-id.data}();
+		}
+		else {
+			startAutoAdvance${reserved-article-id.data}();
+		}
+	};
+
+	startAutoAdvance${reserved-article-id.data}();
+#end
+</script>

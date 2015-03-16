@@ -1,0 +1,140 @@
+<style>
+    .max-full {
+		margin: 0 auto;
+		max-width: 960px;
+	}
+
+	.form-with-background .form-col {
+		display: inline-block;
+		padding-right: 15px;
+		vertical-align: top;
+		width: 260px;
+	}
+
+	.form-with-background .form-wrapper-content {
+		padding: 5em 0;
+	}
+
+	.form-with-background .btn {
+		background-color: transparent;
+	}
+
+	.form-with-background .btn:hover, .form-with-background .btn:active, .form-with-background .btn:focus {
+		background-color: #F49B45;
+	}
+
+	.form-with-background .heading {
+		font-size: 3em;
+		margin-bottom: 10px;
+	}
+
+	.form-with-background .hbspt-form .btn-wrapper {
+		padding: 0;
+	}
+
+	@media (max-width: 965px) {
+		.responsive .portlet-column .portlet-column-content, .responsive #main-content {
+			padding: 0 !important;
+		}
+
+		.form-with-background .form-wrapper, .form-with-background .heading {
+			padding: 0 15px;
+		}
+
+		.form-with-background .heading {
+			padding-top: 15px;
+		}
+	}
+
+	#if ($background_image.data != "")
+		#article${reserved-article-id.data} .form-wrapper {
+			background-image: url($background_image.data);
+		}
+
+		#article${reserved-article-id.data} .form-wrapper:before {
+			background-image: linear-gradient(to bottom, rgba(233, 233, 233, 1), rgba(255, 255, 255, 0));
+			bottom: 0;
+			content: '';
+			left: 0;
+			opacity: .7;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.form-with-background .form-wrapper {
+			background-blend-mode: overlay;
+			background-color: rgba(255, 255, 255, .7);
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;
+		}
+
+		@media (max-width: 480px) {
+			#article${reserved-article-id.data} .form-wrapper {
+				background: transparent;
+			}
+
+			#article${reserved-article-id.data} .form-wrapper:before {
+				display: none;
+			}
+
+			#article${reserved-article-id.data} .heading {
+				background-image: url($background_image.data);
+			}
+
+			#article${reserved-article-id.data} .heading:before {
+				background-image: linear-gradient(to bottom, rgba(233, 233, 233, 1), rgba(255, 255, 255, 0));
+				bottom: 0;
+				content: '';
+				left: 0;
+				opacity: .7;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			.form-with-background .form-col {
+				width: 100%;
+			}
+
+			.form-with-background .hbspt-form .form-field {
+				max-width: none;
+			}
+
+			.form-with-background .aui-button-input-submit {
+				padding: 10px 0;
+				width: 100%;
+			}
+
+			.form-with-background .heading {
+				background-blend-mode: overlay;
+				background-color: rgba(255, 255, 255, .7);
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				font-size: 2.5em;
+				padding: 30px 15px;
+				position: relative;
+				text-align: center;
+			}
+
+			.form-with-background .form-wrapper-content {
+				padding: 1em 0;
+			}
+		}
+	#end
+
+	$css.data
+</style>
+
+<div class="form-with-background" id="article${reserved-article-id.data}">
+	<h1 class="heading max-full">$heading.data</h1>
+
+	<div class="form-wrapper">
+		<div class="form-wrapper-content max-full">
+			<runtime-portlet name="56" instance="form_wrapper_$hs_form_id.data" queryString=""/>
+		</div>
+	</div>
+</div>

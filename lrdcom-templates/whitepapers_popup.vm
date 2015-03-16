@@ -1,0 +1,242 @@
+<style>
+.page-pop-up {
+    background: white;
+    max-width: 100%;
+	position: absolute;
+	width: 680px;
+	z-index: 1000;
+}
+
+.page-pop-up .pop-up-header, .page-pop-up .pop-up-content {
+	padding: 20px;
+}
+
+.page-pop-up .pop-up-header {
+	background: #E3E4E5
+}
+
+.page-pop-up .pop-up-heading {
+	font-size: 1.4em;
+	margin: 0;
+}
+
+.page-pop-up .left-column, .page-pop-up .right-column {
+	border: 0 solid #E3E4E5;
+}
+
+.page-pop-up .left-column {
+	border-right-width: 1px;
+	margin-right: -1px
+}
+
+.page-pop-up .right-column {
+	border-left-width: 1px;
+	color: #909295;
+}
+
+.page-pop-up .whitepaper-title {
+    color: #1B3A6A;
+    font-size: 14px;
+    font-weight: bold;
+}
+</style>
+
+<script>
+function displayPopUp(node) {
+	AUI().use(
+		'aui-base',
+		'node',
+		function(A) {
+			node.removeClass('aui-helper-hidden');
+
+			var overlayMask = A.one('.aui-overlaymask');
+
+			if (overlayMask) {
+				overlayMask.remove(true);
+			}
+
+			var popUpContent = node.one('.pop-up-content')
+
+			popUpContent.on(
+				'clickoutside',
+				function(event) {
+					node.addClass('aui-helper-hidden');
+
+					popUpContent.detach('clickoutside');
+
+					var overlayMask = A.one('.aui-overlaymask');
+
+					if (overlayMask) {
+						overlayMask.remove(true);
+					}
+				}
+			);
+
+			centerOnPage(node);
+		}
+	);
+};
+
+function copyToPopUp(node) {
+	AUI().use(
+		'aui-base',
+		'node',
+		function(A) {
+			var whitepapersPopUp = A.one('#whitepapersPopUp');
+
+			var newPopUpInfo = node.one('.pop-up-info');
+
+			var oldPopUpInfo = whitepapersPopUp.one('.pop-up-info');
+
+			if (!newPopUpInfo) {
+				return;
+			}
+
+			oldPopUpInfo.setContent(newPopUpInfo.getContent());
+
+			var tacticItemFields = node.getAttribute('data-tactic-item-fields');
+
+			var form = whitepapersPopUp.one('.pop-up-form').one('form');
+
+			if (form && tacticItemFields) {
+				form.setAttribute('data-tactic-item-fields', tacticItemFields);
+			}
+
+			displayPopUp(whitepapersPopUp);
+		}
+	);
+};
+
+function createOverlayMask() {
+	AUI().use(
+		'aui-base',
+		'aui-overlay-mask',
+		'node',
+		function(A) {
+			if (A.one('.aui-overlaymask')) {
+				return
+			}
+
+			var overlay = new A.OverlayMask().render();
+
+			overlay.set('z-index', 20);
+			overlay.show();
+		}
+	);
+};
+
+function centerOnPage(node) {
+	AUI().use(
+		'aui-base',
+		'node',
+		function(A) {
+			var WIN = A.getWin();
+
+			var currentScrollPos = WIN.get('docScrollY');
+
+			var winHeight = WIN.get('innerHeight');
+
+			if (winHeight == undefined) {
+				winHeight = document.documentElement.clientHeight;
+			}
+
+			var contentWidth = A.one('#wrapper').get('clientWidth');
+
+			var nodeHeight = node.get('clientHeight');
+			var nodeWidth = node.get('clientWidth');
+
+			xCenter = (contentWidth / 2) - (nodeWidth / 2);
+			yCenter = ((winHeight / 2) - (nodeHeight / 2)) + currentScrollPos;
+
+
+			node.setStyle('right', xCenter);
+			node.setStyle('top', yCenter);
+
+			createOverlayMask();
+		}
+	);
+};
+
+AUI().use(
+	'aui-base',
+	'node',
+	function(A) {
+		var iOS = /iPad/i.test(navigator.userAgent) || /iPhone/i.test(navigator.userAgent);
+		var mouseEvent = 'click';
+
+		if (iOS) {
+			mouseEvent = 'mousemove';
+		}
+
+		A.all('.pop-up').on(
+			mouseEvent,
+			function(event) {
+				event.stopPropagation();
+				copyToPopUp(event.currentTarget);
+			}
+		);
+
+    	#set ($current_url = $request.get("attributes").get("CURRENT_URL"))
+		#set ($session_id = $httpUtil.getParameter($current_url, "wp", false))
+
+		#if ($session_id != "")
+			A.on(
+				'load',
+				function() {
+					copyToPopUp(A.one('#wp$session_id'));
+				}
+			);
+		#end
+	}
+);
+</script>
+
+#set ($portlet_bean_locator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortletBeanLocatorUtil'))
+
+#set ($hs_contact_local_service = $portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService.velocity"))
+
+#set ($hsutk = "$request.attributes.OSB_HUBSPOT_UTK")
+#set ($hsContact = $hs_contact_local_service.fetchHSContactByUserToken($hsutk))
+
+#if ($hsContact)
+	#set ($hsContactObject = $hsContact.getHSContactJSONObject().getJSONObject("properties"))
+#end
+
+#set ($hs_form_local_service = $portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSFormLocalService.velocity"))
+#set ($hs_form = $hs_form_local_service.getHSFormByGUID($form_id.data))
+#set ($hs_form_fields = $hs_form.getHSFormJSONObject().getJSONArray("fields"))
+
+#set($popUrl = $request.attributes.CURRENT_COMPLETE_URL)
+
+<div class="aui-helper-hidden page-pop-up " data-overlay="true" id="whitepapersPopUp">
+	<div class="pop-up-header">
+		<h3 class="pop-up-heading">$heading.data</h3>
+	</div>
+	<div class="aui-helper-clearfix pop-up-content">
+		<div class="aui-w45 content-column">
+			<div class="content-column-content left-column pop-up-info"></div>
+		</div>
+		<div class="aui-w55 content-column pop-up-form">
+			<div class="content-column-content right-column">
+				#set ($form_css_class = "form-wrapper")
+
+				<div class="$form_css_class">
+					<p>$instructions.data</p>
+
+					<div id="embedded-targeted-article-$form_article_id.data">
+						<runtime-portlet name="56" instance="targeted_$form_article_id.data" queryString=""/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="aui-helper-hidden page-pop-up" data-overlay="true" id="thankYouPopUp">
+	<div class="pop-up-header">
+		<h3 class="pop-up-heading">$thank_you_heading.data</h3>
+	</div>
+	<div class="pop-up-content">
+		$thank_you_content.data
+	</div>
+</div>

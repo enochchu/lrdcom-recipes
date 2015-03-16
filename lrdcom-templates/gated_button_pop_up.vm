@@ -1,0 +1,206 @@
+<style>
+#embedded-targeted-article-${form_article_id.data} .aui-button-input{
+    background: transparent;
+}
+
+#embedded-targeted-article-${form_article_id.data} .aui-button-input:hover, #embedded-targeted-article-${form_article_id.data} .aui-button-input:focus {
+    background-color: #F49B45;
+}
+
+#thankYouWrapper-${reserved-article-id.data} .thank-you-content {
+	text-align: center;
+}
+
+.aui-component.aui-overlay ~ #wrapper .portlet-boundary:not(.no-blur), .aui-component.aui-overlay ~ #wrapper header, .aui-component.aui-overlay ~ #wrapper footer, .aui-component.aui-overlay ~ #wrapper .gated-btn {
+	filter: blur(2px);
+	-webkit-filter: blur(2px);
+	-moz-filter: blur(2px);
+	-o-filter: blur(2px);
+	-ms-filter: blur(2px);
+}
+
+.aui-overlay-content.aui-overlaymask-content {
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+.page-pop-up {
+	background-color: transparent;
+	max-width: 680px;
+	position: absolute;
+	width: 100%;
+	z-index: 1000;
+}
+
+.page-pop-up .pop-up-header, .page-pop-up .pop-up-content {
+	padding: 20px;
+}
+
+.page-pop-up .pop-up-heading {
+	font-size: 1.4em;
+	margin: 0;
+	text-align: center;
+}
+
+.page-pop-up .left-column, .page-pop-up .right-column {
+	color: #909295;
+}
+
+.page-pop-up .whitepaper-title {
+	color: #474A4B;
+	font-size: 1em;
+	font-weight: normal;
+}
+
+.pop-up-info {
+	padding-right: 20px;
+}
+
+.position-static .portlet-borderless-container {
+	position: static;
+}
+</style>
+
+<script>
+function displayPopUp${reserved-article-id.data}(node) {
+	AUI().ready(
+		'aui-base',
+		'node',
+		function(A) {
+			node.removeClass('aui-helper-hidden');
+
+			var overlayMask = A.one('.aui-overlaymask');
+
+			if (overlayMask) {
+				overlayMask.remove(true);
+			}
+
+			var popUpContent = node.one('.pop-up-content')
+
+			popUpContent.on(
+				'clickoutside',
+				function(event) {
+					node.addClass('aui-helper-hidden');
+
+					popUpContent.detach('clickoutside');
+
+					var overlayMask = A.one('.aui-overlaymask');
+
+					if (overlayMask) {
+						overlayMask.remove(true);
+					}
+				}
+			);
+
+			centerOnPage${reserved-article-id.data}(node);
+		}
+	);
+};
+
+function createOverlayMask${reserved-article-id.data}() {
+	AUI().ready(
+		'aui-base',
+		'aui-overlay-mask',
+		function(A) {
+			if (A.one('.aui-overlaymask')) {
+				return;
+			}
+
+			var overlay = new A.OverlayMask().render();
+
+			overlay.set('opacity', 0.95);
+			overlay.set('z-index', 20);
+			overlay.show();
+		}
+	);
+};
+
+function centerOnPage${reserved-article-id.data}(node) {
+	AUI().ready(
+		'aui-base',
+		'node',
+		function(A) {
+			var WIN = A.getWin();
+
+			var currentScrollPos = WIN.get('docScrollY');
+			var winHeight = WIN.get('innerHeight');
+			if (winHeight == undefined) {
+				winHeight = document.documentElement.clientHeight;
+			}
+
+			var contentWidth = A.one('#wrapper').get('clientWidth');
+
+			var nodeHeight = node.get('clientHeight');
+
+			var nodeWidth = node.get('clientWidth');
+
+			xCenter = (contentWidth / 2) - (nodeWidth / 2);
+			yCenter = ((winHeight / 2) - (nodeHeight / 2)) + currentScrollPos;
+
+			node.setStyle('right', xCenter);
+			node.setStyle('top', yCenter);
+
+			createOverlayMask${reserved-article-id.data}();
+		}
+	);
+};
+
+AUI().ready(
+	'aui-base',
+	'node',
+	function(A) {
+		A.one('.pop-up-${reserved-article-id.data}').on(
+			'click',
+			function(event) {
+				var gatedBtnPopUp = A.one('#gatedBtnPopUp-${reserved-article-id.data}');
+
+				displayPopUp${reserved-article-id.data}(gatedBtnPopUp);
+			}
+		);
+	}
+);
+</script>
+
+<div class="gated-btn $button_class.data">
+	<a href="javascript:;" class="btn pop-up-${reserved-article-id.data}">$button_class.button_text.data</a>
+</div>
+
+<div class="aui-helper-hidden page-pop-up" data-overlay="true" id="gatedBtnPopUp-${reserved-article-id.data}">
+	<div class="pop-up-content">
+		<div id="popUpContentWrapper-${reserved-article-id.data}">
+			<div class="pop-up-header">
+				<h3 class="pop-up-heading">$heading.data</h3>
+			</div>
+			<div class="aui-helper-clearfix">
+				<div class="aui-w45 content-column">
+					<div class="content-column-content left-column pop-up-info">
+						#if ($pop_up_info != "")
+							$pop_up_info.data
+						#end
+					</div>
+				</div>
+				<div class="aui-w55 content-column pop-up-form">
+					<div class="content-column-content right-column">
+						#set ($form_css_class = "form-wrapper")
+
+						<div class="$form_css_class">
+							<p>$instructions.data</p>
+
+							<div id="embedded-targeted-article-$form_article_id.data">
+								<runtime-portlet name="56" instance="targeted_$form_article_id.data" queryString=""/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="aui-helper-hidden" id="thankYouWrapper-${reserved-article-id.data}">
+			<div class="pop-up-header">
+				<h3 class="pop-up-heading">$thank_you_heading.data</h3>
+			</div>
+			<div class="aui-helper-clearfix thank-you-content">
+				$thank_you_content.data
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1457 @@
+#parse("$journalTemplatesPath/30798505")
+#localize("region_label") #set ($textRegionLabel = $translation)
+#localize("subregion_label") #set ($textSubregionLabel = $translation)
+#localize("online_label") #set ($textOnlineLabel = $translation)
+#localize("past_events_label") #set ($textPastEventsLabel = $translation)
+#localize("event_label") #set ($textEventLabel = $translation)
+#localize("date_and_location_label") #set ($textDateAndLocation = $translation)
+#localize("language_label") #set ($textLanguageLabel = $translation)
+#localize("registration_label") #set ($textRegistrationLabel = $translation)
+#localize("showing_label") #set ($textShowingLabel = $translation)
+#localize("of_label") #set ($textOfLabel = $translation)
+#localize("results_label") #set ($textResultsLabel = $translation)
+#localize("items_label") #set ($textItemsLabel = $translation)
+#localize("page_label") #set ($textPageLabel = $translation)
+#localize("trainingslanguage_label") #set ($textTrainingsLanguageLabel = $translation)
+#localize("type_label") #set ($textTypeLabel = $translation)
+#localize("register_label") #set ($textRegisterLabel = $translation)
+
+#set ($ns = $request.portlet-namespace)
+#set ($companyId = $getterUtil.getLong($request.theme-display.company-id))
+#set ($scopeGroupId = $getterUtil.getLong($request.theme-display.scope-group-id))
+#set ($jsLogging = $getterUtil.getBoolean($javascript-logging-enabled.data))
+#set ($defaultEventType = $getterUtil.getString($default-event-type.data, 'All'))
+#set ($pathThemeImages = $request.theme-display.path-theme-images)
+#set ($languageId = $request.theme-display.language-id)
+
+#set ($defaultRegion = $getterUtil.getString($httpUtil.getParameter(${request.attributes.CURRENT_URL}, 'wcd-region', false), 'All'))
+
+#if (!$arrayUtil.contains($stringUtil.split('All,amer,apac,emea'), $defaultRegion))
+    #set ($defaultRegion = 'All')
+#end
+
+#set ($defaultSubregion = $getterUtil.getString($httpUtil.getParameter(${request.attributes.CURRENT_URL}, 'wcd-subregion', false), 'All'))
+
+#if ($validator.isNull($defaultSubregion))
+    #set ($defaultSubregion = 'All')
+#end
+
+#set ($defaultDelta = 5)
+
+#if ($defaultEventType == 'Training')
+    #set ($defaultDelta = 10)
+#end
+
+#if ($request.lifecycle == 'RENDER_PHASE')
+    #set ($imageCommunity = '/documents/14/8440790/COMMUNITY.png')
+	#set ($imageDevCon = '/documents/14/8440790/DEVCON.png')
+	#set ($imageIndustry = '/documents/14/8440790/INDUSTRY.png')
+	#set ($imagePartner = '/documents/14/8440790/PARTNER.png')
+	#set ($imageRoadshows = '/documents/14/8440790/ROADSHOW.png')
+	#set ($imageSolutionsForum = '/documents/14/8440790/SOLUTIONSFORUM.png')
+	#set ($imageSymposiums = '/documents/14/8440790/SYMPOSIUM.png')
+	#set ($imageTraining = '/documents/14/8440790/TRAINING.png')
+	#set ($imageWebinar = '/documents/14/8440790/WEBINAR.png')
+
+	<style type="text/css">
+		@import url(/c/journal/get_template?groupId=${scopeGroupId}&templateId=EVENTS-CSS);
+	</style>
+
+	<script type="text/javascript">
+		/* https://bitbucket.org/pellepim/jstimezonedetect */
+		(function(e){var t=function(){"use strict";var e="s",n=function(e){var t=-e.getTimezoneOffset();return t!==null?t:0},r=function(e,t,n){var r=new Date;return e!==undefined&&r.setFullYear(e),r.setDate(n),r.setMonth(t),r},i=function(e){return n(r(e,0,2))},s=function(e){return n(r(e,5,2))},o=function(e){var t=e.getMonth()>7?s(e.getFullYear()):i(e.getFullYear()),r=n(e);return t-r!==0},u=function(){var t=i(),n=s(),r=i()-s();return r<0?t+",1":r>0?n+",1,"+e:t+",0"},a=function(){var e=u();return new t.TimeZone(t.olson.timezones[e])},f=function(e){var t=new Date(2010,6,15,1,0,0,0),n={"America/Denver":new Date(2011,2,13,3,0,0,0),"America/Mazatlan":new Date(2011,3,3,3,0,0,0),"America/Chicago":new Date(2011,2,13,3,0,0,0),"America/Mexico_City":new Date(2011,3,3,3,0,0,0),"America/Asuncion":new Date(2012,9,7,3,0,0,0),"America/Santiago":new Date(2012,9,3,3,0,0,0),"America/Campo_Grande":new Date(2012,9,21,5,0,0,0),"America/Montevideo":new Date(2011,9,2,3,0,0,0),"America/Sao_Paulo":new Date(2011,9,16,5,0,0,0),"America/Los_Angeles":new Date(2011,2,13,8,0,0,0),"America/Santa_Isabel":new Date(2011,3,5,8,0,0,0),"America/Havana":new Date(2012,2,10,2,0,0,0),"America/New_York":new Date(2012,2,10,7,0,0,0),"Asia/Beirut":new Date(2011,2,27,1,0,0,0),"Europe/Helsinki":new Date(2011,2,27,4,0,0,0),"Europe/Istanbul":new Date(2011,2,28,5,0,0,0),"Asia/Damascus":new Date(2011,3,1,2,0,0,0),"Asia/Jerusalem":new Date(2011,3,1,6,0,0,0),"Asia/Gaza":new Date(2009,2,28,0,30,0,0),"Africa/Cairo":new Date(2009,3,25,0,30,0,0),"Pacific/Auckland":new Date(2011,8,26,7,0,0,0),"Pacific/Fiji":new Date(2010,11,29,23,0,0,0),"America/Halifax":new Date(2011,2,13,6,0,0,0),"America/Goose_Bay":new Date(2011,2,13,2,1,0,0),"America/Miquelon":new Date(2011,2,13,5,0,0,0),"America/Godthab":new Date(2011,2,27,1,0,0,0),"Europe/Moscow":t,"Asia/Yekaterinburg":t,"Asia/Omsk":t,"Asia/Krasnoyarsk":t,"Asia/Irkutsk":t,"Asia/Yakutsk":t,"Asia/Vladivostok":t,"Asia/Kamchatka":t,"Europe/Minsk":t,"Australia/Perth":new Date(2008,10,1,1,0,0,0)};return n[e]};return{determine:a,date_is_dst:o,dst_start_for:f}}();t.TimeZone=function(e){"use strict";var n={"America/Denver":["America/Denver","America/Mazatlan"],"America/Chicago":["America/Chicago","America/Mexico_City"],"America/Santiago":["America/Santiago","America/Asuncion","America/Campo_Grande"],"America/Montevideo":["America/Montevideo","America/Sao_Paulo"],"Asia/Beirut":["Asia/Beirut","Europe/Helsinki","Europe/Istanbul","Asia/Damascus","Asia/Jerusalem","Asia/Gaza"],"Pacific/Auckland":["Pacific/Auckland","Pacific/Fiji"],"America/Los_Angeles":["America/Los_Angeles","America/Santa_Isabel"],"America/New_York":["America/Havana","America/New_York"],"America/Halifax":["America/Goose_Bay","America/Halifax"],"America/Godthab":["America/Miquelon","America/Godthab"],"Asia/Dubai":["Europe/Moscow"],"Asia/Dhaka":["Asia/Yekaterinburg"],"Asia/Jakarta":["Asia/Omsk"],"Asia/Shanghai":["Asia/Krasnoyarsk","Australia/Perth"],"Asia/Tokyo":["Asia/Irkutsk"],"Australia/Brisbane":["Asia/Yakutsk"],"Pacific/Noumea":["Asia/Vladivostok"],"Pacific/Tarawa":["Asia/Kamchatka"],"Africa/Johannesburg":["Asia/Gaza","Africa/Cairo"],"Asia/Baghdad":["Europe/Minsk"]},r=e,i=function(){var e=n[r],i=e.length,s=0,o=e[0];for(;s<i;s+=1){o=e[s];if(t.date_is_dst(t.dst_start_for(o))){r=o;return}}},s=function(){return typeof n[r]!="undefined"};return s()&&i(),{name:function(){return r}}},t.olson={},t.olson.timezones={"-720,0":"Etc/GMT+12","-660,0":"Pacific/Pago_Pago","-600,1":"America/Adak","-600,0":"Pacific/Honolulu","-570,0":"Pacific/Marquesas","-540,0":"Pacific/Gambier","-540,1":"America/Anchorage","-480,1":"America/Los_Angeles","-480,0":"Pacific/Pitcairn","-420,0":"America/Phoenix","-420,1":"America/Denver","-360,0":"America/Guatemala","-360,1":"America/Chicago","-360,1,s":"Pacific/Easter","-300,0":"America/Bogota","-300,1":"America/New_York","-270,0":"America/Caracas","-240,1":"America/Halifax","-240,0":"America/Santo_Domingo","-240,1,s":"America/Santiago","-210,1":"America/St_Johns","-180,1":"America/Godthab","-180,0":"America/Argentina/Buenos_Aires","-180,1,s":"America/Montevideo","-120,0":"Etc/GMT+2","-120,1":"Etc/GMT+2","-60,1":"Atlantic/Azores","-60,0":"Atlantic/Cape_Verde","0,0":"Etc/UTC","0,1":"Europe/London","60,1":"Europe/Berlin","60,0":"Africa/Lagos","60,1,s":"Africa/Windhoek","120,1":"Asia/Beirut","120,0":"Africa/Johannesburg","180,0":"Asia/Baghdad","180,1":"Europe/Moscow","210,1":"Asia/Tehran","240,0":"Asia/Dubai","240,1":"Asia/Baku","270,0":"Asia/Kabul","300,1":"Asia/Yekaterinburg","300,0":"Asia/Karachi","330,0":"Asia/Kolkata","345,0":"Asia/Kathmandu","360,0":"Asia/Dhaka","360,1":"Asia/Omsk","390,0":"Asia/Rangoon","420,1":"Asia/Krasnoyarsk","420,0":"Asia/Jakarta","480,0":"Asia/Shanghai","480,1":"Asia/Irkutsk","525,0":"Australia/Eucla","525,1,s":"Australia/Eucla","540,1":"Asia/Yakutsk","540,0":"Asia/Tokyo","570,0":"Australia/Darwin","570,1,s":"Australia/Adelaide","600,0":"Australia/Brisbane","600,1":"Asia/Vladivostok","600,1,s":"Australia/Sydney","630,1,s":"Australia/Lord_Howe","660,1":"Asia/Kamchatka","660,0":"Pacific/Noumea","690,0":"Pacific/Norfolk","720,1,s":"Pacific/Auckland","720,0":"Pacific/Tarawa","765,1,s":"Pacific/Chatham","780,0":"Pacific/Tongatapu","780,1,s":"Pacific/Apia","840,0":"Pacific/Kiritimati"},typeof exports!="undefined"?exports.jstz=t:e.jstz=t})(this);
+	</script>
+
+	<form name="${ns}fm" id="${ns}fm">
+		<input name="${ns}orderByType" type="hidden" value="false" />
+		<input name="${ns}orderByCol" type="hidden" value="startDate" />
+		#if ($defaultEventType != 'All')
+			<input  name="${ns}eventType" type="hidden" value="$defaultEventType" />
+		#end
+
+		<!-- BEGIN: Event Sorting Controls -->
+		<div class="tab">
+			<div class="tab-content">
+				#if ($defaultEventType == 'All')
+					<div class="tab-unit f">
+						<span class="field-inline">
+							<label for="p1" class="field-label">$textTypeLabel:</label>
+							<select class="field-input field-input-menu field-input-select ${ns}function-bound" name="${ns}eventType" id="p1" style="width: 100px;">
+								<option selected="selected">All</option>
+								<option>Community</option>
+								<option>Conferences</option>
+								<option>Industry</option>
+								<option>Partner</option>
+								<option>Roadshow</option>
+								<option>Webinar</option>
+							</select>
+						</span>
+					</div>
+				#end
+				<div class="tab-unit#if ($defaultEventType != 'All') f#end">
+					<span class="field-inline">
+						<label for="p2" class="field-label">$textRegionLabel:</label>
+						<select class="field-input field-input-menu field-input-select ${ns}function-bound" name="${ns}region" id="p2" style="width: 160px;">
+							<option selected="selected" value="${defaultRegion}">All</option>
+						</select>
+					</span>
+				</div>
+				<div class="tab-unit">
+					<span class="field-inline">
+						<label for="p3" class="field-label">$textSubregionLabel:</label>
+						<select class="field-input field-input-menu field-input-select ${ns}function-bound" name="${ns}subregion" id="p3" style="width: 100px;">
+							<option selected="selected" value="${defaultSubregion}">All</option>
+						</select>
+					</span>
+				</div>
+				#if ($defaultEventType == 'Training')
+					<div class="tab-unit">
+						<span class="field-inline">
+							<label for="p4" class="field-label">$textOnlineLabel:</label>
+							<input class="field-input field-input-choice field-input-checkbox ${ns}function-bound" name="${ns}onlineEvents" id="p4" type="checkbox" />
+						</span>
+					</div>
+				#end
+				<div class="tab-unit l">
+					<span class="field-inline">
+						<label for="p5" class="field-label">$textPastEventsLabel:</label>
+						<input class="field-input field-input-choice field-input-checkbox ${ns}function-bound" name="${ns}pastEvents" id="p5" type="checkbox" />
+					</span>
+				</div>
+			</div>
+		</div>
+		<!-- END: Event Sorting Controls -->
+
+		<!-- BEGIN: Event Sorting Table -->
+		<table class="${ns}report-chart table-report">
+			<col style="width: 55%;" />
+			<col style="width: 30%;" />
+			<col style="width: 15%;" />
+
+			<thead>
+				<tr class="first">
+					<th class="first">
+						<span class="${ns}order-by-name events-toggle-order-by-name">
+							<a href="#">$textEventLabel<span class="ordered-arrow"></span></a>
+						</span>
+					</th>
+					<th>
+						<span class="${ns}order-by-date events-toggle-order-by-date false">
+							<a href="#">$textDateAndLocation<span class="ordered-arrow"></span></a>
+						</span>
+					</th>
+					#if ($defaultEventType == 'Training')
+						<th>
+							<span>$textLanguageLabel</span>
+						</th>
+					#end
+					<th class="last">
+						$textRegistrationLabel
+					</th>
+				</tr>
+			</thead>
+			<tbody class="${ns}results-container">
+				<!-- BEGIN LOOP: Event Description -->
+				<tr>
+					<td class="first event-description" colspan="3">
+						<div style="text-align: center;"><img src="$pathThemeImages/progress_bar/loading_animation.gif" /></div>
+
+						<!-- There are no events. -->
+					</td>
+				</tr>
+				<!-- END LOOP: Event Description -->
+			</tbody>
+			<!-- BEGIN: Pagination Section -->
+			<tfoot>
+				<tr>
+					<td colspan="3">
+						<div class="taglib-page-iterator aui-helper-hidden">
+							<div class="search-results fl">
+								$textShowingLabel <span class="search-results-page-start-value">0</span> - <span class="search-results-page-end-value">0</span> $textOfLabel <span class="search-results-total-value">0</span> $textResultsLabel.
+							</div>
+							<div class="search-pages fr aui-helper-hidden">
+								<div class="delta-selector">
+									$textItemsLabel: <select class="${ns}function-bound" name="${ns}delta" id="${ns}delta">
+										<option value="${defaultDelta}" selected="selected">${defaultDelta}</option>
+										<option value="20">20</option>
+									</select>
+								</div>
+								<div class="page-selector">
+									$textPageLabel: <select class="${ns}function-bound" name="${ns}page" id="${ns}page">
+										<option value="1" selected="selected">1</option>
+									</select> $textOfLabel <span class="search-results-number-of-pages-value">1</span>
+								</div>
+								<div class="page-links">
+									<span class="first">
+										#language('first')
+									</span>
+									<span class="previous">
+										#language('previous')
+									</span>
+									<span class="next">
+										#language('next')
+									</span>
+									<span class="last">
+										#language('last')
+									</span>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+			<!-- END: Pagination Section -->
+		</table>
+		<!-- END: Event Sorting Table -->
+
+		#if ($defaultEventType == 'Training')
+			<div style="margin: 10px 0;">$textTrainingsLanguageLabel</div>
+		#end
+	</form>
+
+	<script type="text/javascript">
+	var linkStyles = {color:'#009AD6', cursor: 'pointer', 'text-decoration': 'underline'};
+	var noLinkStyles = {color:'#444', cursor: 'auto', 'text-decoration': 'none'};
+
+	AUI().use(
+		'aui-base', 'aui-io-plugin', 'aui-io-request',
+		function(A) {
+			var paginator = A.one('.${ns}report-chart .taglib-page-iterator');
+
+			var setupPagination = function(total, currentResultSize) {
+				var delta = parseInt(A.one(document.${ns}fm.${ns}delta).val()) || ${defaultDelta};
+				var page = parseInt(A.one(document.${ns}fm.${ns}page).val()) || 1;
+				var numberOfPages = 1;
+				var start = 0;
+				var end = 0;
+
+				if (total > 0) {
+					start = ((page - 1) * delta) + 1;
+
+					if (total < delta) {
+						start = 1;
+					}
+
+					numberOfPages = Math.ceil(total / delta);
+
+					end = (start - 1 + delta);
+
+					if (end > total) {
+						end = total;
+					}
+				}
+
+				if (numberOfPages == 1) {
+					A.one('.${ns}report-chart .search-pages').hide();
+				}
+				else {
+					A.one('.${ns}report-chart .search-pages').show();
+				}
+
+				if (page > 1) {
+					A.one('.${ns}report-chart .page-links .first').setStyles(linkStyles).on('click', function() { pageTo(1); });
+					A.one('.${ns}report-chart .page-links .previous').setStyles(linkStyles).on('click', function() { pageTo(page - 1); });
+				}
+				else {
+					A.one('.${ns}report-chart .page-links .first').setStyles(noLinkStyles).on('click', function() {});
+					A.one('.${ns}report-chart .page-links .previous').setStyles(noLinkStyles).on('click', function() {});
+				}
+
+				if (page < numberOfPages) {
+					A.one('.${ns}report-chart .page-links .next').setStyles(linkStyles).on('click', function() { pageTo(page + 1); });
+					A.one('.${ns}report-chart .page-links .last').setStyles(linkStyles).on('click', function() { pageTo(numberOfPages); });
+				}
+				else {
+					A.one('.${ns}report-chart .page-links .next').setStyles(noLinkStyles).on('click', function() {});
+					A.one('.${ns}report-chart .page-links .last').setStyles(noLinkStyles).on('click', function() {});
+				}
+
+				A.one('.${ns}report-chart .search-results-total-value').empty().append('' + total);
+				A.one('.${ns}report-chart .search-results-page-start-value').empty().append('' + start);
+				A.one('.${ns}report-chart .search-results-page-end-value').empty().append('' + end);
+				A.one('.${ns}report-chart .search-results-number-of-pages-value').empty().append('' + numberOfPages);
+
+				A.one(document.${ns}fm.${ns}page).empty();
+
+				for (var i = 1; i <= numberOfPages; i++) {
+					var option = document.createElement("option");
+					option.text = '' + i;
+					document.${ns}fm.${ns}page.options.add(option);
+
+					if (page == i) {
+						option.selected = true;
+					}
+				}
+
+				paginator.show();
+			};
+
+			var pageTo = function(pageNumber) {
+				A.one(document.${ns}fm.${ns}page).val(pageNumber.toString());
+				search();
+				return false;
+			};
+
+			var setRegions = function(regions, region, subregion) {
+				A.one(document.${ns}fm.${ns}region).empty();
+
+				var regionKey = "";
+				var arr = sortKeys(regions.map);
+
+				for (var i in arr) {
+					if (arr.hasOwnProperty(i)) {
+						var data = arr[i].split("=");
+
+						if (region == data[1]) {
+							regionKey = arr[i];
+
+							break;
+						}
+					}
+				}
+
+				if (regionKey == "") {
+					setSubregions({"map":{"All=All":{"javaClass":"java.util.ArrayList","list":["All=All"]}},"javaClass":"java.util.HashMap"}, 'All');
+				}
+				else {
+					setSubregions(regions.map[regionKey], subregion);
+				}
+
+				for (var i in arr) {
+					if (arr.hasOwnProperty(i)) {
+						var data = arr[i].split("=");
+
+						var option = document.createElement("option");
+
+						option.text = data[0];
+						option.value = data[1];
+
+						document.${ns}fm.${ns}region.options.add(option);
+
+						if (region == data[1]) {
+							option.selected = true;
+						}
+					}
+				}
+			};
+
+			var setSubregions = function(subregions, subregion) {
+				A.one(document.${ns}fm.${ns}subregion).empty();
+
+				var arr = sortKeys(subregions.map);
+
+				for (var i in arr) {
+					if (arr.hasOwnProperty(i)) {
+						var data = arr[i].split("=");
+
+						var option = document.createElement("option");
+
+						option.text = data[0];
+						option.value = data[1];
+
+						document.${ns}fm.${ns}subregion.options.add(option);
+
+						if (subregion == data[1]) {
+							option.selected = true;
+						}
+					}
+				}
+			};
+
+			var getFieldValue = function(documentFields, key, defaultValue) {
+				if (documentFields[key]) {
+					return documentFields[key].value;
+				}
+				else {
+					return defaultValue;
+				}
+			};
+
+			var search = function() {
+				var eventType = A.one(document.${ns}fm.${ns}eventType).val() || 'All';
+				var orderByCol = A.one(document.${ns}fm.${ns}orderByCol).val() || 'startDate';
+				var orderByType = A.one(document.${ns}fm.${ns}orderByType).val() || 'false';
+				var pastEvents = document.${ns}fm.${ns}pastEvents.checked;
+				var delta = A.one(document.${ns}fm.${ns}delta).val() || ${defaultDelta};
+				var page = A.one(document.${ns}fm.${ns}page).val() || 1;
+				var region = A.one(document.${ns}fm.${ns}region).val() || 'All';
+				var subregion = A.one(document.${ns}fm.${ns}subregion).val() || 'All';
+
+				var onlineEvents = false;
+
+				if (document.${ns}fm.${ns}onlineEvents) {
+					var onlineEvents = document.${ns}fm.${ns}onlineEvents.checked;
+				}
+
+				A.io.request(
+					'${request.resource-url}',
+					{
+						data: {
+							${ns}eventType: eventType,
+							${ns}orderByCol: orderByCol,
+							${ns}orderByType: orderByType,
+							${ns}onlineEvents: onlineEvents,
+							${ns}pastEvents: pastEvents,
+							${ns}delta: delta,
+							${ns}page: page,
+							${ns}region: region,
+							${ns}subregion: subregion,
+							${ns}jsTimeZoneDetect: jstz.determine().name()
+						},
+						dataType: 'json',
+						on: {
+							success: function(event, id, obj) {
+								var result = this.get('responseData');
+
+								var hits = result.hits;
+
+								var resultsContainer = A.one('.${ns}results-container');
+
+								resultsContainer.empty().append('<tr><td class="event-description" colspan="3"><div style="text-align: center;"><img src="$pathThemeImages/progress_bar/loading_animation.gif" /></div></td></tr>');
+
+								var content = [];
+
+								if (!hits.serializable || !hits.serializable.docs || hits.serializable.docs.length == 0) {
+									setupPagination(0, 0);
+									setRegions(result.regions, region, subregion);
+
+									resultsContainer.append('<tr><td class="event-description" colspan="3">There are no events.</td></tr>');
+								}
+								else {
+									setupPagination(hits.serializable.length, hits.serializable.docs.length);
+									setRegions(result.regions, region, subregion);
+
+									for (var i = 0; i < hits.serializable.docs.length; i++) {
+										var doc = hits.serializable.docs[i].serializable;
+
+										try {
+											var documentFields = doc.fields.map;
+
+											var className = getFieldValue(documentFields, 'entryClassName', '');
+
+											var eventName = getFieldValue(documentFields, 'web_content/eventName_${languageId}', getFieldValue(documentFields, 'web_content/eventName', ''));
+											var curEventType = getFieldValue(documentFields, 'web_content/event-type', '');
+											var eventSummary = getFieldValue(documentFields, "web_content/event-summary_${languageId}", getFieldValue(documentFields, "web_content/event-summary", ''));
+											var eventDateTba = getFieldValue(documentFields, 'web_content/event-date-tba', '');
+											var startDate = getFieldValue(documentFields, 'web_content/startDate', '');
+											var endDate = getFieldValue(documentFields, 'web_content/endDate', '');
+											var eventTimeZone = getFieldValue(documentFields, 'web_content/event-time-zone', '');
+
+											var eventYearStartDate = getFieldValue(documentFields, 'web_content/event-year-start-date', '');
+											var eventMonthStartDate = getFieldValue(documentFields, 'web_content/event-month-start-date', '');
+											var eventDayStartDate = getFieldValue(documentFields, 'web_content/event-day-start-date', '');
+											var eventHourStartDate = getFieldValue(documentFields, 'web_content/event-hour-start-date', '');
+
+											var eventYearEndDate = getFieldValue(documentFields, 'web_content/event-year-end-date', '');
+											var eventMonthEndDate = getFieldValue(documentFields, 'web_content/event-month-end-date', '');
+											var eventDayEndDate = getFieldValue(documentFields, 'web_content/event-day-end-date', '');
+											var eventHourEndDate = getFieldValue(documentFields, 'web_content/event-hour-end-date', '');
+
+											var eventHostedBy = getFieldValue(documentFields, 'web_content/hosted-by', '');
+											var eventHostedByURL = getFieldValue(documentFields, 'web_content/hosted-by-url', '');
+											var eventLocationRegion = getFieldValue(documentFields, 'web_content/region', '');
+											var eventLocationSubregion = getFieldValue(documentFields, 'web_content/subregion', '');
+											var eventLocationSubregionName = getFieldValue(documentFields, 'web_content/subregion_name', '');
+											var eventLocationCity = getFieldValue(documentFields, 'web_content/city', '');
+											var eventLocationStreet1 = getFieldValue(documentFields, 'web_content/street1', '');
+											var eventLocationStreet2 = getFieldValue(documentFields, 'web_content/street2', '');
+											var eventLocationStreet3 = getFieldValue(documentFields, 'web_content/street3', '');
+											var eventLocationPostal = getFieldValue(documentFields, 'web_content/zip', '');
+											var eventPageLink = getFieldValue(documentFields, 'web_content/event-page-link', '');
+											if (curEventType == "Symposium" || curEventType == "Training" || curEventType == "Webinar") {
+												var eventPageLinkText = getFieldValue(documentFields, 'web_content/event-page-link-text', '$textRegisterLabel');
+											}
+
+											else {
+												var eventPageLinkText = getFieldValue(documentFields, 'web_content/event-page-link-text', '');
+											}
+
+											var trainingEventCourseURL = getFieldValue(documentFields, 'web_content/training-event-course-url', '');
+											var trainingEventLocation = getFieldValue(documentFields, 'web_content/training-event-location', '');
+											var trainingEventLanguage = getFieldValue(documentFields, 'web_content/training-event-language', '');
+
+											var trainingEventLocalizedSlides = getFieldValue(documentFields, 'web_content/training-event-localized-slides', '');
+
+											if (trainingEventLocation .substring(0, 9) === "Online - ") {
+												trainingEventLocation = "Online";
+											}
+
+											var linkFromAggregateList = documentFields['web_content/link-from-aggregate-list'] ? documentFields['web_content/link-from-aggregate-list'].value : '';
+											var webinarArchiveUrl = documentFields['archiveURL'] ? documentFields['archiveURL'].value : '';
+											var webinarSlidesUrl = documentFields['webinar-slides-url'] ? documentFields['webinar-slides-url'].value : '';
+
+											if (pastEvents) {
+												eventPageLinkText = '';
+											}
+
+											var href = '';
+
+											if (eventPageLink) {
+												href = eventPageLink;
+											}
+
+											if (curEventType == 'Training') {
+												if (trainingEventCourseURL && trainingEventCourseURL != '') {
+													href = trainingEventCourseURL;
+												}
+												else if (eventName == 'Advanced Developer Training') {
+													href = '/services/training/topics/advanced-developer';
+												}
+												else if (eventName == 'Building Themes in Liferay') {
+													href = '/services/training/topics/themes';
+												}
+												else if (eventName == 'Developer Training') {
+													href = '/services/training/topics/developer-training';
+												}
+												else if (eventName == 'Portal Administrator Training') {
+													href = '/services/training/topics/portal-administrator-training';
+												}
+												else if (eventName == 'System Administrator Training') {
+													href = '/services/training/topics/system-administrator-training';
+												}
+												else {
+													href = '/services/training/topics';
+												}
+											}
+
+											var position = ' row-' + i;
+
+											if (i == 0) {
+												position = position + ' first';
+											}
+
+											if (i == hits.serializable.docs.length - 1) {
+												position = position  + ' last';
+											}
+
+											var row = [];
+
+											row.push('<tr class="', curEventType.toLowerCase(), position, '"><td class="first">', '<div class="fl x-6 x-4 responsive-hidden ', curEventType.toLowerCase(), '"><a href="');
+
+											if (curEventType == 'Community') {
+												row.push('/about-us/events/community-events"><img alt="Community Icon" src="$imageCommunity');
+											}
+											else if (curEventType == 'Industry') {
+												row.push('/about-us/events/industry-events"><img alt="Industry Icon" src="$imageIndustry');
+											}
+											else if (curEventType == 'Partner') {
+												row.push('/events/partner-events"><img alt="Partner Icon" src="$imagePartner');
+											}
+											else if (curEventType == 'Roadshow') {
+												row.push('/liferay-roadshows"><img alt="Roadshow Icon" src="$imageRoadshows');
+											}
+											else if (curEventType == 'Symposium') {
+												row.push('/about-us/events/liferay-symposiums"><img alt="Symposium Icon" src="$imageSymposiums');
+											}
+											else if (curEventType == 'Training') {
+												row.push('/services/training/schedule"><img alt="Training Icon" src="$imageTraining');
+											}
+											else if (curEventType == 'Webinar') {
+												row.push('/web-events"><img alt="Webinar Icon" src="$imageWebinar');
+											}
+											else if (curEventType == 'DevCon') {
+												row.push('/web-events"><img alt="DevCon Icon" src="$imageDevCon');
+											}
+											else if (curEventType == 'SolutionsForum') {
+												row.push('/web-events"><img alt="Solutions Forum Icon" src="$imageSolutionsForum');
+											}
+
+											row.push('" width="60" height="36" /></a></div><div class="i-80-12 i-80-9">');
+
+											if (href != '') {
+												row.push('<a class="highlight" href="', href, '" target="_blank" onclick="ga(\'send\', \'event\', \'Events List\', \'', curEventType, '\', \'', eventName, ' - Text Link\');">');
+											}
+											else {
+												row.push('<span>');
+											}
+
+											row.push(eventName);
+
+											if (href != '') {
+												row.push('</a>');
+											}
+											else {
+												row.push('</span>');
+											}
+
+											if (eventHostedBy) {
+												row.push('<br />Hosted By ')
+
+												if (eventHostedByURL) {
+													row.push('<a href="', eventHostedByURL, '" target="_blank">');
+												}
+
+												row.push(eventHostedBy);
+
+												if (eventHostedByURL) {
+													row.push('</a>');
+												}
+											}
+
+											#if ($defaultEventType != 'All')
+												if (eventSummary) {
+													row.push('<p>', eventSummary, '</p>');
+												}
+											#end
+
+											row.push('</div></td><td><div class="event-date">');
+
+											if (eventDateTba == 'true') {
+												row.push('Date: TBA');
+											}
+											else {
+												row.push(eventMonthStartDate, ' ', eventDayStartDate);
+
+												if (eventMonthEndDate && (curEventType != 'Webinar')) {
+													if (eventMonthEndDate != eventMonthStartDate) {
+														row.push(' - ', eventMonthEndDate, ' ', eventDayEndDate);
+													}
+													else if (eventDayEndDate != eventDayStartDate) {
+														row.push('-', eventDayEndDate);
+													}
+												}
+
+												row.push(', ', eventYearStartDate);
+
+												if (eventHourStartDate && (eventHourStartDate != '00:00')) {
+													row.push('<br/>', eventHourStartDate);
+
+													if (eventHourEndDate && (eventHourEndDate != '00:00') && (eventHourEndDate != eventHourStartDate)) {
+														row.push(' - ', eventHourEndDate);
+													}
+
+													if (eventTimeZone && eventTimeZone != '') {
+														if (curEventType == 'Training') {
+															row.push('<br />');
+														}
+														else {
+															row.push(' ');
+														}
+
+														row.push(eventTimeZone);
+													}
+												}
+											}
+
+											row.push('</div><div class="event-location">');
+
+											if (curEventType == 'Training') {
+												row.push(trainingEventLocation);
+											}
+											else {
+												#if ($defaultEventType != 'All')
+													if (eventLocationStreet1) {
+														row.push(eventLocationStreet1, '<br />');
+													}
+
+													if (eventLocationStreet2) {
+														row.push(eventLocationStreet2, '<br />');
+													}
+
+													if (eventLocationStreet3) {
+														row.push(eventLocationStreet3, '<br />');
+													}
+												#end
+
+												if (eventLocationCity && eventLocationCity != '' && eventLocationCity != 'TBA') {
+													row.push(eventLocationCity);
+												}
+
+												if (eventLocationSubregionName && eventLocationSubregionName != '') {
+													if (eventLocationCity && eventLocationCity != '' && eventLocationCity != 'TBA') {
+														row.push(', ');
+													}
+
+													row.push(eventLocationSubregionName);
+												}
+
+												#if ($defaultEventType != 'All')
+													if (eventLocationPostal && eventLocationPostal != '' && eventLocationPostal != 'TBA') {
+														if ((eventLocationCity && eventLocationCity != '' && eventLocationCity != 'TBA') ||
+															(eventLocationSubregion && eventLocationSubregion != '')) {
+
+															row.push(', ');
+														}
+
+														row.push(eventLocationPostal);
+													}
+												#end
+											}
+
+											row.push('</div></td>');
+
+											#if ($defaultEventType == 'Training')
+												if (trainingEventLocalizedSlides == "false") {
+													trainingEventLanguage = trainingEventLanguage + "*";
+												}
+
+												row.push('<td>', trainingEventLanguage, '</td>');
+											#end
+
+											row.push('<td class="last">');
+
+											if (curEventType == 'Training') {
+												if (eventPageLink == '') {
+													#if ($defaultEventType != 'Training')
+														eventPageLink = 'services/training/';
+													#end
+
+													eventPageLink = eventPageLink + 'enroll';
+												}
+											}
+
+											if (pastEvents) {
+												if (curEventType == 'Webinar') {
+													if (webinarArchiveUrl != '') {
+														row.push('<a href="', webinarArchiveUrl, '" class="btn" onclick="ga(\'send\', \'event\', \'Events List\', \'', curEventType, '\', \'', eventName, ' - Archive\');">Archive</a>');
+													}
+													if (webinarSlidesUrl != '') {
+														row.push('<a href="', webinarSlidesUrl, '" class="btn" onclick="ga(\'send\', \'event\', \'Events List\', \'', curEventType, '\', \'', eventName, ' - Slides\');">Slides</a>');
+													}
+												}
+											}
+											/*
+											else if (linkFromAggregateList) {
+												row.push(linkFromAggregateList);
+											}
+											*/
+											else if (eventPageLink) {
+												row.push('<a href="', eventPageLink, '" class="btn" onclick="ga(\'send\', \'event\', \'Events List\', \'', curEventType, '\', \'', eventName, ' - ', eventPageLinkText, '\');"  target="_blank">', eventPageLinkText, '</a>');
+											}
+											else if (eventPageLinkText) {
+												row.push('<b>', eventPageLinkText, '</b>');
+											}
+
+											row.push('</td></tr>');
+
+											content.push(row.join(''));
+										}
+										catch (e) {
+											//console.log(e);
+										}
+									}
+								}
+
+								// Ask about this
+								resultsContainer.hide();
+								resultsContainer.empty().append(content.join(''));
+								resultsContainer.show();
+							},
+							failure: function(event, id, obj) {
+								//console.log('error', event, id, obj);
+							}
+						}
+					}
+				);
+			};
+
+			var sortKeys = function(obj) {
+				var sortedKeys = new Array();
+
+				for (var i in obj){
+					sortedKeys.push(i);
+				}
+
+				return sortedKeys.sort();
+			};
+
+			var formChangeSearch = function(event) {
+				var target = event.currentTarget;
+
+				if (target.compareTo(document.${ns}fm.${ns}region)) {
+					A.one(document.${ns}fm.${ns}subregion).val('');
+					A.one(document.${ns}fm.${ns}subregion).val('All');
+				}
+
+				if (!target.compareTo(document.${ns}fm.${ns}page)) {
+					A.one(document.${ns}fm.${ns}page).val('1');
+				}
+
+				paginator.hide();
+
+				search();
+			};
+
+			var formEventNameSort = function() {
+				document.${ns}fm.${ns}orderByCol.value = 'eventName';
+				A.one('span.${ns}order-by-date').removeClass('true').removeClass('false');
+
+				if (document.${ns}fm.${ns}orderByType.value == 'false') {
+					document.${ns}fm.${ns}orderByType.value = 'true';
+					A.one('span.${ns}order-by-name').addClass('true').removeClass('false');
+				}
+				else {
+					document.${ns}fm.${ns}orderByType.value = 'false';
+					A.one('span.${ns}order-by-name').addClass('false').removeClass('true');
+				}
+
+				search();
+			};
+
+			var formStartDateSort = function() {
+				document.${ns}fm.${ns}orderByCol.value = 'startDate';
+				A.one('span.${ns}order-by-name').removeClass('true').removeClass('false');
+
+				if (document.${ns}fm.${ns}orderByType.value == 'false') {
+					document.${ns}fm.${ns}orderByType.value = 'true';
+					A.one('span.${ns}order-by-date').addClass('true').removeClass('false');
+				}
+				else {
+					document.${ns}fm.${ns}orderByType.value = 'false';
+					A.one('span.${ns}order-by-date').addClass('false').removeClass('true');
+				}
+
+				search();
+			};
+
+			A.one('#${ns}fm').all('select.${ns}function-bound').on('change', formChangeSearch);
+			A.one('#${ns}fm').all('select.${ns}function-bound').on('keypress', formChangeSearch);
+			A.one('#${ns}fm').all('input.${ns}function-bound').on(['click', 'change'], formChangeSearch);
+			A.one('span.${ns}order-by-name a').on('click', formEventNameSort);
+			A.one('span.${ns}order-by-name a').on('keypress', formEventNameSort);
+			A.one('span.${ns}order-by-date a').on('click', formStartDateSort);
+			A.one('span.${ns}order-by-date a').on('keypress', formStartDateSort);
+
+			search();
+		}
+	);
+	</script>
+
+#elseif ($request.lifecycle == 'RESOURCE_PHASE')
+	#set ($logFactory = $portal.getClass().forName('com.liferay.portal.kernel.log.LogFactoryUtil'))
+	#set ($log = $logFactory.getLog('com.liferay.portal.kernel.search.SearchEngineUtil'))
+
+	#set ($collections = $portal.getClass().forName("java.util.Collections"))
+
+	#set ($portalBeanLocator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortalBeanLocatorUtil'))
+
+	#set ($calendar = $portal.getClass().forName('java.util.Calendar').getInstance())
+	#set ($searchContext = $portal.getClass().forName('com.liferay.portal.kernel.search.SearchContext').newInstance())
+
+	#set ($dateFormatFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.util.DateFormatFactoryUtil'))
+	#set ($searchEngine = $portalBeanLocator.locate('com.liferay.portal.kernel.search.SearchEngineUtil'))
+	#set ($booleanQueryFactory = $portal.getClass().forName('com.liferay.portal.kernel.search.BooleanQueryFactoryUtil'))
+	#set ($termQueryFactory = $portal.getClass().forName('com.liferay.portal.kernel.search.TermQueryFactoryUtil'))
+	#set ($stringQueryFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.search.StringQueryFactoryUtil'))
+	#set ($sortFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.search.SortFactoryUtil'))
+	#set ($calendarFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.util.CalendarFactoryUtil'))
+
+	#set ($jsonFactory = $portalBeanLocator.locate('com.liferay.portal.kernel.json.JSONFactoryUtil'))
+	##set ($jsonFactory = $portal.getClass().forName('org.jabsorb.JSONSerializer').newInstance())
+
+	#set ($portalBeanLocator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortalBeanLocatorUtil'))
+	#set ($countryService = $portalBeanLocator.locate("com.liferay.portal.service.CountryService.velocity"))
+
+	#set ($portletBeanLocator = $portal.getClass().forName('com.liferay.portal.kernel.bean.PortletBeanLocatorUtil'))
+	#set ($trainingEventLocalService = $portletBeanLocator.locate("osb-portlet", "com.liferay.osb.service.TrainingEventLocalService.velocity"))
+	#set ($trainingLocationLocalService = $portletBeanLocator.locate("osb-portlet", "com.liferay.osb.service.TrainingLocationLocalService.velocity"))
+	#set ($webinarEventLocalService = $portletBeanLocator.locate("osb-portlet", "com.liferay.osb.service.WebinarEventLocalService.velocity"))
+
+	##set ($V = $jsonFactory.registerDefaultSerializers())
+	##set ($V = $jsonFactory.setMarshallClassHints(false))
+
+	#set ($indexFormat = $dateFormatFactory.getSimpleDateFormat('yyyyMMddHHmmss'))
+	#set ($yearFormat = $dateFormatFactory.getSimpleDateFormat('yyyy'))
+	#set ($monthFormat = $dateFormatFactory.getSimpleDateFormat('MMM'))
+	#set ($dayFormat = $dateFormatFactory.getSimpleDateFormat('dd'))
+	#set ($hourFormat = $dateFormatFactory.getSimpleDateFormat('HH:mm'))
+
+	#set ($eventType = $getterUtil.getString($request.parameters.eventType, 'All'))
+	#set ($orderByCol = $getterUtil.getString($request.parameters.orderByCol, 'startDate'))
+	#set ($orderByType = $getterUtil.getBoolean($request.parameters.orderByType, false))
+	#set ($onlineEvents = $getterUtil.getBoolean($request.parameters.onlineEvents, false))
+	#set ($pastEvents = $getterUtil.getBoolean($request.parameters.pastEvents, false))
+	#set ($delta = $getterUtil.getInteger($request.parameters.delta, $defaultDelta))
+	#set ($page = $getterUtil.getInteger($request.parameters.page, 1))
+	#set ($regionParam = $getterUtil.getString($request.parameters.region, 'All'))
+	#set ($subregionParam = $getterUtil.getString($request.parameters.subregion, 'All'))
+	#set ($cityParam = 'All')
+
+	#set ($amerSubregions = $stringUtil.split('Argentina,Bolivia,Brazil,Canada,Chile,Colombia,Ecuador,Guyana,Mexico,Paraguay,Peru,Suriname,United States,Uruguay,Venezuela'))
+	#set ($apacSubregions = $stringUtil.split('Australia,China,Hong Kong,India,Indonesia,Japan,Malaysia,New Zealand,Philippines,Russia,Singapore,South Korea,Taiwan,Thailand'))
+
+	##set ($V = $log.error($eventType))
+
+	#set ($fullQuery = $booleanQueryFactory.create($searchContext))
+	#set ($searchQuery = $booleanQueryFactory.create($searchContext))
+
+	#if ($eventType == 'All' || $eventType == 'Community')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/event-type', 'Community'))
+		#set ($V = $eventQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'All' || $eventType == 'Conferences')
+		#set ($eventQuery1 = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery1.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery1.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery1.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+
+		#set ($eventQuery2 = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery2.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery2.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery2.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+
+		#set ($eventQuery3 = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery3.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery3.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery3.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+
+		#set ($termQuery1 = $termQueryFactory.create($searchContext, 'web_content/event-type', 'DevCon'))
+		#set ($termQuery2 = $termQueryFactory.create($searchContext, 'web_content/event-type', 'SolutionsForum'))
+		#set ($termQuery3 = $termQueryFactory.create($searchContext, 'web_content/event-type', 'Symposium'))
+
+		#set ($V = $eventQuery1.add($termQuery1, 'MUST'))
+		#set ($V = $eventQuery2.add($termQuery2, 'MUST'))
+		#set ($V = $eventQuery3.add($termQuery3, 'MUST'))
+
+		#set ($V = $searchQuery.add($eventQuery1, 'SHOULD'))
+		#set ($V = $searchQuery.add($eventQuery2, 'SHOULD'))
+		#set ($V = $searchQuery.add($eventQuery3, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'All' || $eventType == 'Industry')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/event-type', 'Industry'))
+		#set ($V = $eventQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'All' || $eventType == 'Partner')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/event-type', 'Partner'))
+		#set ($V = $eventQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'All' || $eventType == 'Roadshow')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addRequiredTerm('portletId', '15'))
+		#set ($V = $eventQuery.addRequiredTerm('groupId', $scopeGroupId))
+		#set ($V = $eventQuery.addRequiredTerm('structureId', 'EVENT-ENTRY'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/event-type', 'Roadshow'))
+		#set ($V = $eventQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'Training')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'type', '1'))
+		#set ($V = $eventQuery.add($termQuery, 'MUST_NOT'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#if ($eventType == 'All' || $eventType == 'Webinar')
+		#set ($eventQuery = $booleanQueryFactory.create($searchContext))
+		#set ($V = $eventQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.WebinarEvent'))
+
+		#set ($V = $searchQuery.add($eventQuery, 'SHOULD'))
+	#end
+
+	#set ($V = $fullQuery.add($searchQuery, 'MUST'))
+
+	#if ($defaultEventType == 'Training' && $onlineEvents)
+		#set ($onlineQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($trainingLocationQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($V = $trainingLocationQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'trainingLocationId', 0))
+		#set ($V = $trainingLocationQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $onlineQuery.add($trainingLocationQuery, 'SHOULD'))
+
+		#foreach ($trainingLocation in $trainingLocationLocalService.getTrainingLocations(-1, -1))
+			#if ($trainingLocation.getName().startsWith('Online - '))
+				#set ($trainingLocationQuery = $booleanQueryFactory.create($searchContext))
+
+				#set ($V = $trainingLocationQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+				#set ($termQuery = $termQueryFactory.create($searchContext, 'trainingLocationId', $trainingLocation.getTrainingLocationId()))
+				#set ($V = $trainingLocationQuery.add($termQuery, 'MUST'))
+
+				#set ($V = $onlineQuery.add($trainingLocationQuery, 'SHOULD'))
+			#end
+		#end
+
+		#set ($V = $fullQuery.add($onlineQuery, 'MUST'))
+	#end
+
+	#set ($date =  $dateUtil.newDate())
+
+	#set ($V = $calendar.setTime($date))
+	#set ($V = $calendar.set(14, 0)) ## MILLISECOND
+	#set ($V = $calendar.set(13, 0)) ## SECOND
+	#set ($V = $calendar.set(12, 0)) ## MINUTE
+
+	#set ($V = $calendar.add(5, -1)) ## SUBTRACT 1 DAY TO FIX TIMEZONE ISSUES
+
+	#set ($nowIndex = $indexFormat.format($calendar.time))
+
+	#if ($pastEvents)
+		#set ($V = $calendar.add(1, -2))
+		#set ($lastYearIndex = $indexFormat.format($calendar.time))
+		#set ($upcomingQuery = $stringQueryFactory.create("(web_content/endDate:[${lastYearIndex} TO ${nowIndex}] endDate:[${lastYearIndex} TO ${nowIndex}] airDate:[${lastYearIndex} TO ${nowIndex}])"))
+	#else
+		#set ($V = $calendar.add(1, 1))
+		#set ($nextYearIndex = $indexFormat.format($calendar.time))
+		#set ($upcomingQuery = $stringQueryFactory.create("(web_content/endDate:[${nowIndex} TO ${nextYearIndex}] endDate:[${nowIndex} TO ${nextYearIndex}] airDate:[${nowIndex} TO ${nextYearIndex}] web_content/event-date-tba:true)"))
+	#end
+
+	#if ($upcomingQuery)
+		#set ($V = $fullQuery.add($upcomingQuery, 'MUST'))
+	#end
+
+	#set ($hits = $searchEngine.search($company.companyId, $fullQuery, $sortFactory.getDefaultSorts(), -1, -1))
+
+	#set ($regions = {'All=All':{'All=All':['All=All']},'Americas=amer':{'All=All':['All=All']},'Asia Pacific=apac':{'All=All':['All=All']},'Europe, Middle East, Africa=emea':{'All=All':['All=All']}})
+
+	#foreach ($doc in $hits.docs)
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($webinarEvent = $webinarEventLocalService.getWebinarEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($V = $doc.addDate("web_content/startDate", $webinarEvent.getAirDate()))
+
+			#set ($V = $doc.addKeyword("web_content/eventName", $getterUtil.getString($doc.get('name'))))
+		#elseif ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#set ($trainingEvent = $trainingEventLocalService.getTrainingEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($V = $doc.addDate("web_content/endDate", $trainingEvent.getEndDate()))
+			#set ($V = $doc.addDate("web_content/startDate", $trainingEvent.getStartDate()))
+
+			#set ($V = $doc.addKeyword("web_content/city", $getterUtil.getString($doc.get('city'))))
+			#set ($V = $doc.addKeyword("web_content/country", $getterUtil.getString($doc.get('countryName'))))
+			#set ($V = $doc.addKeyword("web_content/eventName", $getterUtil.getString($doc.get('name'))))
+			#set ($V = $doc.addKeyword("web_content/region", $getterUtil.getString($doc.get('regionCode'))))
+			#set ($V = $doc.addKeyword("web_content/street1", $getterUtil.getString($doc.get('street1'))))
+			#set ($V = $doc.addKeyword("web_content/street2", $getterUtil.getString($doc.get('street2'))))
+			#set ($V = $doc.addKeyword("web_content/street3", $getterUtil.getString($doc.get('street3'))))
+			#set ($V = $doc.addKeyword("web_content/zip", $getterUtil.getString($doc.get('zip'))))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($V = $doc.addText("web_content/region", 'Online'))
+		#elseif ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#if ($arrayUtil.contains($amerSubregions, $doc.get('web_content/country')))
+				#set ($V = $doc.addText("web_content/region", 'amer'))
+			#elseif ($arrayUtil.contains($apacSubregions, $doc.get('web_content/country')))
+				#set ($V = $doc.addText("web_content/region", 'apac'))
+			#else
+				#set ($V = $doc.addText("web_content/region", 'emea'))
+			#end
+
+			#set ($country = $countryService.getCountryByName($getterUtil.getString($doc.get('web_content/country'))))
+
+			#set ($V = $doc.addText("web_content/subregion", $stringUtil.merge([$country.getCountryId()])))
+		#end
+
+		#if ($doc.get('web_content/region') && $doc.get('web_content/region') != '')
+			#if ($doc.get('web_content/region') == 'amer')
+				#set ($region = 'Americas=amer')
+			#elseif ($doc.get('web_content/region') == 'apac')
+				#set ($region = 'Asia Pacific=apac')
+			#elseif ($doc.get('web_content/region') == 'emea')
+				#set ($region = 'Europe, Middle East, Africa=emea')
+			#end
+		#else
+			#set ($region = 'All=All')
+		#end
+
+		#if ($doc.get('web_content/subregion') && $doc.get('web_content/subregion') != '')
+			#set ($country = $countryService.getCountry($getterUtil.getLong($doc.get('web_content/subregion'))))
+
+			#set ($subregion = $country.getName() + "=" + $country.getCountryId())
+		#else
+			#set ($subregion = 'All=All')
+		#end
+
+		#if ($doc.get('web_content/city') && $doc.get('web_content/city') != '')
+			#set ($city = $doc.get('web_content/city') + "=" + $doc.get('web_content/city'))
+		#else
+			#set ($city = 'All=All')
+		#end
+
+		#if ("$!region" != "" && !$regions.containsKey($region))
+			#set ($r = {'All=All':['All=All']})
+
+			#set ($V = $regions.put($region, $r))
+		#end
+
+		#set ($subregions = $regions.get($region))
+
+		#if (!$subregions.containsKey($subregion))
+			#set ($s = ['All=All'])
+
+			#set ($V = $subregions.put($subregion, $s))
+		#end
+
+		#set ($cities = $subregions.get($subregion))
+
+		#if (!$cities.contains($city))
+			#set ($V = $cities.add($city))
+		#end
+	#end
+
+	#set ($filterQuery = $booleanQueryFactory.create($searchContext))
+
+	#if ($cityParam != 'All')
+		#set ($cityQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($webContentCityQuery = $booleanQueryFactory.create($searchContext))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/city', $cityParam))
+		#set ($V = $webContentCityQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $cityQuery.add($webContentCityQuery, 'SHOULD'))
+
+		#set ($entityCityQuery = $booleanQueryFactory.create($searchContext))
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'city', $cityParam))
+		#set ($V = $entityCityQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $cityQuery.add($entityCityQuery, 'SHOULD'))
+
+		#set ($V = $filterQuery.add($cityQuery, 'MUST'))
+	#elseif ($subregionParam != 'All')
+		#set ($subregionQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($webContentSubregionQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/subregion', $subregionParam))
+		#set ($V = $webContentSubregionQuery.add($termQuery, 'MUST'))
+
+		#set ($V = $subregionQuery.add($webContentSubregionQuery, 'SHOULD'))
+
+		#if ($eventType == 'Training')
+			#set ($trainingEventSubregionQuery = $booleanQueryFactory.create($searchContext))
+
+			#set ($country = $countryService.getCountry($getterUtil.getLong($subregionParam)))
+
+			#set ($V = $trainingEventSubregionQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+			#set ($termQuery = $termQueryFactory.create($searchContext, 'countryName', $country.getName()))
+			#set ($V = $trainingEventSubregionQuery.add($termQuery, 'MUST'))
+
+			#set ($V = $subregionQuery.add($trainingEventSubregionQuery, 'SHOULD'))
+
+			#foreach ($trainingLocation in $trainingLocationLocalService.getTrainingLocations(-1, -1))
+				#set ($onlineTrainingLocationId = '')
+
+				#if (($regionParam == 'amer') && $trainingLocation.getName().equals('Online - Americas'))
+					#set ($onlineTrainingLocationId = $trainingLocation.getTrainingLocationId())
+				#elseif (($regionParam == 'apac') && $trainingLocation.getName().equals('Online - Asia Pacific'))
+					#set ($onlineTrainingLocationId = $trainingLocation.getTrainingLocationId())
+				#elseif (($regionParam == 'emea') && $trainingLocation.getName().equals('Online - EMEA'))
+					#set ($onlineTrainingLocationId = $trainingLocation.getTrainingLocationId())
+				#end
+
+				#if ($validator.isNotNull($onlineTrainingLocationId))
+					#set ($trainingLocationQuery = $booleanQueryFactory.create($searchContext))
+
+					#set ($V = $trainingLocationQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+					#set ($termQuery = $termQueryFactory.create($searchContext, 'trainingLocationId', $onlineTrainingLocationId))
+					#set ($V = $trainingLocationQuery.add($termQuery, 'MUST'))
+
+					#set ($V = $subregionQuery.add($trainingLocationQuery, 'SHOULD'))
+				#end
+			#end
+		#end
+
+		#set ($V = $filterQuery.add($subregionQuery, 'MUST'))
+	#elseif ($regionParam != 'All')
+		#set ($regionQuery = $booleanQueryFactory.create($searchContext))
+
+		#set ($webContentRegionQuery = $booleanQueryFactory.create($searchContext))
+
+		#if ($regionParam == 'Online')
+			#set ($V = $webContentRegionQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.WebinarEvent'))
+		#else
+			#set ($termQuery = $termQueryFactory.create($searchContext, 'web_content/region', $regionParam))
+			#set ($V = $webContentRegionQuery.add($termQuery, 'MUST'))
+		#end
+
+		#set ($V = $regionQuery.add($webContentRegionQuery, 'SHOULD'))
+
+		#if ($eventType == 'Training')
+			#if ($regionParam == 'amer')
+				#foreach ($curSubregion in $amerSubregions)
+					#set ($trainingEventRegionQuery = $booleanQueryFactory.create($searchContext))
+
+					#set ($V = $trainingEventRegionQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+					#set ($termQuery = $termQueryFactory.create($searchContext, 'countryName', $curSubregion))
+					#set ($V = $trainingEventRegionQuery.add($termQuery, 'MUST'))
+
+					#set ($V = $regionQuery.add($trainingEventRegionQuery, 'SHOULD'))
+				#end
+			#elseif ($regionParam == 'apac')
+				#foreach ($curSubregion in $apacSubregions)
+					#set ($trainingEventRegionQuery = $booleanQueryFactory.create($searchContext))
+
+					#set ($V = $trainingEventRegionQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+					#set ($termQuery = $termQueryFactory.create($searchContext, 'countryName', $curSubregion))
+					#set ($V = $trainingEventRegionQuery.add($termQuery, 'MUST'))
+
+					#set ($V = $regionQuery.add($trainingEventRegionQuery, 'SHOULD'))
+				#end
+			#elseif ($regionParam == 'emea')
+				#set ($trainingEventRegionQuery = $booleanQueryFactory.create($searchContext))
+
+				#set ($V = $trainingEventRegionQuery.addExactTerm('entryClassName', 'com.liferay.osb.model.TrainingEvent'))
+
+				#foreach ($curSubregion in $amerSubregions)
+					#set ($termQuery = $termQueryFactory.create($searchContext, 'countryName', $curSubregion))
+					#set ($V = $trainingEventRegionQuery.add($termQuery, 'MUST_NOT'))
+				#end
+
+				#foreach ($curSubregion in $apacSubregions)
+					#set ($termQuery = $termQueryFactory.create($searchContext, 'countryName', $curSubregion))
+					#set ($V = $trainingEventRegionQuery.add($termQuery, 'MUST_NOT'))
+				#end
+
+				#set ($V = $regionQuery.add($trainingEventRegionQuery, 'SHOULD'))
+			#end
+		#end
+
+		#set ($V = $filterQuery.add($regionQuery, 'MUST'))
+	#end
+
+	#if ($filterQuery.clauses().size() > 0)
+		#set ($V = $fullQuery.add($filterQuery, 'MUST'))
+	#end
+
+	#set ($hits = $searchEngine.search($company.companyId, $fullQuery, $sortFactory.getDefaultSorts(), -1, -1))
+
+	#foreach ($doc in $hits.docs)
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($webinarEvent = $webinarEventLocalService.getWebinarEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($V = $doc.addDate("web_content/startDate", $webinarEvent.getAirDate()))
+
+			#set ($V = $doc.addKeyword("web_content/eventName", $getterUtil.getString($doc.get('name'))))
+		#elseif ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#set ($trainingEvent = $trainingEventLocalService.getTrainingEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($V = $doc.addDate("web_content/endDate", $trainingEvent.getEndDate()))
+			#set ($V = $doc.addDate("web_content/startDate", $trainingEvent.getStartDate()))
+
+			#set ($V = $doc.addKeyword("web_content/city", $getterUtil.getString($doc.get('city'))))
+			#set ($V = $doc.addKeyword("web_content/country", $getterUtil.getString($doc.get('countryName'))))
+			#set ($V = $doc.addKeyword("web_content/eventName", $getterUtil.getString($doc.get('name'))))
+			#set ($V = $doc.addKeyword("web_content/region", $getterUtil.getString($doc.get('regionCode'))))
+			#set ($V = $doc.addKeyword("web_content/street1", $getterUtil.getString($doc.get('street1'))))
+			#set ($V = $doc.addKeyword("web_content/street2", $getterUtil.getString($doc.get('street2'))))
+			#set ($V = $doc.addKeyword("web_content/street3", $getterUtil.getString($doc.get('street3'))))
+			#set ($V = $doc.addKeyword("web_content/zip", $getterUtil.getString($doc.get('zip'))))
+		#end
+
+		#if ($doc.get('web_content/startDate') && $doc.get('web_content/startDate') != '')
+			#set ($startDate = $indexFormat.parse($doc.get('web_content/startDate')))
+		#end
+
+		#if ($doc.get('web_content/endDate') && $doc.get('web_content/endDate') != '')
+			#set ($endDate = $indexFormat.parse($doc.get('web_content/endDate')))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($V = $calendar.setTime($startDate))
+			#set ($V = $calendar.setTimeZone($timeZoneUtil.getTimeZone($request.theme-display.time-zone)))
+			#set ($startDate = $calendar.time)
+
+			#set ($timeZone = $timeZoneUtil.getTimeZone($request.theme-display.time-zone))
+			#set ($locale = $localeUtil.fromLanguageId($request.theme-display.locale))
+
+			#set ($V = $doc.addText('web_content/event-time-zone', $timeZone.getDisplayName($timeZone.inDaylightTime($startDate), 0, $locale)))
+		#end
+
+		#if ($startDate)
+			#set ($V = $doc.addText("web_content/event-year-start-date", $yearFormat.format($startDate)))
+			#set ($V = $doc.addText("web_content/event-month-start-date", $monthFormat.format($startDate)))
+			#set ($V = $doc.addText("web_content/event-day-start-date", $dayFormat.format($startDate)))
+			#set ($V = $doc.addText("web_content/event-hour-start-date", $hourFormat.format($startDate)))
+		#end
+
+		#if ($endDate)
+			#set ($V = $doc.addText("web_content/event-year-end-date", $yearFormat.format($endDate)))
+			#set ($V = $doc.addText("web_content/event-month-end-date", $monthFormat.format($endDate)))
+			#set ($V = $doc.addText("web_content/event-day-end-date", $dayFormat.format($endDate)))
+			#set ($V = $doc.addText("web_content/event-hour-end-date", $hourFormat.format($endDate)))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#set ($trainingEvent = $trainingEventLocalService.getTrainingEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($timeZoneId = $getterUtil.getString($trainingEvent.getTimeZoneId(), $request.theme-display.time-zone))
+
+			#if ($trainingEvent.getTrainingLocationId() > 0)
+				#set ($trainingLocation = $trainingEvent.getTrainingLocation())
+
+				#if ($trainingLocation.getName().startsWith('Online - '))
+					#set ($timeZoneId = $getterUtil.getString($request.parameters.jsTimeZoneDetect, $request.theme-display.time-zone))
+				#end
+			#end
+
+			#set ($timeZone = $timeZoneUtil.getTimeZone($timeZoneId))
+
+			#*
+			# Debug training time zones
+			#set ($V = $log.error($trainingEvent.getTimeZoneId()))
+			#set ($V = $log.error($request.theme-display.time-zone))
+			#set ($V = $log.error($request.parameters.jsTimeZoneDetect))
+			*#
+
+			#set ($trainingEventDayFormat = $dateFormatFactory.getSimpleDateFormat('dd', $timeZone))
+			#set ($trainingEventHourFormat = $dateFormatFactory.getSimpleDateFormat('hh:mm aa', $timeZone))
+			#set ($trainingEventMonthFormat = $dateFormatFactory.getSimpleDateFormat('MMM', $timeZone))
+			#set ($trainingEventYearFormat = $dateFormatFactory.getSimpleDateFormat('yyyy', $timeZone))
+
+			#if ($startDate)
+				#set ($startCalendar = $calendarFactory.getCalendar($timeZone, $locale))
+				#set ($V = $startCalendar.setTime($startDate))
+				#set ($startDate = $startCalendar.time)
+
+				#set ($V = $doc.addText("web_content/event-day-start-date", $trainingEventDayFormat.format($startDate)))
+				#set ($V = $doc.addText("web_content/event-hour-start-date", $trainingEventHourFormat.format($startDate)))
+				#set ($V = $doc.addText("web_content/event-month-start-date", $trainingEventMonthFormat.format($startDate)))
+				#set ($V = $doc.addText("web_content/event-year-start-date", $trainingEventYearFormat.format($startDate)))
+			#end
+
+			#if ($endDate)
+				#set ($endCalendar = $calendarFactory.getCalendar($timeZone, $locale))
+				#set ($V = $endCalendar.setTime($endDate))
+				#set ($endDate = $endCalendar.time)
+
+				#set ($V = $doc.addText("web_content/event-day-end-date", $trainingEventDayFormat.format($endDate)))
+				#set ($V = $doc.addText("web_content/event-hour-end-date", $trainingEventHourFormat.format($endDate)))
+				#set ($V = $doc.addText("web_content/event-month-end-date", $trainingEventMonthFormat.format($endDate)))
+				#set ($V = $doc.addText("web_content/event-year-end-date", $trainingEventYearFormat.format($endDate)))
+			#end
+
+			#set ($V = $doc.addText('web_content/event-time-zone', $timeZone.getDisplayName($timeZone.inDaylightTime($startDate), 1, $locale)))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($V = $doc.addText("web_content/region", 'Online'))
+			#set ($V = $doc.addText('web_content/event-summary', $doc.description))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#set ($trainingEvent = $trainingEventLocalService.getTrainingEvent($getterUtil.getLong($doc.entryClassPK)))
+
+			#set ($trainingEventLocale = $localeUtil.fromLanguageId($trainingEvent.getLanguageId()))
+			#set ($trainingEventLanguage = $trainingEventLocale.getDisplayLanguage($locale))
+
+			#set ($V = $doc.addText("web_content/event-type", 'Training'))
+			#set ($V = $doc.addText('web_content/event-page-link', $doc.enrollmentURL))
+
+			#set ($V = $doc.addText("web_content/training-event-course-url", $trainingEvent.getTrainingCourse().getCourseURL()))
+
+			#set ($city = $getterUtil.getString($doc.get('city')))
+			#set ($countryName = $getterUtil.getString($doc.get('countryName')))
+			#set ($regionCode = $getterUtil.getString($doc.get('regionCode')))
+
+			#if ($city.startsWith('Online'))
+				#set ($V = $doc.addText("web_content/training-event-location", $trainingEvent.getTrainingLocation().getName()))
+			#elseif ($countryName == 'United States')
+				#set ($V = $doc.addText("web_content/training-event-location", $city.concat(", ").concat($regionCode)))
+			#else
+				#set ($V = $doc.addText("web_content/training-event-location", $city.concat(", ").concat($countryName)))
+			#end
+
+			##set ($V = $doc.addText("web_content/training-event-location", $trainingEvent.getTrainingLocation().getName()))
+
+			#set ($V = $doc.addText("web_content/training-event-language", $trainingEventLanguage))
+
+			#set ($V = $doc.addText("web_content/training-event-localized-slides", "$trainingEvent.isLocalizedSlides()"))
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.WebinarEvent')
+			#set ($V = $doc.addText("web_content/event-type", 'Webinar'))
+			#set ($V = $doc.addText('web_content/event-page-link', '/web-events'))
+
+			#if ($doc.slidesFileName && $doc.slidesFileName != '')
+				#set ($V = $doc.addKeyword("webinar-slides-url", "${request.theme-display.path-main}/document_library/get_file?p_l_id=${request.theme-display.plid}&groupId=${scopeGroupId}&folderId=${doc.slidesFolderId}&name=${doc.slidesFileName}"))
+			#end
+		#end
+
+		#if ($doc.entryClassName == 'com.liferay.osb.model.TrainingEvent')
+			#set ($V = $doc.addText("web_content/subregion_name", $getterUtil.getString($doc.get('web_content/country'))))
+		#elseif ($doc.entryClassName == 'com.liferay.portlet.journal.model.JournalArticle')
+			#set ($country = $countryService.getCountry($getterUtil.getLong($doc.get('web_content/subregion'))))
+
+			#set ($V = $doc.addText("web_content/subregion_name", $getterUtil.getString($country.getName())))
+		#end
+	#end
+
+	#if ($hits.getLength() > 0)
+		#set ($docKeys = [])
+		#set ($docMap = {})
+
+		#foreach ($doc in $hits.docs)
+			#set ($field = $getterUtil.getString($doc.get("web_content/startDate")))
+
+			#if ($orderByCol == 'eventName')
+				#set ($field = $getterUtil.getString($doc.get("web_content/eventName")))
+			#end
+
+			#set ($key = $field.concat("-"))
+
+			#if ($orderByCol != 'startDate')
+				#set ($startDate = $getterUtil.getString($doc.get("web_content/startDate")))
+
+				#set ($key = $key.concat($startDate))
+				#set ($key = $key.concat("-"))
+			#end
+
+			#set ($entryClassPK = $getterUtil.getString($doc.get("entryClassPK")))
+
+			#set ($key = $key.concat($entryClassPK))
+
+			#set ($V = $docKeys.add($key))
+			#set ($V = $docMap.put($key, $doc))
+		#end
+
+		#set ($V = $collections.sort($docKeys))
+
+		#if (($orderByCol == 'eventName' && $orderByType == false) || (!$pastEvents && $orderByCol == 'startDate' && $orderByType == true) || ($pastEvents && $orderByCol == 'startDate' && $orderByType == false))
+			#set ($V = $collections.reverse($docKeys))
+		#end
+
+		#set ($docs = $hits.getDocs())
+		#set ($docsIndex = 0)
+
+		#foreach ($docKey in $docKeys)
+			#set ($V = $listTool.set($docs, $docsIndex, $docMap.get($docKey)))
+
+			#set ($docsIndex = $docsIndex + 1)
+		#end
+
+		#set ($start = ($page - 1) * $delta)
+		#set ($end = $start + $delta)
+
+		#set ($length = $arrayUtil.getLength($docs))
+
+		#if ($end > $length)
+			#set ($end = $length)
+		#end
+
+		#set ($V = $hits.setDocs($arrayUtil.subset($docs, $start, $end)))
+	#end
+
+	{
+		"hits":$jsonFactory.serialize($hits),
+		"queryString":"${hits.query}",
+		"regions":$jsonFactory.serialize($regions)
+	}
+#end
