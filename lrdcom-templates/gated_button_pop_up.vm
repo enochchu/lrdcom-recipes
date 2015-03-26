@@ -1,17 +1,17 @@
 <style>
 #embedded-targeted-article-${form_article_id.data} .aui-button-input{
-    background: transparent;
+	background: transparent;
 }
 
 #embedded-targeted-article-${form_article_id.data} .aui-button-input:hover, #embedded-targeted-article-${form_article_id.data} .aui-button-input:focus {
-    background-color: #F49B45;
+	background-color: #F49B45;
 }
 
 #thankYouWrapper-${reserved-article-id.data} .thank-you-content {
 	text-align: center;
 }
 
-.aui-component.aui-overlay ~ #wrapper .portlet-boundary:not(.no-blur), .aui-component.aui-overlay ~ #wrapper header, .aui-component.aui-overlay ~ #wrapper footer, .aui-component.aui-overlay ~ #wrapper .gated-btn {
+.aui-component.aui-overlay ~ #wrapper .portlet-boundary:not(.no-blur), .aui-component.aui-overlay ~ #wrapper header, .aui-component.aui-overlay ~ #wrapper footer, .aui-component.aui-overlay ~ #wrapper .${button_class.data} {
 	filter: blur(2px);
 	-webkit-filter: blur(2px);
 	-moz-filter: blur(2px);
@@ -36,7 +36,7 @@
 }
 
 .page-pop-up .pop-up-heading {
-	font-size: 1.4em;
+	font-size: 2em;
 	margin: 0;
 	text-align: center;
 }
@@ -57,6 +57,12 @@
 
 .position-static .portlet-borderless-container {
 	position: static;
+}
+
+@media all and (max-width: 520px) {
+	.aui-overlay-content.aui-overlaymask-content {
+		cursor: pointer;
+	}
 }
 </style>
 
@@ -91,6 +97,8 @@ function displayPopUp${reserved-article-id.data}(node) {
 				}
 			);
 
+			createOverlayMask${reserved-article-id.data}();
+
 			centerOnPage${reserved-article-id.data}(node);
 		}
 	);
@@ -123,14 +131,13 @@ function centerOnPage${reserved-article-id.data}(node) {
 
 			var currentScrollPos = WIN.get('docScrollY');
 			var winHeight = WIN.get('innerHeight');
+
 			if (winHeight == undefined) {
 				winHeight = document.documentElement.clientHeight;
 			}
 
 			var contentWidth = A.one('#wrapper').get('clientWidth');
-
 			var nodeHeight = node.get('clientHeight');
-
 			var nodeWidth = node.get('clientWidth');
 
 			xCenter = (contentWidth / 2) - (nodeWidth / 2);
@@ -138,17 +145,13 @@ function centerOnPage${reserved-article-id.data}(node) {
 
 			node.setStyle('right', xCenter);
 			node.setStyle('top', yCenter);
-
-			createOverlayMask${reserved-article-id.data}();
 		}
 	);
 };
 
 AUI().ready(
-	'aui-base',
-	'node',
 	function(A) {
-		A.one('.pop-up-${reserved-article-id.data}').on(
+		A.one('.${button_class.data}').on(
 			'click',
 			function(event) {
 				var gatedBtnPopUp = A.one('#gatedBtnPopUp-${reserved-article-id.data}');
@@ -159,10 +162,6 @@ AUI().ready(
 	}
 );
 </script>
-
-<div class="gated-btn $button_class.data">
-	<a href="javascript:;" class="btn pop-up-${reserved-article-id.data}">$button_class.button_text.data</a>
-</div>
 
 <div class="aui-helper-hidden page-pop-up" data-overlay="true" id="gatedBtnPopUp-${reserved-article-id.data}">
 	<div class="pop-up-content">
