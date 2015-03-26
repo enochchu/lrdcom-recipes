@@ -1,0 +1,230 @@
+
+<root available-locales="en_US" default-locale="en_US">
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="section" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
+		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
+			<dynamic-element dataType="string" indexType="keyword" localizable="true" name="element" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
+				<dynamic-element dataType="string" indexType="keyword" localizable="true" name="tag" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[Tag]]>
+						</entry>
+						<entry name="predefinedValue">
+							<![CDATA[]]>
+						</entry>
+						<entry name="tip">
+							<![CDATA[Insert the tag type. For example: 'a', 'span', 'p'. If this is left blank it will default to 'div'.]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element dataType="string" indexType="keyword" localizable="true" name="content" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[Content]]>
+						</entry>
+						<entry name="predefinedValue">
+							<![CDATA[]]>
+						</entry>
+						<entry name="tip">
+							<![CDATA[Insert your content here]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element dataType="string" indexType="keyword" localizable="true" name="element_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[Element Class]]>
+						</entry>
+						<entry name="predefinedValue">
+							<![CDATA[]]>
+						</entry>
+						<entry name="tip">
+							<![CDATA[Insert custom css class names you want included on the element level.]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Element]]>
+					</entry>
+					<entry name="predefinedValue">
+						<![CDATA[]]>
+					</entry>
+					<entry name="tip">
+						<![CDATA[This will create a new element inside the block. You can also fill in the field with html attributes and it will be added into the tag. For example: src="/home" or data-attribute="example".]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Block Class]]>
+					</entry>
+					<entry name="predefinedValue">
+						<![CDATA[]]>
+					</entry>
+					<entry name="tip">
+						<![CDATA[Insert custom css class names you want included on the block level.]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element dataType="string" indexType="keyword" localizable="true" multiple="false" name="width" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
+				<dynamic-element name="option7326" type="option" value="1">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[8%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7327" type="option" value="2">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[16%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7328" type="option" value="3">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[25%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7329" type="option" value="4">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[33%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7330" type="option" value="5">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[42%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7331" type="option" value="6">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[50%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7332" type="option" value="7">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[58%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option8069" type="option" value="8">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[66%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7333" type="option" value="9">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[75%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7334" type="option" value="10">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[84%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7335" type="option" value="11">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[92%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7336" type="option" value="12">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[100%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Width]]>
+					</entry>
+					<entry name="predefinedValue">
+						<![CDATA[["12"]]]>
+					</entry>
+					<entry name="tip">
+						<![CDATA[Define the width of the current block.]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Block]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[This will create a new block inside the section. You can also fill in the field with html attributes and it will be added into the tag. For example: id="myBlock" or data-attribute="example".]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="section_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Section Class]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[Insert custom css class names you want included on the section level.]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[Section]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[This will create a section. You can also fill in the field with html attributes and it will be added into the tag. For example: id="mySection" or data-attribute="example".]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="article_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[Article Class]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[Insert custom css class names you want included on the article level.]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="css" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[CSS]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[Insert your custom css here.]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+</root>
