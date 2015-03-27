@@ -144,7 +144,9 @@
 		border-radius: 3px;
 
 		box-sizing: content-box;
+	}
 
+	.hbspt-form .aui-field .aui-field-input.aui-field-input-select {
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
@@ -170,7 +172,6 @@
 		font-size: 12px;
 		font-weight: normal;
 		position: absolute;
-		pointer-events: none;
 		right: 10px;
 		top: -100%;
 		z-index: 0;
@@ -182,7 +183,11 @@
 		transition: top .5s;
 	}
 
-	.hbspt-form .booleancheckbox-field .aui-field-label, .hbspt-form .booleancheckbox-field .aui-form-validator-message {
+	.hbspt-form .aui-field-select .aui-field-label, .hbspt-form .aui-field-text .aui-field-label, .hbspt-form .aui-field-textarea .aui-field-label, .hbspt-form .aui-form-validator-message {
+		pointer-events: none;
+	}
+
+	.hbspt-form .aui-field-booleancheckbox .aui-field-label, .hbspt-form .booleancheckbox-field .aui-form-validator-message, .hbspt-form .aui-field-radio .aui-field-label, .hbspt-form .aui-field-checkbox .aui-field-label {
 		position: static;
 	}
 
@@ -223,6 +228,16 @@
 		position: relative;
 	}
 
+	.hbspt-form .aui-field-booleancheckbox .aui-field-label, .hbspt-form .aui-field-checkbox .aui-field-label {
+		font-size: 1em;
+		font-weight: lighter;
+	}
+
+	.hbspt-form .form-col .aui-field-richtext {
+		font-size: 1.25em;
+		margin: 1em 0 5px;
+	}
+
 	.hbspt-form .aui-form-validator-message {
 		background: transparent;
 		clip: auto;
@@ -230,12 +245,6 @@
 		margin: 0;
 		padding: 0;
 		text-align: right;
-		width: auto;
-	}
-
-	.hbspt-form .booleancheckbox-field input, .hbspt-form .booleancheckbox-field label {
-		display: inline;
-		font-weight: normal;
 		width: auto;
 	}
 
@@ -247,8 +256,7 @@
 		border-color: #F5A11D;
 	}
 
-	.hbspt-form .aui-field.field-filled,
-	.hbspt-form .aui-field.field-filled .aui-field-input {
+	.hbspt-form .aui-field.field-filled, .hbspt-form .aui-field.field-filled .aui-field-input {
 		color: #909295;
 	}
 
@@ -256,28 +264,15 @@
 		border-color: #909295;
 	}
 
-	.hbspt-form .aui-field.field-focused {
+	.hbspt-form .aui-field.field-focused .aui-field-input {
+		border-color: #1C75B9;
 		color: #1C75B9;
 	}
 
-	.hbspt-form .aui-field.field-focused .aui-field-input {
-		border-color: #1C75B9;
-	}
-
-	.hbspt-form .aui-field-booleancheckbox .aui-field-label {
-		left: 25px;
-		right: auto;
-		top: 5px;
-	}
-
-	.hbspt-form .aui-field-booleancheckbox .aui-field-input {
+	.hbspt-form .aui-field-booleancheckbox .aui-field-input, .hbspt-form .input input[type="checkbox"], .hbspt-form .input input[type="radio"] {
+		margin: 1px 5px 0 0;
 		width: auto;
-
-		-webkit-appearance: checkbox;
-		-moz-appearance: checkbox;
-		appearance: checkbox;
 	}
-
 	</style>
 
 	## Create tree map with all the info pulled from the url
@@ -540,7 +535,26 @@
 								#elseif ($item.getString("fieldType") == "textarea")
 									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required></textarea>
 								#elseif ($item.getString("fieldType") == "booleancheckbox")
-									<input class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required type="checkbox" value="$value"/>
+									<label class="aui-field-label">
+										<input class="${field_input_css_class}" name="$item.getString('name')" type="checkbox" value="$value"/>$label_text
+									</label>
+								#elseif ($item.getString("fieldType") == "checkbox" || $item.getString("fieldType") == "radio")
+									#set ($field_type = $item.getString("fieldType"))
+
+									#set ($selection_choices = $item.getJSONArray("options"))
+									#set ($selection_choices_length = $selection_choices.length() - 1)
+									#set ($selection_choices_range = [0..$selection_choices_length])
+
+									<div class="input">
+										#foreach ($i in $selection_choices_range)
+											#set ($selection_choice_label = $selection_choices.getJSONObject($i).getString("label"))
+											#set ($selection_choice_value = $selection_choices.getJSONObject($i).getString("value"))
+
+											<label class="aui-field-label">
+												<input class="${field_input_css_class}" name="$item.getString('name')" type="$field_type" value="$selection_choice_value" />$selection_choice_label
+											</label>
+										#end
+									</div>
 								#else
 									<input
 										class="${field_input_css_class}"
@@ -562,10 +576,6 @@
 
 										value="$value"
 									/>
-								#end
-
-								#if ($label_text != "" && ($item.getString("fieldType") == "booleancheckbox"))
-									<label class="aui-field-label" for="$item.getString('name')">$label_text</label>
 								#end
 							</div>
 
@@ -647,17 +657,29 @@
 
 							var value = node.get('value');
 
-							// need to figure out checkbox stuff
-							// if (node.get('type') == 'checkbox') {
-							// 	value = node.getAttribute('checked');
-							// }
-
-							if (value != "") {
-								fields[node.get('name')] = value;
+							if (value != '') {
+								if (node.hasClass('aui-field-input-checkbox') || node.hasClass('aui-field-input-radio')) {
+									if (node.get('checked') == true) {
+										if (fields[node.get('name')]) {
+											fields[node.get('name')] += ',' + value;
+										}
+										else {
+											fields[node.get('name')] = value;
+										}
+									}
+								}
+								else if (node.hasClass('aui-field-input-booleancheckbox')) {
+									if (node.get('checked') == true) {
+										value = true;
+										fields[node.get('name')] = value;
+									}
+								}
+								else {
+									fields[node.get('name')] = value;
+								}
 							}
 						}
 					);
-
 
 					if (leave) {
 						return;
