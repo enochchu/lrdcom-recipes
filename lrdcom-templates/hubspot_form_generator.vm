@@ -1,5 +1,5 @@
 #macro (clean_up $string)
-	#set ($string = $stringUtil.replace($string, "[", ""))
+    #set ($string = $stringUtil.replace($string, "[", ""))
 	#set ($string = $stringUtil.replace($string, "]", ""))
 	#set ($string = $stringUtil.replace($string, '"', ''))
 
@@ -17,7 +17,7 @@
 			#clean_up($field_name)
 
 			#if ($field_name != "")
-				#set ($VOID = $map.put($field, $field_name))
+				#set ($VOID = $map.put($field, $htmlUtil.escape($field_name)))
 			#end
 		#end
 
@@ -46,15 +46,15 @@
 		#end
 
 		#if ($asset_name != "")
-			#set ($VOID = $map.put("asset_name", $asset_name))
+			#set ($VOID = $map.put("asset_name", $htmlUtil.escape($asset_name)))
 		#end
 
 		#if ($asset_id != "")
-			#set ($VOID = $map.put("asset_id", $asset_id))
+			#set ($VOID = $map.put("asset_id", $htmlUtil.escape($asset_id)))
 		#end
 
 		#if ($asset_url != "")
-			#set ($VOID = $map.put("asset_url", $asset_url))
+			#set ($VOID = $map.put("asset_url", $htmlUtil.escape($asset_url)))
 		#end
 
 		#set ($VOID = $map.put("tactic_id", $record.getRecordId()))
