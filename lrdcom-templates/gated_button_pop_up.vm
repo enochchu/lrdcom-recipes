@@ -100,6 +100,13 @@ function displayPopUp${reserved-article-id.data}(node) {
 			createOverlayMask${reserved-article-id.data}();
 
 			centerOnPage${reserved-article-id.data}(node);
+
+			A.one('window').on(
+				'resize',
+				function() {
+					centerOnPage${reserved-article-id.data}(node);
+				}
+			);
 		}
 	);
 };
@@ -151,12 +158,14 @@ function centerOnPage${reserved-article-id.data}(node) {
 
 AUI().ready(
 	function(A) {
-		A.one('.${button_class.data}').on(
+		A.all('.${button_class.data}').on(
 			'click',
 			function(event) {
 				var gatedBtnPopUp = A.one('#gatedBtnPopUp-${reserved-article-id.data}');
 
-				displayPopUp${reserved-article-id.data}(gatedBtnPopUp);
+				if (gatedBtnPopUp) {
+					displayPopUp${reserved-article-id.data}(gatedBtnPopUp);
+				}
 			}
 		);
 	}
@@ -170,14 +179,22 @@ AUI().ready(
 				<h3 class="pop-up-heading">$heading.data</h3>
 			</div>
 			<div class="aui-helper-clearfix">
-				<div class="aui-w45 content-column">
-					<div class="content-column-content left-column pop-up-info">
-						#if ($pop_up_info != "")
-							$pop_up_info.data
-						#end
+				#set ($left_column_css_class = "aui-w45 content-column")
+				#set ($right_column_css_class = "aui-w55")
+
+				#if ($pop_up_info.data == "")
+					#set ($right_column_css_class = "aui-w100")
+				#end
+
+				#if ($pop_up_info.data != "")
+					<div class="$left_column_css_class">
+						<div class="content-column-content left-column pop-up-info">
+								$pop_up_info.data
+						</div>
 					</div>
-				</div>
-				<div class="aui-w55 content-column pop-up-form">
+				#end
+
+				<div class="${right_column_css_class} content-column pop-up-form">
 					<div class="content-column-content right-column">
 						#set ($form_css_class = "form-wrapper")
 
