@@ -1,5 +1,5 @@
 #macro (clean_up $string)
-    #set ($string = $stringUtil.replace($string, "[", ""))
+	#set ($string = $stringUtil.replace($string, "[", ""))
 	#set ($string = $stringUtil.replace($string, "]", ""))
 	#set ($string = $stringUtil.replace($string, '"', ''))
 
@@ -8,22 +8,25 @@
 	#end
 #end
 
-#macro (get_tactic_info $tactic_id $map $map_string)
+#macro (get_tactic_info4 $tactic_id $map $map_string)
 	#set ($record = $ddlRecordLocalService.fetchDDLRecord($getterUtil.getLong($tactic_id)))
 
 	#if ($record)
-		#foreach ($field in $hs_field_values)
-			#set ($field_name = $record.getFieldValue($field))
-			#clean_up($field_name)
+		#foreach ($field_name in $hs_field_names)
+			#set ($field_value = $record.getFieldValue($field_name))
+			#clean_up($field_value)
 
-			#if ($field_name != "")
-				#set ($VOID = $map.put($field, $htmlUtil.escape($field_name)))
+			#if ($field_value != "")
+				#set ($VOID = $map.put($field_name, $htmlUtil.escape($field_value)))
 			#end
 		#end
 
 		#set ($asset_record = $record.getFieldValue("asset"))
 		#set ($asset_type = $record.getFieldValue("asset_type"))
 		#clean_up($asset_type)
+
+		#set ($asset_primary_buyers_stage = $record.getFieldValue("asset_primary_buyers_stage"))
+		#clean_up($asset_primary_buyers_stage)
 
 		#set ($asset = false)
 		#set ($asset_id = $record.getFieldValue("asset_id"))
@@ -55,6 +58,10 @@
 
 		#if ($asset_url != "")
 			#set ($VOID = $map.put("asset_url", $htmlUtil.escape($asset_url)))
+		#end
+
+		#if ($asset_primary_buyers_stage != "")
+			#set ($VOID = $map.put("asset_primary_buyers_stage", $htmlUtil.escape($asset_primary_buyers_stage)))
 		#end
 
 		#set ($VOID = $map.put("tactic_id", $record.getRecordId()))
@@ -277,7 +284,7 @@
 
 	#set ($ddlRecordLocalService = $serviceLocator.findService("com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalService"))
 
-	#set ($hs_field_values = ["asset_type","campaign","leadsource","lead_source_type","product_interest","program","tactic_name","video_type"])
+	#set ($hs_field_names = ["asset_type","campaign","leadsource","lead_source_type","product_interest","program","tactic_name","video_type"])
 
 	#set ($complete_url = $request.attributes.CURRENT_COMPLETE_URL)
 	#set ($record_id = $httpUtil.getParameter($complete_url, "tactic_id"))
@@ -286,14 +293,14 @@
 	#set ($hs_url_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
 	#if ($record_id != "")
-		#get_tactic_info($record_id, $hs_url_map, $hs_url_map_string)
+		#get_tactic_info4($record_id, $hs_url_map, $hs_url_map_string)
 	#end
 
 	#set ($hs_default_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 	#set ($hs_default_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
 	#if ($default_tactic_id && ($default_tactic_id.data != ""))
-		#get_tactic_info($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
+		#get_tactic_info4($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
 	#end
 
 	## Create a state to country map
@@ -700,6 +707,37 @@
 
 					if ((redirectAssetURL != "") && (form.getAttribute('data-asset-new-tab') == "true")) {
 						window.open(redirectAssetURL, '_blank');
+					}
+
+					if (fields["asset_primary_buyers_stage"]) {
+						var assetPrimaryBuyersStage = fields["asset_primary_buyers_stage"];
+
+						if (assetPrimaryBuyersStage == "Awareness") {
+							var trackEventId = "000000245927";
+						}
+						else if (assetPrimaryBuyersStage == "Education") {
+							var trackEventId = "000000245928";
+						}
+						else if (assetPrimaryBuyersStage == "Evaluation") {
+							var trackEventId = "000000245929";
+						}
+						else if (assetPrimaryBuyersStage == "Justification") {
+							var trackEventId = "000000245931";
+						}
+
+						try {
+							_hsq.push(
+								[
+									"trackEvent", {
+										id: trackEventId,
+										value: null
+									}
+								]
+							);
+						}
+						catch (error) {
+							console.log('_hsq error caught');
+						}
 					}
 
 					A.io.request(
