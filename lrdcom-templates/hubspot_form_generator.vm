@@ -659,7 +659,7 @@
 
 							if (value != '') {
 								if (node.hasClass('aui-field-input-checkbox') || node.hasClass('aui-field-input-radio')) {
-									if (node.get('checked') == true) {
+									if ((node.get('checked') == true) || (node.getAttribute('type') == 'hidden')) {
 										if (fields[node.get('name')]) {
 											fields[node.get('name')] += ',' + value;
 										}
