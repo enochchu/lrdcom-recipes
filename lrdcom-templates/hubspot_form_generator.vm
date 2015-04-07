@@ -8,7 +8,7 @@
 	#end
 #end
 
-#macro (get_tactic_info4 $tactic_id $map $map_string)
+#macro (get_tactic_info5 $tactic_id $map $map_string)
 	#set ($record = $ddlRecordLocalService.fetchDDLRecord($getterUtil.getLong($tactic_id)))
 
 	#if ($record)
@@ -39,8 +39,8 @@
 		#set ($dl_file_entry_local_service = $serviceLocator.findService("com.liferay.portlet.documentlibrary.service.DLFileEntryLocalService"))
 
 		#if ($asset_json_object.getString("uuid"))
-			#set ($asset_url = "${request.get('scheme')}://${request.get('theme-display').get('portal-url')}/documents/${groupId}/${asset_json_object.getString('uuid')}")
-			#set ($asset = $dl_file_entry_local_service.getFileEntryByUuidAndGroupId($asset_json_object.getString("uuid"), $groupId))
+			#set ($asset_url = "${request.get('scheme')}://${request.get('theme-display').get('portal-url')}/documents/14/${asset_json_object.getString('uuid')}")
+			#set ($asset = $dl_file_entry_local_service.getFileEntryByUuidAndGroupId($asset_json_object.getString("uuid"), 14))
 
 			#if ($asset)
 				#set ($asset_id = $asset.getUuid())
@@ -205,16 +205,16 @@
 		animation: slide .5s;
 	}
 
-	.hbspt-form .select-field .aui-field-label, .hbspt-form .select-field .aui-form-validator-message {
+	.hbspt-form .aui-field-select .aui-field-label, .hbspt-form .aui-field-select .aui-form-validator-message {
 		right: 35px;
 	}
 
-	.hbspt-form .select-field .aui-field-input {
+	.hbspt-form .aui-field-select .aui-field-input {
 		background: url(https://www.liferay.com/documents/14/43429917/arrow_down.png/ca985125-5ec8-47aa-b967-fdd622aa4b9a) no-repeat right;
 		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down.svg/a0a0f579-3f2b-4e0f-a590-e4885bad153f);
 	}
 
-	.hbspt-form .select-field.field-filled .aui-field-input {
+	.hbspt-form .aui-field-select.field-filled .aui-field-input {
 		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.png/8ff76a13-df82-4d0a-b37c-75bcbc28ab6e);
 		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.svg/98ec462b-e825-425b-9f20-b869c1fafb9f);
 	}
@@ -288,14 +288,14 @@
 	#set ($hs_url_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
 	#if ($record_id != "")
-		#get_tactic_info4($record_id, $hs_url_map, $hs_url_map_string)
+		#get_tactic_info5($record_id, $hs_url_map, $hs_url_map_string)
 	#end
 
 	#set ($hs_default_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 	#set ($hs_default_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
 	#if ($default_tactic_id && ($default_tactic_id.data != ""))
-		#get_tactic_info4($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
+		#get_tactic_info5($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
 	#end
 
 	## Create a state to country map
@@ -385,6 +385,8 @@
 						#set ($required = "")
 						#set ($value = "")
 
+						#set ($field_type = $item.getString("fieldType"))
+
 						#if ($item.getString("defaultValue"))
 							#set ($value = $item.getString("defaultValue"))
 						#end
@@ -393,7 +395,7 @@
 							#set ($value = $item.getJSONArray("selectedOptions").toString())
 							#clean_up($value)
 
-							#if ($hidden && $item.getString("fieldType") == "booleancheckbox")
+							#if ($hidden && $field_type == "checkbox")
 								#set ($value = $stringUtil.replace($value, ",", ";"))
 
 								#if ($hs_contact_object && $hs_contact_object.getJSONObject("$item.getString('name')"))
@@ -413,8 +415,8 @@
 							#set ($value = $hs_value)
 						#end
 
-						#set ($field_css_class = "aui-field aui-field-${item.getString('fieldType')}")
-						#set ($field_input_css_class = "aui-field-input aui-field-input-${item.getString('fieldType')}")
+						#set ($field_css_class = "aui-field aui-field-${field_type}")
+						#set ($field_input_css_class = "aui-field-input aui-field-input-${field_type}")
 
 						#if ($value != "")
 							#set ($field_css_class = "$field_css_class field-filled")
@@ -422,6 +424,7 @@
 
 						#if ($hidden || ($hs_smart_field && ($hs_value != "")))
 							#set ($field_css_class = "$field_css_class aui-helper-hidden")
+							#set ($field_input_css_class = "$field_input_css_class hidden-field")
 						#else
 							#set ($field_count = $field_count + 1)
 						#end
@@ -447,7 +450,7 @@
 							##skip
 						#else
 							<div class="$field_css_class" id="article${reserved-article-id.data}field$i">
-								#if ($label_text != "" && ($item.getString("fieldType") != "richtext") && ($item.getString("fieldType") != "booleancheckbox"))
+								#if ($label_text != "" && ($field_type != "richtext") && ($field_type != "booleancheckbox"))
 									<label class="aui-field-label" for="$item.getString('name')">$label_text</label>
 								#end
 
@@ -457,7 +460,7 @@
 									#end
 
 									<input class="${field_input_css_class}" type="hidden" name="$item.getString('name')" value="$value"/>
-								#elseif ($item.getString("fieldType") == "select")
+								#elseif ($field_type == "select")
 									#set ($has_translation = false)
 									#set ($options = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
@@ -530,17 +533,15 @@
 											#set ($void = $states_options_json.put("unselected_label", $label_text))
 										#end
 									#end
-								#elseif ($item.getString("fieldType") == "richtext")
+								#elseif ($field_type == "richtext")
 									<span class="hs-richtext">$item.getString('defaultValue')</span>
-								#elseif ($item.getString("fieldType") == "textarea")
+								#elseif ($field_type == "textarea")
 									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required></textarea>
-								#elseif ($item.getString("fieldType") == "booleancheckbox")
+								#elseif ($field_type == "booleancheckbox")
 									<label class="aui-field-label">
 										<input class="${field_input_css_class}" name="$item.getString('name')" type="checkbox" value="$value"/>$label_text
 									</label>
-								#elseif ($item.getString("fieldType") == "checkbox" || $item.getString("fieldType") == "radio")
-									#set ($field_type = $item.getString("fieldType"))
-
+								#elseif ($field_type == "checkbox" || $field_type == "radio")
 									#set ($selection_choices = $item.getJSONArray("options"))
 									#set ($selection_choices_length = $selection_choices.length() - 1)
 									#set ($selection_choices_range = [0..$selection_choices_length])
@@ -565,7 +566,7 @@
 										#if ($item.getString("name") == "email")
 											type="email"
 										#else
-											type="$item.getString('fieldType')"
+											type="$field_type"
 										#end
 
 										#if ($item.getString('placeholder') != "")
@@ -649,34 +650,30 @@
 
 					form.all('.aui-field-input').each(
 						function(node) {
-							if (node.hasClass('aui-field-required') && node.get('value') == '') {
+							var value = node.get('value');
+
+							if (node.hasClass('aui-field-input-booleancheckbox') && (node.get('checked') == true)) {
+								value = true;
+							}
+
+							if (node.hasClass('aui-field-required') && value == '') {
 								leave = true;
 
 								return;
 							}
 
-							var value = node.get('value');
-
-							if (value != '') {
-								if (node.hasClass('aui-field-input-checkbox') || node.hasClass('aui-field-input-radio')) {
-									if ((node.get('checked') == true) || (node.getAttribute('type') == 'hidden')) {
-										if (fields[node.get('name')]) {
-											fields[node.get('name')] += ',' + value;
-										}
-										else {
-											fields[node.get('name')] = value;
-										}
+							if (!node.hasClass('hidden-field') && (node.hasClass('aui-field-input-booleancheckbox') || node.hasClass('aui-field-input-checkbox') || node.hasClass('aui-field-input-radio'))) {
+								if (node.get('checked') == true) {
+									if (fields[node.get('name')]) {
+										fields[node.get('name')] += ',' + value;
 									}
-								}
-								else if (node.hasClass('aui-field-input-booleancheckbox')) {
-									if (node.get('checked') == true) {
-										value = true;
+									else {
 										fields[node.get('name')] = value;
 									}
 								}
-								else {
-									fields[node.get('name')] = value;
-								}
+							}
+							else if (value != '') {
+								fields[node.get('name')] = value;
 							}
 						}
 					);
