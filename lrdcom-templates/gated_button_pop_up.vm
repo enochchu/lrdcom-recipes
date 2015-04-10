@@ -11,7 +11,7 @@
 	text-align: center;
 }
 
-.aui-component.aui-overlay ~ #wrapper .portlet-boundary:not(.no-blur), .aui-component.aui-overlay ~ #wrapper header, .aui-component.aui-overlay ~ #wrapper footer, .aui-component.aui-overlay ~ #wrapper .${button_class.data} {
+.aui-component.aui-overlay.aui-overlaymask ~ #wrapper .portlet-boundary:not(.no-blur), .aui-component.aui-overlay.aui-overlaymask ~ #wrapper header, .aui-component.aui-overlay.aui-overlaymask ~ #wrapper footer, .aui-component.aui-overlay ~ #wrapper .${button_class.data} {
 	filter: blur(2px);
 	-webkit-filter: blur(2px);
 	-moz-filter: blur(2px);
@@ -147,8 +147,12 @@ function centerOnPage${reserved-article-id.data}(node) {
 			var nodeHeight = node.get('clientHeight');
 			var nodeWidth = node.get('clientWidth');
 
-			xCenter = (contentWidth / 2) - (nodeWidth / 2);
-			yCenter = ((winHeight / 2) - (nodeHeight / 2)) + currentScrollPos;
+			var yPosition = (winHeight / 2) - (nodeHeight / 2);
+
+			(yPosition < 0) ? (yPosition = 0) : yPosition;
+
+			var xCenter = (contentWidth / 2) - (nodeWidth / 2);
+			var yCenter = yPosition + currentScrollPos;
 
 			node.setStyle('right', xCenter);
 			node.setStyle('top', yCenter);
