@@ -80,13 +80,31 @@
 	#set ($map_string = "${map_string}}")
 #end
 
-#macro (get_options $field $options_map)
+#macro (get_options5 $field $options_map)
+	#if ($localization_map)
+		#set ($localized_field_name = "")
+		#set ($localized_field_options = false)
+
+		#set ($localized_field_name = "$field.getString('name')" + "_" + "$locale.toString().toLowerCase()")
+		#set ($localized_field_options = $localization_map.get($localized_field_name).get("options"))
+
+		#if ($localized_field_options)
+			#set_options($localized_field_options, $options_map)
+		#end
+	#end
+
+	#if ($options_map.isEmpty())
+		#set_options($field.getJSONArray('options'), $options_map)
+	#end
+#end
+
+#macro (set_options $options $options_map)
 	#set ($options_start = 0)
-	#set ($options_end = $field.getJSONArray('options').length() - 1)
+	#set ($options_end = $options.length() - 1)
 	#set ($options_range = [$start..$options_end])
 
 	#foreach ($i in $options_range)
-		#set ($option = $field.getJSONArray('options').getJSONObject($i))
+		#set ($option = $options.getJSONObject($i))
 		#set ($order = $option.getInt('displayOrder') + 1000)
 		#set ($VOID = $options_map.put("$order", $option))
 	#end
@@ -210,13 +228,13 @@
 	}
 
 	.hbspt-form .aui-field-select .aui-field-input {
-		background: url(https://www.liferay.com/documents/14/43429917/arrow_down.png/ca985125-5ec8-47aa-b967-fdd622aa4b9a) no-repeat right;
-		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down.svg/a0a0f579-3f2b-4e0f-a590-e4885bad153f);
+		background: url(https://www.liferay.com/documents/14/43429917/arrow_down.png) no-repeat right;
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down.svg);
 	}
 
 	.hbspt-form .aui-field-select.field-filled .aui-field-input {
-		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.png/8ff76a13-df82-4d0a-b37c-75bcbc28ab6e);
-		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.svg/98ec462b-e825-425b-9f20-b869c1fafb9f);
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.png);
+		background-image: url(https://www.liferay.com/documents/14/43429917/arrow_down_selected.svg);
 	}
 
 	.hbspt-form .aui-field {
@@ -298,6 +316,24 @@
 		#get_tactic_info5($default_tactic_id.data, $hs_default_map, $hs_default_map_string)
 	#end
 
+	#set ($number_of_fields_displayed = $getterUtil.getInteger($number_of_fields.data))
+
+	#foreach ($key in $number_of_fields.override_key.siblings)
+		#foreach ($value in $key.override_value.siblings)
+			#if ($hs_url_map.get($key.data) == $value.data || $hs_default_map.get($key.data) == $value.data)
+				#set ($number_of_fields_displayed = $getterUtil.getInteger($value.num_of_fields.data))
+				#set ($fields_to_skip = $value.fields_to_skip.data)
+
+				#set ($break = true)
+				#break
+			#end
+		#end
+
+		#if ($break)
+			#break
+		#end
+	#end
+
 	## Create a state to country map
 
 	#set ($state_country_map = {"Armed Forces Americas": "United States","Armed Forces Europe": "United States","Alaska": "United States","Alabama": "United States","Armed Forces Pacific": "United States","Arkansas": "United States","American Samoa": "United States","Arizona": "United States","California": "United States","Colorado": "United States","Connecticut": "United States","District of Columbia": "United States","Delaware": "United States","Florida": "United States","Federated Micronesia": "United States","Georgia": "United States","Guam": "United States","Hawaii": "United States","Iowa": "United States","Idaho": "United States","Illinois": "United States","Indiana": "United States","Kansas": "United States","Kentucky": "United States","Louisiana": "United States","Massachusetts": "United States","Maryland": "United States","Maine": "United States","Marshall Islands": "United States","Michigan": "United States","Minnesota": "United States","Missouri": "United States","Northern Mariana Islands": "United States","Mississippi": "United States","Montana": "United States","North Carolina": "United States","North Dakota": "United States","Nebraska": "United States","New Hampshire": "United States","New Jersey": "United States","New Mexico": "United States","Nevada": "United States","New York": "United States","Ohio": "United States","Oklahoma": "United States","Oregon": "United States","Pennsylvania": "United States","Puerto Rico": "United States","Palau": "United States","Rhode Island": "United States","South Carolina": "United States","South Dakota": "United States","Tennessee": "United States","Texas": "United States","United States Minor Outlying Islands": "United States","Utah": "United States","Virginia": "United States","US Virgin Islands": "United States","Vermont": "United States","Washington": "United States","Wisconsin": "United States","West Virginia": "United States","Wyoming": "United States","Australian Capital Territory": "Australia","New South Wales": "Australia","Northern Territory": "Australia","Queensland": "Australia","South Australia": "Australia","Tasmania": "Australia","Victoria": "Australia","Western Australia": "Australia","Acre": "Brazil","Alagoas": "Brazil","Amazonas": "Brazil","Amapá": "Brazil","Bahia": "Brazil","Ceará": "Brazil","Distrito Federal": "Brazil","Espírito Santo": "Brazil","Goiás": "Brazil","Maranhão": "Brazil","Minas Gerais": "Brazil","Mato Grosso do Sul": "Brazil","Mato Grosso": "Brazil","Pará": "Brazil","Paraíba": "Brazil","Pernambuco": "Brazil","Piauí": "Brazil","Paraná": "Brazil","Rio de Janeiro": "Brazil","Rio Grande do Norte": "Brazil","Rondônia": "Brazil","Roraima": "Brazil","Rio Grande do Sul": "Brazil","Santa Catarina": "Brazil","Sergipe": "Brazil","São Paulo": "Brazil","Tocantins": "Brazil","Alberta": "Canada","British Columbia": "Canada","Manitoba": "Canada","New Brunswick": "Canada","Newfoundland and Labrador": "Canada","Nova Scotia": "Canada","Northwest Territories": "Canada","Nunavut": "Canada","Ontario": "Canada","Prince Edward Island": "Canada","Quebec": "Canada","Saskatchewan": "Canada","Yukon Territories": "Canada","Beijing": "China","Tianjin": "China","Hebei": "China","Shanxi": "China","Nei Mongol": "China","Liaoning": "China","Jilin": "China","Heilongjiang": "China","Shanghai": "China","Jiangsu": "China","Zhejiang": "China","Anhui": "China","Fujian": "China","Jiangxi": "China","Shandong": "China","Henan": "China","Hubei": "China","Hunan": "China","Guangdong": "China","Guangxi": "China","Hainan": "China","Chongqing": "China","Sichuan": "China","Guizhou": "China","Yunnan": "China","Xizang": "China","Shaanxi": "China","Gansu": "China","Qinghai": "China","Ningxia": "China","Xinjiang": "China","Chinese Taipei": "China","Hong Kong": "China","Macao": "China","Clare": "Ireland","Cavan": "Ireland","Cork": "Ireland","Carlow": "Ireland","Dublin": "Ireland","Donegal": "Ireland","Galway": "Ireland","Kildare": "Ireland","Kilkenny": "Ireland","Kerry": "Ireland","Longford": "Ireland","Louth": "Ireland","Limerick": "Ireland","Leitrim": "Ireland","Laois": "Ireland","Meath": "Ireland","Monaghan": "Ireland","Mayo": "Ireland","Offaly": "Ireland","Roscommon": "Ireland","Sligo": "Ireland","Tipperary": "Ireland","Waterford": "Ireland","Westmeath": "Ireland","Wicklow": "Ireland","Wexford": "Ireland","Andaman and Nicobar Islands": "India","Andhra Pradesh": "India","Arunachal Pradesh": "India","Assam": "India","Bihar": "India","Chandigarh": "India","Chhattisgarh": "India","Daman and Diu": "India","Delhi": "India","Dadra and Nagar Haveli": "India","Goa": "India","Gujarat": "India","Himachal Pradesh": "India","Haryana": "India","Jharkhand": "India","Jammu and Kashmir": "India","Karnataka": "India","Kerala": "India","Lakshadweep": "India","Maharashtra": "India","Meghalaya": "India","Manipur": "India","Madhya Pradesh": "India","Mizoram": "India","Nagaland": "India","Odisha": "India","Punjab": "India","Puducherry": "India","Rajasthan": "India","Sikkim": "India","Tamil Nadu": "India","Tripura": "India","Uttar Pradesh": "India","Uttarakhand": "India","West Bengal": "India","Agrigento": "Italy","Alessandria": "Italy","Ancona": "Italy","Aosta": "Italy","Ascoli Piceno": "Italy","L&#039;Aquila": "Italy","Arezzo": "Italy","Asti": "Italy","Avellino": "Italy","Bari": "Italy","Bergamo": "Italy","Biella": "Italy","Belluno": "Italy","Benevento": "Italy","Bologna": "Italy","Brindisi": "Italy","Brescia": "Italy","Barletta-Andria-Trani": "Italy","Bolzano": "Italy","Cagliari": "Italy","Campobasso": "Italy","Caserta": "Italy","Chieti": "Italy","Carbonia-Iglesias": "Italy","Caltanissetta": "Italy","Cuneo": "Italy","Como": "Italy","Cremona": "Italy","Cosenza": "Italy","Catania": "Italy","Catanzaro": "Italy","Enna": "Italy","Forlì-Cesena": "Italy","Ferrara": "Italy","Foggia": "Italy","Florence": "Italy","Fermo": "Italy","Frosinone": "Italy","Genoa": "Italy","Gorizia": "Italy","Grosseto": "Italy","Imperia": "Italy","Isernia": "Italy","Crotone": "Italy","Lecco": "Italy","Lecce": "Italy","Livorno": "Italy","Lodi": "Italy","Latina": "Italy","Lucca": "Italy","Monza and Brianza": "Italy","Macerata": "Italy","Messina": "Italy","Milan": "Italy","Mantua": "Italy","Modena": "Italy","Massa and Carrara": "Italy","Matera": "Italy","Naples": "Italy","Novara": "Italy","Nuoro": "Italy","Ogliastra": "Italy","Oristano": "Italy","Olbia-Tempio": "Italy","Palermo": "Italy","Piacenza": "Italy","Padua": "Italy","Pescara": "Italy","Perugia": "Italy","Pisa": "Italy","Pordenone": "Italy","Prato": "Italy","Parma": "Italy","Pistoia": "Italy","Pesaro and Urbino": "Italy","Pavia": "Italy","Potenza": "Italy","Ravenna": "Italy","Reggio Calabria": "Italy","Reggio Emilia": "Italy","Ragusa": "Italy","Rieti": "Italy","Rome": "Italy","Rimini": "Italy","Rovigo": "Italy","Salerno": "Italy","Siena": "Italy","Sondrio": "Italy","La Spezia": "Italy","Syracuse": "Italy","Sassari": "Italy","Savona": "Italy","Taranto": "Italy","Teramo": "Italy","Trento": "Italy","Turin": "Italy","Trapani": "Italy","Terni": "Italy","Trieste": "Italy","Treviso": "Italy","Udine": "Italy","Varese": "Italy","Verbano-Cusio-Ossola": "Italy","Vercelli": "Italy","Venice": "Italy","Vicenza": "Italy","Verona": "Italy","Medio Campidano": "Italy","Viterbo": "Italy","Vibo Valentia": "Italy","Aguascalientes": "Mexico","Baja California": "Mexico","Baja California Sur": "Mexico","Chihuahua": "Mexico","Colima": "Mexico","Campeche": "Mexico","Coahuila": "Mexico","Chiapas": "Mexico","Federal District": "Mexico","Durango": "Mexico","Guerrero": "Mexico","Guanajuato": "Mexico","Hidalgo": "Mexico","Jalisco": "Mexico","Mexico State": "Mexico","Michoacán": "Mexico","Morelos": "Mexico","Nayarit": "Mexico","Nuevo León": "Mexico","Oaxaca": "Mexico","Puebla": "Mexico","Querétaro": "Mexico","Quintana Roo": "Mexico","Sinaloa": "Mexico","San Luis Potosí": "Mexico","Sonora": "Mexico","Tabasco": "Mexico","Tlaxcala": "Mexico","Tamaulipas": "Mexico","Veracruz": "Mexico","Yucatán": "Mexico","Zacatecas": "Mexico"})
@@ -318,14 +354,32 @@
 		#set ($hs_contact_object = $hs_contact.getHSContactJSONObject().getJSONObject("properties"))
 	#end
 
-	## Testing Localization Form
-	## #set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060"))
+	#if ($locale != "en_US")
+		## Testing Localization Form
+		## #set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060"))
 
-	## Production Localization Form
-	#set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05"))
+		## Production Localization Form
+		#set ($localization_form = $hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05"))
 
-	#if ($localization_form)
-		#set ($localization_form_fields = $localization_form.getHSFormJSONObject().getJSONArray("fields"))
+		#if ($localization_form.getHSFormJSONObject().getJSONArray("fields"))
+			#set ($localization_form_fields = $localization_form.getHSFormJSONObject().getJSONArray("fields"))
+			#set ($localization_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+			#set ($localization_form_start = 0)
+			#set ($localization_form_end = $localization_form_fields.length() - 1)
+			#set ($localization_form_range = [$localization_form_start..$localization_form_end])
+
+			#foreach ($i in $localization_form_range)
+				#set ($localization_form_field = $localization_form_fields.getJSONObject($i))
+
+				#set ($field_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+				#set ($VOID = $field_map.put("label", $localization_form_field.getString("label")))
+				#set ($VOID = $field_map.put("options", $localization_form_field.getJSONArray("options")))
+
+				#set ($VOID = $localization_map.put($localization_form_field.getString("name"), $field_map))
+			#end
+		#end
 	#end
 
 	#set ($hs_form = $hs_form_local_service.fetchHSFormByGUID($hs_form_id.data))
@@ -346,9 +400,13 @@
 		#set ($form_field_strings_json = $jsonFactoryUtil.createJSONObject())
 
 		#foreach ($name in $field_name.siblings)
+			#set ($article_field_values_json = $jsonFactoryUtil.createJSONObject())
+
 			#if ($name.label.data != "")
-				#set ($article_field_name = $jsonFactoryUtil.createJSONObject())
-				#set ($void = $article_field_names_json.put($name.data, $name.label.data))
+				#set ($void = $article_field_values_json.put("label", $name.label.data))
+				#set ($void = $article_field_values_json.put("description", $name.description.data))
+
+				#set ($void = $article_field_names_json.put($name.data, $article_field_values_json))
 			#end
 
 			#if ($name.required_message.data != "")
@@ -372,11 +430,21 @@
 						#set ($item = $hs_form_fields.getJSONObject($i))
 
 						#set ($label_text = "")
+						#set ($field_description = "")
 
 						#if ($article_field_names_json.has($item.getString("name")))
-							#set ($label_text = $article_field_names_json.getString($item.getString("name")))
-						#else
+							#set ($article_field_name_value = $article_field_names_json.getJSONObject($item.getString("name")))
+
+							#set ($label_text = $article_field_name_value.getString("label"))
+							#set ($field_description = $article_field_name_value.getString("description"))
+						#end
+
+						#if ($label_text == "")
 							#set ($label_text = $item.getString("label"))
+						#end
+
+						#if ($field_description == "")
+							#set ($field_description = $item.getString("description"))
 						#end
 
 						#set ($hidden = $getterUtil.getBoolean($item.getString("hidden")))
@@ -425,6 +493,8 @@
 						#if ($hidden || ($hs_smart_field && ($hs_value != "")))
 							#set ($field_css_class = "$field_css_class aui-helper-hidden")
 							#set ($field_input_css_class = "$field_input_css_class hidden-field")
+						#elseif ($fields_to_skip.contains($item.getString("name")))
+							##skip
 						#else
 							#set ($field_count = $field_count + 1)
 						#end
@@ -446,7 +516,7 @@
 							#set ($field_css_class = "aui-helper-hidden $field_css_class state")
 						#end
 
-						#if ((($number_of_fields.data != "") && ($field_count > $getterUtil.getInteger($number_of_fields.data)) && !$hidden) || ($hs_smart_field && ($value != "")))
+						#if ((($number_of_fields_displayed != 0) && ($field_count > $number_of_fields_displayed) && !$hidden) || ($hs_smart_field && ($value != "")) || $fields_to_skip.contains($item.getString("name")))
 							##skip
 						#else
 							<div class="$field_css_class" id="article${reserved-article-id.data}field$i">
@@ -461,37 +531,14 @@
 
 									<input class="${field_input_css_class}" type="hidden" name="$item.getString('name')" value="$value"/>
 								#elseif ($field_type == "select")
-									#set ($has_translation = false)
-									#set ($options = $portal.getClass().forName("java.util.TreeMap").newInstance())
+									#set ($select_options_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
-									#if ($localization_form_fields && ($locale != "en_US"))
-										#set ($new_select_field = "$item.getString('name')" + "_" + "$locale.toString().toLowerCase()")
-										#set ($localization_form_start = 0)
-										#set ($localization_form_end = $localization_form_fields.length() - 1)
-										#set ($localization_form_range = [$localization_form_start..$localization_form_end])
-
-										## Maybe Move this out of loop
-										#foreach ($i in $localization_form_range)
-											#set ($localization_form_field = $localization_form_fields.getJSONObject($i))
-
-											#if ($localization_form_field.getString('name') == $new_select_field)
-												#get_options($localization_form_field, $options)
-
-												#set ($has_translation = true)
-
-												#break
-											#end
-										#end
-									#end
-
-									#if (!$has_translation)
-										#get_options($item, $options)
-									#end
+									#get_options5($item, $select_options_map)
 
 									<select class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required>
 										<option value="">$label_text</option>
 
-										#foreach ($option in $options)
+										#foreach ($option in $select_options_map)
 											#set ($selected = "")
 
 											#if ($value == $option.getString('value'))
@@ -505,7 +552,7 @@
 									#if ($item.getString("name") == "state")
 										#set ($states_options_json = $jsonFactoryUtil.createJSONObject())
 
-										#foreach ($option in $options)
+										#foreach ($option in $select_options_map)
 											#set ($country_name = "other")
 											#set ($option_value = $htmlUtil.escape($option.getString("value")))
 											#set ($country_name = $state_country_map.get($option_value))
@@ -536,23 +583,26 @@
 								#elseif ($field_type == "richtext")
 									<span class="hs-richtext">$item.getString('defaultValue')</span>
 								#elseif ($field_type == "textarea")
-									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required></textarea>
+									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required>$value</textarea>
 								#elseif ($field_type == "booleancheckbox")
 									<label class="aui-field-label">
-										<input class="${field_input_css_class}" name="$item.getString('name')" type="checkbox" value="$value"/>$label_text
+										<input class="${field_input_css_class}" name="$item.getString('name')" type="checkbox" value="false" />$label_text
 									</label>
 								#elseif ($field_type == "checkbox" || $field_type == "radio")
-									#set ($selection_choices = $item.getJSONArray("options"))
-									#set ($selection_choices_length = $selection_choices.length() - 1)
-									#set ($selection_choices_range = [0..$selection_choices_length])
+									#set ($checkbox_options_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+									#get_options5($item, $checkbox_options_map)
 
 									<div class="input">
-										#foreach ($i in $selection_choices_range)
-											#set ($selection_choice_label = $selection_choices.getJSONObject($i).getString("label"))
-											#set ($selection_choice_value = $selection_choices.getJSONObject($i).getString("value"))
+										#foreach ($option in $checkbox_options_map)
+											#if ($value.contains($option.getString("value")))
+												#set ($checked = "checked")
+											#else
+												#set ($checked = "")
+											#end
 
 											<label class="aui-field-label">
-												<input class="${field_input_css_class}" name="$item.getString('name')" type="$field_type" value="$selection_choice_value" />$selection_choice_label
+												<input class="${field_input_css_class}" $checked name="$item.getString('name')" type="$field_type" value="$option.getString('value')" />$option.getString("label")
 											</label>
 										#end
 									</div>
@@ -577,6 +627,10 @@
 
 										value="$value"
 									/>
+								#end
+
+								#if ($field_description != "")
+									<div class="aui-field-desc">$field_description</div>
 								#end
 							</div>
 
@@ -656,7 +710,7 @@
 								value = true;
 							}
 
-							if (node.hasClass('aui-field-required') && value == '') {
+							if ((node.hasClass('aui-field-required') && value == '') || (node.hasClass('aui-field-required') && value == 'false')) {
 								leave = true;
 
 								return;
