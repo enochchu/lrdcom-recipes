@@ -305,6 +305,14 @@
 	#set ($hs_url_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 	#set ($hs_url_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
+	#set ($ip_geocoder_util = $portal.getClass().forName("com.liferay.ipgeocoder.util.IPGeocoderUtil"))
+	#set ($ip_info = $ip_geocoder_util.getIPInfo($request.attributes.OSB_REMOTE_ADDRESS))
+	#set ($country_from_ip = "")
+
+	#if ($ip_info)
+		#set ($country_from_ip = $ip_info.getCountryName())
+	#end
+
 	#if ($record_id != "")
 		#get_tactic_info5($record_id, $hs_url_map, $hs_url_map_string)
 	#end
@@ -541,7 +549,8 @@
 										#foreach ($option in $select_options_map)
 											#set ($selected = "")
 
-											#if ($value == $option.getString('value'))
+											#if ($value == $option.getString('value') || (($item.getString("name") == "country") && ($option.getString('value') == $country_from_ip)))
+
 												#set ($selected = "selected")
 											#end
 
