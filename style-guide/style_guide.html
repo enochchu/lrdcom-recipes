@@ -786,14 +786,14 @@
 			<li>do not use when:
 				<ul>
 					<li>complex content</li>
-					<li>layout/view of content is repeated in many places (more effecient to create new template)</li>
+					<li>layout/view of content is repeated in many places (more efficient to create new template)</li>
 					<li>velocity is required</li>
 				</ul>
 			</li>
 
-			<li>avoid using #article-$article-id.data when possible</li>
+			<li>avoid using #article-$article-id.data whenever possible</li>
 			<li>reuse css classes and styles as much as possible for common styling</li>
-			<li>avoid using html as much as possible (if there is too much consider making a new template)</li>
+			<li>avoid writing excess html. if absolutely necessary, consider creating a new template</li>
 		</ul>
 		<strong>where to put css styles</strong>
 		<ul>
@@ -805,7 +805,7 @@
 		</ul>
 		<strong>naming conventions</strong>
 		<ul>
-			<li>include friendly url after article title (The Leading Open Source Portal for the Enterprise - /products/liferay-portal/overview)</li>
+			<li>include friendly url after article title (e.g. The Leading Open Source Portal for the Enterprise - /products/liferay-portal/overview)</li>
 		</ul>
 		<strong>general formatting</strong>
 		<ul>
@@ -814,6 +814,7 @@
 			<li>css classes are named-with-dashes</li>
 			<li>velocity and html uses " "</li>
 			<li>javascript uses ' '</li>
+			<li>wrap velocity variable from user input with $htmlUtil.escape()</li>
 		</ul>
 		<strong>javascript usage</strong>
 		<ul>
@@ -830,7 +831,7 @@
 		<strong>translations</strong>
 		<ul>
 			<li>make sure templates you make can be fully localized</li>
-			<li>if you need add a language key to content and id does not exist in the code, add it to the localization template(do not commit it)</li>
+			<li>if you need add a language key to content and id does not exist in the code, add it to the localization template instead of commiting it (article id# 30798511)</li>
 			<li>if updating content, make sure you check to update translated content as well</li>
 		</ul>
 	</div>
