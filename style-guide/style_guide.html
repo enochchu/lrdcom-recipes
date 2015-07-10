@@ -8,35 +8,19 @@
 	<style>
 		body {
 			margin: 2em auto;
-			max-width: 1080px;
+			max-width: 1200px;
 			min-width: 320px;
+		}
+
+		code {
+			background-color: #EFEFEF;
+			display: block;
+			margin: 1em 0;
+			padding: 1em;
 		}
 
 		pre {
 			line-height: 1em;
-		}
-
-		.style-section {
-			background: #FFF;
-			padding: 1em;
-			margin: 2em 0;
-		}
-
-		.style-heading {
-			border-bottom: 1px solid #dfdfdf;
-			padding-bottom: .5em;
-		}
-
-		.style-item {
-			border: 1px solid #DFDFDF;
-			margin: 1em;
-			padding: 1em;
-			vertical-align: top;
-		}
-
-		.style-details {
-			background: #DFDFDF;
-			padding: .5em;
 		}
 
 		#pageNavigation {
@@ -65,8 +49,27 @@
 			margin-top: .5em;
 		}
 
-		.show-go-to .go-to {
-			display: inline;
+		.break {
+			border-bottom: 1px solid #4C4C4E;
+			margin: .5em 0;
+			height: 1px;
+		}
+
+		.color-block, .example-block {
+			display: inline-block;
+			padding: .5em;
+			margin: .5em;
+		}
+
+		.color-block {
+			color: #FFF;
+			height: 10em;
+			width: 10em;
+		}
+
+		.example-block {
+			border:1px solid #1C75B9;
+			max-width: 10em;
 		}
 
 		.go-to {
@@ -75,20 +78,31 @@
 			text-decoration: none;
 		}
 
-		.color-block {
-			color: #FFF;
-			display: inline-block;
-			height: 10em;
-			padding: .5em;
-			margin: .5em;
-			width: 10em;
+		.show-go-to .go-to {
+			display: inline;
 		}
 
-		code {
-			background-color: #EFEFEF;
-			display: block;
-			margin: 1em 0;
+		.style-details {
+			background: #DFDFDF;
+			padding: .5em;
+		}
+
+		.style-heading {
+			border-bottom: 1px solid #dfdfdf;
+			padding-bottom: .5em;
+		}
+
+		.style-item {
+			border: 1px solid #DFDFDF;
+			margin: 1em auto;
 			padding: 1em;
+			vertical-align: top;
+			max-width: 960px;
+		}
+
+		.style-section {
+			background: #FFF;
+			margin: 2em 0;
 		}
 
 		.style-code .indent-1 {
@@ -97,12 +111,6 @@
 
 		.style-code .indent-2 {
 			margin-left: 3em;
-		}
-
-		.break {
-			border-bottom: 1px solid #4C4C4E;
-			margin: .5em 0;
-			height: 1px;
 		}
 	</style>
 	<script src="http://cdn.alloyui.com/1.5.1/aui/aui-min.js"></script>
@@ -152,7 +160,7 @@
 	</script>
 </head>
 <body class="show-go-to">
-	<h1 class="style-heading">Liferay.com Style Guide</h1>
+	<h1 class="page-heading">Liferay.com Style Guide</h1>
 
 	<ul id="pageNavigation">
 		<li><a class="animate-scroll" href="#defaultSection">Defaults</a></li>
@@ -171,6 +179,22 @@
 
 	<div id="defaultSection" class="style-section">
 		<h2 class="style-heading">Defaults</h2>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Anchors
+			</h3>
+			<div class="style-description">
+				Link styling
+			</div>
+			<div class="style-example">
+				<a href="#">Click Me</a>
+			</div>
+			<code class="style-code">
+				&lt;a href="#"&gt;Click Me&lt;/table&gt;
+			</code>
+		</div>
+
 		<div class="style-item">
 			<h3 class="style-title">
 				Colors
@@ -185,50 +209,21 @@
 				<div class="color-block" style="background:#F49B45">
 					<span>Orange #F49B45</span>
 				</div>
+				<div class="color-block" style="background:#D0D1D3">
+					<span>Border #D0D1D3</span>
+				</div>
+				<div class="color-block" style="background:#919697">
+					<span>Light Font #919697</span>
+				</div>
 				<div class="color-block" style="background:#939598">
 					<span>Gray #939598</span>
 				</div>
 				<div class="color-block" style="background:#4C4C4E">
 					<span>Font #4C4C4E</span>
 				</div>
-				<div class="color-block" style="background:#919697">
-					<span>Light Font #919697</span>
-				</div>
-				<div class="color-block" style="background:#D0D1D3">
-					<span>Border Color #D0D1D3</span>
-				</div>
 			</div>
 		</div>
-		<div class="style-item">
-			<h3 class="style-title">
-				Anchors
-			</h3>
-			<div class="style-description">
-				Default link styling
-			</div>
-			<div class="style-example">
-				<a href="#">Click Me</a>
-			</div>
-			<code class="style-code">
-				&lt;a href="#"&gt;Click Me&lt;/table&gt;
-			</code>
-		</div>
-		<div class="style-item">
-			<h3 class="style-title">
-				Paragraphs
-			</h3>
-			<div class="style-description">
-				Default paragraph spacing and styles
-			</div>
-			<div class="style-example">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.</p>
-				<p>Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.</p>
-			</div>
-			<code class="style-code">
-				<div>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.&lt;/p&gt;</div>
-				<div>&lt;p&gt;Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.&lt;/p&gt;</div>
-			</code>
-		</div>
+
 		<div class="style-item">
 			<h3 class="style-title">
 				Lists
@@ -265,6 +260,48 @@
 				<div>&lt;/ol&gt;</div>
 			</code>
 		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Margin and Padding
+			</h3>
+			<div class="style-description">
+				Default margin and padding.
+			</div>
+			<div class="style-example">
+				<div class="example-block">
+					Here is the content in the block. It should have the perfect amount of padding and margin to look beautful in every language and at every width.
+				</div>
+				<div class="example-block">
+					Here is the content in the block. It should have the perfect amount of padding and margin to look beautful in every language and at every width.
+				</div>
+				<div class="example-block">
+					Here is the content in the block. It should have the perfect amount of padding and margin to look beautful in every language and at every width.
+				</div>
+			</div>
+			<code class="style-code">
+				<div>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.&lt;/p&gt;</div>
+				<div>&lt;p&gt;Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.&lt;/p&gt;</div>
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Paragraphs
+			</h3>
+			<div class="style-description">
+				Default paragraph spacing and styles
+			</div>
+			<div class="style-example">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.</p>
+				<p>Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.</p>
+			</div>
+			<code class="style-code">
+				<div>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.&lt;/p&gt;</div>
+				<div>&lt;p&gt;Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.&lt;/p&gt;</div>
+			</code>
+		</div>
+
 	</div>
 
 	<div id="buttonSection" class="style-section">
@@ -429,21 +466,6 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Banners Module
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
 				Banners
 			</h3>
 			<div class="style-description">
@@ -459,7 +481,37 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Quote Section
+				Callout
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Carousel
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Case Study Box
 			</h3>
 			<div class="style-description">
 
@@ -504,67 +556,7 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Logos
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
 				Image - Text Split
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Case Study Box
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Stats Graphic
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Callout
 			</h3>
 			<div class="style-description">
 
@@ -594,7 +586,22 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Video Pop Up
+				FAQ
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Logos
 			</h3>
 			<div class="style-description">
 
@@ -610,6 +617,51 @@
 		<div class="style-item">
 			<h3 class="style-title">
 				Selection Nav
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Stats Graphic
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Quote Section
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Video Pop Up
 			</h3>
 			<div class="style-description">
 
