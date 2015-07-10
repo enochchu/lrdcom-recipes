@@ -171,7 +171,6 @@
 		<li><a class="animate-scroll" href="#navSection">Navs</a></li>
 		<li><a class="animate-scroll" href="#tableSection">Tables</a></li>
 		<li><div class="break"></div></li>
-		<li><a class="animate-scroll" href="#detailLegend">Detail Legend</a></li>
 		<li><a class="animate-scroll" href="#bestPracticesSection">Best Practices</a></li>
 
 		<li class="aui-helper-hidden hide" id="toggleGoTo"><a>Toggle Arrows</a></li>
@@ -511,21 +510,6 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Case Study Box
-			</h3>
-			<div class="style-description">
-
-			</div>
-			<div class="style-example">
-
-			</div>
-			<code class="style-code">
-
-			</code>
-		</div>
-
-		<div class="style-item">
-			<h3 class="style-title">
 				CTA Navigation Boxes
 			</h3>
 			<div class="style-description">
@@ -541,16 +525,32 @@
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Icon - Title - Text Block
+				Icon - Info Block
 			</h3>
 			<div class="style-description">
-
+				This is a block used to display content that contains an icon or illustration with a heading and text underneath it. Typically used to give supporting reasons or information for a section. Often times there are multiple of these blocks grouped together as justifcation for a product or feature. <a href="https://www.liferay.com/solutions/portals">What kind of portals can I create with Liferay?</a>
 			</div>
 			<div class="style-example">
+				<div class="icon-info-block">
+					<img alt="Enterprise Ready" class="lazy-load svg" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg">
 
+					<h3>Enterprise ready</h3>
+
+					<p>
+						Liferay is designed for scalability, reliability, and high performance-- both on-premises and in the cloud.
+					</p>
+				</div>
 			</div>
 			<code class="style-code">
+				<div>&lt;div class="icon-info-block"&gt;</div>
+					<div class="indent-1">&lt;img alt="Enterprise Ready" class="lazy-load svg" data-src="//www.liferay.com/documents/14/48126717/enterprise-ready.svg"&gt;</div>
 
+					<div class="indent-1">&lt;h3&gt;Enterprise ready&lt;/h3&gt;</div>
+
+					<div class="indent-1">&lt;p&gt;</div>
+						<div class="indent-2">Liferay is designed for scalability, reliability, and high performance-- both on-premises and in the cloud.</div>
+					<div class="indent-1">&lt;/p&gt;</div>
+				<div>&lt;/div&gt;</div>
 			</code>
 		</div>
 
@@ -596,6 +596,25 @@
 			</div>
 			<code class="style-code">
 
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Link Tile
+			</h3>
+			<div class="style-description">
+				These tiles typically contain an image and on hover show preview content. When clicked they go to desired page. <a href="https://www.liferay.com/products/liferay-portal/stories">Case Studies</a>
+			</div>
+			<div class="style-example">
+				<a class="lazy-load link-tile" data-src="/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);">
+					<span>Customer-driven online portfolios put Allianz ahead of the pack.</span>
+				</a>
+			</div>
+			<code class="style-code">
+				<div>&lt;a class="lazy-load link-tile" data-src="/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);"&gt;</div>
+					<div class="indent-1">&lt;span&gt;Customer-driven online portfolios put Allianz ahead of the pack.&lt;/span&gt;</div>
+				<div>&lt;/a&gt;</div>
 			</code>
 		</div>
 
@@ -743,39 +762,6 @@
 						<div class="indent-2">&lt;td&gt;TD class="col-4 last-col"&lt;/td&gt;</div>
 					<div class="indent-1">&lt;/tr&gt;</div>
 				<div>&lt;/table&gt;</div>
-			</code>
-		</div>
-	</div>
-
-	<div id="detailLegend" class="style-section">
-		<h2 class="style-heading">Example Legend</h2>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Item X Title
-			</h3>
-			<p class="style-description">
-				Brief explanation of user experience details for item x.
-			</p>
-			<div class="style-example">
-				<div class="item-x">Here it is.</div>
-			</div>
-			<code class="style-code">
-				&lt;div class="item-x"&gt;Here it is.&lt;/div&gt;
-			</code>
-		</div>
-		<div class="style-item">
-			<h3 class="style-title">
-				Item Y Title
-			</h3>
-			<p class="style-description">
-				Brief explanation of user experience details for item y.
-			</p>
-			<div class="style-example">
-				<div class="item-y">Here it is.</div>
-			</div>
-			<code class="style-code">
-				&lt;div class="item-y"&gt;Here it is.&lt;/div&gt;
 			</code>
 		</div>
 	</div>
