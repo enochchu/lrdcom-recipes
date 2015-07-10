@@ -4,54 +4,45 @@
 		Liferay.com Style Guide
 	</title>
 	<link class="lfr-css-file" href="http://www.liferay.com/osb-community-theme/css/main.css" rel="stylesheet" type="text/css">
+
 	<style>
 		body {
-			background: #DFDFDF;
-			margin: 20px auto;
+			margin: 2em auto;
 			max-width: 1080px;
+			min-width: 320px;
 		}
 
 		pre {
 			line-height: 1em;
 		}
 
-		#mockPage .content {
-			padding-top: 75px;
-			position: relative;
-		}
-
-		#mockPage #banner {
-			position: absolute;
-		}
-
 		.style-section {
 			background: #FFF;
-			padding: 15px;
-			margin: 30px 0;
+			padding: 1em;
+			margin: 2em 0;
 		}
 
 		.style-heading {
 			border-bottom: 1px solid #dfdfdf;
-			padding-bottom: 5px;
+			padding-bottom: .5em;
 		}
 
 		.style-item {
 			border: 1px solid #DFDFDF;
-			display: inline-block;
-			margin: 10px;
-			padding: 10px;
+			margin: 1em;
+			padding: 1em;
 			vertical-align: top;
 		}
 
 		.style-details {
 			background: #DFDFDF;
-			padding: 5px;
+			padding: .5em;
 		}
 
 		#pageNavigation {
 			background: #EFEFEF;
 			border: 1px solid #BFBFBF;
-			padding: 10px;
+			padding: 1em;
 			position: fixed;
 			left: 0;
 		}
@@ -60,9 +51,18 @@
 			list-style: none;
 		}
 
+		#pageNavigation a {
+			color: #4C4C4E;
+		}
+
+		#pageNavigation a:hover {
+			color: #F49B45;
+		}
+
 		#toggleGoTo {
+			display: none;
 			font-weight: bold;
-			margin-top: 8px;
+			margin-top: .5em;
 		}
 
 		.show-go-to .go-to {
@@ -75,12 +75,34 @@
 			text-decoration: none;
 		}
 
+		.color-block {
+			color: #FFF;
+			display: inline-block;
+			height: 10em;
+			padding: .5em;
+			margin: .5em;
+			width: 10em;
+		}
+
+		code {
+			background-color: #EFEFEF;
+			display: block;
+			margin: 1em 0;
+			padding: 1em;
+		}
+
 		.style-code .indent-1 {
-			margin-left: 20px;
+			margin-left: 1.5em;
 		}
 
 		.style-code .indent-2 {
-			margin-left: 40px;
+			margin-left: 3em;
+		}
+
+		.break {
+			border-bottom: 1px solid #4C4C4E;
+			margin: .5em 0;
+			height: 1px;
 		}
 	</style>
 	<script src="http://cdn.alloyui.com/1.5.1/aui/aui-min.js"></script>
@@ -133,366 +155,114 @@
 	<h1 class="style-heading">Liferay.com Style Guide</h1>
 
 	<ul id="pageNavigation">
-		<li><a class="animate-scroll" href="#mockPage">Mock Page</a></li>
-		<li><a class="animate-scroll" href="#detailLegend">Detail Legend</a></li>
+		<li><a class="animate-scroll" href="#defaultSection">Defaults</a></li>
 		<li><a class="animate-scroll" href="#buttonSection">Buttons</a></li>
-		<li><a class="animate-scroll" href="#calloutSection">Callouts</a></li>
+		<li><a class="animate-scroll" href="#formSection">Forms</a></li>
 		<li><a class="animate-scroll" href="#headingSection">Headings</a></li>
+		<li><a class="animate-scroll" href="#moduleSection">Modules</a></li>
 		<li><a class="animate-scroll" href="#navSection">Navs</a></li>
 		<li><a class="animate-scroll" href="#tableSection">Tables</a></li>
-		<li><a class="animate-scroll" href="#formSection">Forms</a></li>
-		<li><a class="animate-scroll" href="#defaultSection">Defaults</a></li>
+		<li><div class="break"></div></li>
+		<li><a class="animate-scroll" href="#detailLegend">Detail Legend</a></li>
 		<li><a class="animate-scroll" href="#bestPracticesSection">Best Practices</a></li>
 
-		<li id="toggleGoTo"><a>Toggle Arrows</a></li>
+		<li class="aui-helper-hidden hide" id="toggleGoTo"><a>Toggle Arrows</a></li>
 	</ul>
 
-	<div id="mockPage" class="style-section">
-		<div id="wrapper">
-			<div class="content">
-				<header class="doc-header on-screen-helper on-screen-bottom" id="banner" role="banner">
-					<div class="banner-content">
-					<a class="aui-helper-clearfix doc-heading" href="/"><img alt="Liferay" height="36" src="http://www-uat.liferay.com/osb-community-theme/images/custom/heading.png"></a>
-					<div class="class-toggle responsive-only" data-target-node="#navigationContainer" id="navigationToggle"></div>
-					<div class="responsive-content-height" id="navigationContainer" style="max-height: 987px;">
-						<div id="mainNavigation">
-							<nav class="sort-pages modify-pages">
-								<ul class="nav-menu">
-									<li class="nav-item root-item"><a href="/nav/products">Products</a></li>
-									<li class="class-toggle-off-click nav-item parent-item root-item">
-										<a href="javascript:;">For Business</a>
-										<span class="children-marker responsive-only"></span>
-										<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-											<li class="child-item nav-item" id="childItem1"><a href="/nav/enterprise-subscription">Enterprise Subscription</a></li>
-											<li class="child-item nav-item" id="childItem2"><a href="/nav/user-stories">Case Studies</a></li>
-											<li class="child-item nav-item" id="childItem3"><a href="/nav/whitepapers">Whitepapers</a></li>
-											<li class="child-item nav-item" id="childItem4"><a href="/bnav/events">Events</a></li>
-											<li class="child-item nav-item" id="childItem5"><a href="/nav/consulting">Consulting</a></li>
-											<li class="child-item nav-item" id="childItem6"><a href="/bnav/training">Training</a></li>
-											<li class="child-item nav-item" id="childItem7"><a href="/nav/certification">Certification</a></li>
-											<li class="child-item nav-item" id="childItem8"><a href="/nav/partners">Partners</a></li>
-											<li class="child-item nav-item" id="childItem9"><a href="/nav/newsroom">Newsroom</a></li>
-										</ul>
-									</li>
-									<li class="class-toggle-off-click nav-item parent-item root-item">
-										<a href="javascript:;">Developers</a>
-										<span class="children-marker responsive-only"></span>
-										<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-											<li class="child-item nav-item" id="childItem1"><a href="/nav/downloads">Downloads</a></li>
-											<li class="child-item nav-item" id="childItem2"><a href="/nav/documentation">Documentation</a></li>
-											<li class="child-item nav-item" id="childItem3"><a href="/nav/community">Community</a></li>
-											<li class="child-item nav-item" id="childItem4"><a href="/nav/marketplace">Marketplace</a></li>
-											<li class="child-item nav-item" id="childItem5"><a href="/nav/events">Events</a></li>
-											<li class="child-item nav-item" id="childItem6"><a href="/nav/training">Training</a></li>
-											<li class="child-item nav-item" id="childItem7"><a href="/nav/forums">Forums</a></li>
-											<li class="child-item nav-item" id="childItem8"><a href="/nav/blog">Blogs</a></li>
-											<li class="child-item nav-item" id="childItem9"><a href="/nav/wiki">Wiki</a></li>
-										</ul>
-									</li>
-									<li class="nav-item root-item"><a href="/nav/about-us">About Us</a></li>
-								</ul>
-							</nav>
-						</div>
-						<div class="class-toggle-off-click" id="mainSearch">
-							<div id="mainSearchContent">
-								<span class="class-toggle-off-click-content">
-									<form action="http://www-uat.liferay.com/home" class="doc-search" method="get" name="_1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm" onsubmit="event.preventDefault(); _1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeSearch();"><input name="p_p_id" type="hidden" value="1_WAR_googlesearchapplianceportlet_INSTANCE_0000"><input name="p_p_lifecycle" type="hidden" value="0"><input name="p_p_state" type="hidden" value="maximized">
-										<input class="doc-search-input" name="_1_WAR_googlesearchapplianceportlet_INSTANCE_0000_keywords" value="">
-									</form>
-									<script type="text/javascript">function _1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeSearch() {var keywords = document._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_keywords.value;
-										if (keywords != '') {document._1_WAR_googlesearchapplianceportlet_INSTANCE_0000_themeFm.submit();}}
-									</script>
-								</span>
-							</div>
-						</div>
-						<div class="class-toggle-off-click" id="mainMenu">
-							<ul class="class-toggle-off-click-content drop-down-menu responsive-content-height" style="max-height: 987px;">
-								<li class="class-toggle language-toggle parent-item">
-									<a href="javascript:;">Languag</a>
-									<span class="children-marker"></span>
-									<ul class="taglib-settings">
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=de_DE" lang="de-DE">Deutsch</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=en_GB" lang="en-GB">English (United Kingdom)</a></li>
-										<li class="selected"><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=en_US" lang="en-US">English (United States)</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=es_ES" lang="es-ES">Español</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=fr_FR" lang="fr-FR">Français</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=it_IT" lang="it-IT">Italiano</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=pt_BR" lang="pt-BR">Português</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=zh_CN" lang="zh-CN">中文</a></li>
-										<li><a href="http://www-uat.liferay.com/home?p_p_id=82&amp;p_p_lifecycle=1&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_col_count=30&amp;_82_struts_action=%2Flanguage%2Fview&amp;_82_redirect=%2F&amp;languageId=ja_JP" lang="ja-JP">日本語</a></li>
-									</ul>
-								</li>
-								<li id="registerBtn"><a href="https://www-uat.liferay.com/home?p_p_id=58&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;p_p_mode=view&amp;p_p_col_count=30&amp;saveLastPath=0&amp;_58_struts_action=%2Flogin%2Fcreate_account">Registe</a></li>
-								<li class="sign-in-button" id="signInBtn"><a href="/c/portal/login?p_l_id=8440537">Sign In</a></li>
-							</ul>
-						</div>
-						</div
-					</div>
-				</header>
-
-				<div id="main-content aui-helper-clearfix">
-					<div class="portlet-column" style="width: 25%;">
-						<div class="portlet-column-content left-column">
-							<nav class="doc-sub-nav">
-								<h1> Products</h1>
-								<ul>
-									<li class="has-sub-nav"><a href="#"> Liferay Portal</a>
-										<ul class="sub-nav">
-											<li><a href="#"> What is a Portal?</a></li>
-											<li><a href="#"> Product Overview</a></li>
-											<li><a class="sel" href="#"> Features</a></li>
-											<li><a href="#"> Benefits</a></li>
-											<li><a href="#"> Tech Specs</a></li>
-											<li><a href="#"> User Stories</a></li>
-											<li><a href="#"> Enterprise Edition (EE)</a></li>
-											<li><a href="#"> Get Enterprise Edition</a></li>
-										</ul>
-									</li>
-									<li class="has-sub-nav"><a href="#"> Liferay Social Office Overview</a>
-										<ul class="sub-nav">
-											<li><a href="#"> Social Office Features</a></li>
-											<li><a href="#"> Benefits</a></li>
-											<li><a href="#"> Get it Now</a></li>
-										</ul>
-									</li>
-									<li class="has-sub-nav"><a href="#"> Liferay Sync</a>
-										<ul class="sub-nav">
-											<li><a href="#"> Features</a></li>
-											<li><a href="#"> Get it Now</a></li>
-										</ul>
-									</li>
-								</ul>
-							</nav>
-							<a class="animate-scroll go-to" href="#navSection">&#8595;</a>
-						</div>
-					</div>
-					<div class="portlet-column" style="width: 75%;">
-						<div class="portlet-column-content right-column">
-							<div class="page-heading">
-								<h1>page-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
-								<p>page-sub-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></p>
-							</div>
-
-							<a class="animate-scroll go-to" href="#navSection" style="float: right;">&#8595;</a>
-							<nav class="tab-nav">
-								<ul>
-									<li class="f selected">
-										<a class="animate-scroll" href="#">Item 1</a>
-									</li>
-										<li class="">
-											<a class="animate-scroll" href="#">Item 2</a>
-									</li>
-										<li class="l">
-											<a class="animate-scroll" href="#">Item 3</a>
-									</li>
-								</ul>
-							</nav>
-
-							<div class="section-heading">section-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></div>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a></p>
-							<a href="#buttonSection" class="btn animate-scroll">btn</a>
-							<a href="#buttonSection" class="btn style-a animate-scroll">btn style-a</a>
-							<a href="#buttonSection" class="btn style-b animate-scroll">btn style-b</a>
-							<a class="animate-scroll go-to" href="#buttonSection">&#8595;</a>
-						</div>
-					</div>
-					<div class="cleared"></div>
-					<div style="margin-top: 50px;">
-						<div style="text-align: center;">
-							<h1 class="heading redesign large">h1.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
-							<span class="sub-heading redesign">sub-heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></span>
-						</div>
-
-						<h1 class="heading redesign">h1.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h1>
-						<div class="content-column" style="width: 30%;">
-							<div class="content-column-content left-column">
-								<div class="callout-a">
-									<div class="callout-content">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-									</div>
-								</div>
-							</div>
-							<a class="animate-scroll go-to" href="#calloutSection">&#8595;</a>
-						</div>
-						<div class="content-column" style="width: 70%;">
-							<div class="content-column-content right-column">
-								<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<a class="animate-scroll go-to" href="#defuaultSection">&#8595;</a></p>
-								<a href="#buttonSection" class="btn large animate-scroll">btn large</a>
-								<a href="#buttonSection" class="btn large style-a animate-scroll">btn large style-a</a>
-								<a href="#buttonSection" class="btn large style-b animate-scroll">btn large style-b</a>
-								<a class="animate-scroll go-to" href="#buttonSection">&#8595;</a>
-								<h2 class="heading redesign">h2.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h2>
-								<div class="callout-b-head">
-									<div class="callout-content">
-										<h1 class="title" style="font-size: 12px; line-height: 18px;">Callout B Head</h1>
-									</div>
-								</div>
-								<div class="callout-e" style="border-color: #d0d1d3; border-top-width: 0; border-radius: 0 0 2px 2px;">
-									<div class="callout-content">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-									</div>
-								</div>
-								<a class="animate-scroll go-to" href="#calloutSection">&#8595;</a>
-							</div>
-						</div>
-
-
-						<h3 class="heading redesign">h3.heading<a class="animate-scroll go-to" href="#headingSection">&#8595;</a></h3>
-
-
-						<ul>
-							<li>item 1</li>
-							<li>item 2</li>
-							<li>item 3</li>
-							<li>item 4</li>
-						</ul>
-						<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a>
-
-						<div>
-							<form>
-								<i>input:</i><br/>
-								<input type="text" name="firstname"><br/>
-								<input class="btn" type="submit" value="Submit">
-							</form>
-							<form>
-								<i>radio:</i><br/>
-								<input type="radio" name="sex" value="male">Male<br/>
-								<input type="radio" name="sex" value="female">Female
-							</form>
-							<form>
-								<i>checkbox:</i><br/>
-								<input type="checkbox" name="item1" value="item1">Item 1<br>
-								<input type="checkbox" name="item1" value="item1">Item 2
-							</form>
-							<form>
-								<i>select:</i><br/>
-								<select>
-									<option value="item1">item 1</option>
-									<option value="item2">item 2</option>
-									<option value="item3">item 3</option>
-								</select>
-							</form>
-							<form>
-								<i>mulit-select:</i><br/>
-								<select multiple>
-									<option value="item1">item 1</option>
-									<option value="item2">item 2</option>
-									<option value="item3">item 3</option>
-								</select>
-							</form>
-							<textarea>
-								Textarea text.
-							</textarea>
-						</div>
-						<a class="animate-scroll go-to" href="#defaultSection">&#8595;</a>
-					</div>
-				</div>
-
-				<footer class="doc-footer">
-					<div class="aui-helper-clearfix bottom-navigation social-nav">
-						<ul>
-							<li class="responsive-hidden"> <a href="/community/blogs"> <span class="rss social-img"></span> <span>Blogs</span> </a> </li>
-							<li> <a href="http://www.facebook.com/pages/Liferay/45119213107" target="_blank"> <span class="facebook social-img"></span> <span class="responsive-hidden">Facebook</span> </a> </li>
-							<li> <a href="http://www.linkedin.com/company/83609?trk=NUS_CMPY_TWIT" target="_blank"> <span class="linkedin social-img"></span> <span class="responsive-hidden">LinkedIn</span> </a> </li>
-							<li class="responsive-hidden"> <a href="/about-us/news"> <span class="rss social-img"></span> <span>News</span> </a> </li>
-							<li> <a href="http://www.twitter.com/liferay" target="_blank"> <span class="social-img twitter"></span> <span class="responsive-hidden">Twitter</span> </a> </li>
-						</ul>
-					</div>
-					<nav class="sort-pages modify-pages bottom-navigation responsive-only">
-						<ul class="nav-menu">
-							<li class="nav-item root-item"> <a href="/fnav/contact-us">Contact Us</a> </li>
-							<li class="nav-item root-item"> <a href="/fnav/privacy-policy">Privacy Policy</a> </li>
-						</ul>
-					</nav>
-					<nav class="sort-pages modify-pages bottom-navigation responsive-hidden">
-						<ul class="nav-menu">
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">Products</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/liferay-portal">Liferay Portal</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/social-office">Social Office</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/liferay-sync">Liferay Sync</a> </li>
-								</ul>
-							</li>
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">Documentation</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/development-guide">Development Guide</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/user-guide">User Guide</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/whitepapers">Whitepapers</a> </li>
-								</ul>
-							</li>
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">Community</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/forums">Forums</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/wiki">Wiki</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/blogs">Blogs</a> </li>
-								</ul>
-							</li>
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">Services</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/partners">Partners</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/training">Training</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/consulting">Consulting</a> </li>
-								</ul>
-							</li>
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">About Us</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/events">Events</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/awards">Awards</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/newsroom">Newsroom</a> </li>
-								</ul>
-							</li>
-							<li class="class-toggle-off-click nav-item parent-item root-item">
-								<a href="javascript:;">Contact Us</a> <span class="children-marker responsive-only"></span>
-								<ul class="child-menu class-toggle-off-click-content drop-down-menu">
-									<li class="child-item nav-item" id="childItem1"> <a href="/fnav/careers1">Careers</a> </li>
-									<li class="child-item nav-item" id="childItem2"> <a href="/fnav/privacy-policy1">Privacy Policy</a> </li>
-									<li class="child-item nav-item" id="childItem3"> <a href="/fnav/marketplace-terms">Marketplace Terms</a> </li>
-								</ul>
-							</li>
-						</ul>
-					</nav>
-
-					<p class="copyright">&#169; 2014 Liferay Inc. All Rights Reserved </p>
-				</footer>
-			</div>
-		</div>
-	</div>
-
-	<div id="detailLegend" class="style-section">
-		<h2 class="style-heading">Example Items</h2>
-
+	<div id="defaultSection" class="style-section">
+		<h2 class="style-heading">Defaults</h2>
 		<div class="style-item">
 			<h3 class="style-title">
-				Item x
+				Colors
 			</h3>
-			<p class="style-description">
-				Brief explanation of user experience details for item x.
-			</p>
+			<div class="style-description">
+				Color pallete to be used.
+			</div>
 			<div class="style-example">
-				<div class="item-x">Here it is.</div>
+				<div class="color-block" style="background:#1C75B9">
+					<span>Blue #1C75B9</span>
+				</div>
+				<div class="color-block" style="background:#F49B45">
+					<span>Orange #F49B45</span>
+				</div>
+				<div class="color-block" style="background:#939598">
+					<span>Gray #939598</span>
+				</div>
+				<div class="color-block" style="background:#4C4C4E">
+					<span>Font #4C4C4E</span>
+				</div>
+				<div class="color-block" style="background:#919697">
+					<span>Light Font #919697</span>
+				</div>
+				<div class="color-block" style="background:#D0D1D3">
+					<span>Border Color #D0D1D3</span>
+				</div>
+			</div>
+		</div>
+		<div class="style-item">
+			<h3 class="style-title">
+				Anchors
+			</h3>
+			<div class="style-description">
+				Default link styling
+			</div>
+			<div class="style-example">
+				<a href="#">Click Me</a>
 			</div>
 			<code class="style-code">
-				&lt;div class="item-x"&gt;Here it is.&lt;/div&gt;
+				&lt;a href="#"&gt;Click Me&lt;/table&gt;
 			</code>
 		</div>
 		<div class="style-item">
 			<h3 class="style-title">
-				Item y
+				Paragraphs
 			</h3>
-			<p class="style-description">
-				Brief explanation of user experience details for item y.
-			</p>
+			<div class="style-description">
+				Default paragraph spacing and styles
+			</div>
 			<div class="style-example">
-				<div class="item-y">Here it is.</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.</p>
+				<p>Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.</p>
 			</div>
 			<code class="style-code">
-				&lt;div class="item-y"&gt;Here it is.&lt;/div&gt;
+				<div>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.&lt;/p&gt;</div>
+				<div>&lt;p&gt;Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.&lt;/p&gt;</div>
+			</code>
+		</div>
+		<div class="style-item">
+			<h3 class="style-title">
+				Lists
+			</h3>
+			<div class="style-description">
+				Unordered and ordered lists.
+			</div>
+			<div class="style-example">
+				<ul>
+					<li>item 1</li>
+					<li>item 2</li>
+					<li>item 3</li>
+					<li>item 4</li>
+				</ul>
+				<ol>
+					<li>item 1</li>
+					<li>item 2</li>
+					<li>item 3</li>
+					<li>item 4</li>
+				</ol>
+			</div>
+			<code class="style-code">
+				<div>&lt;ul&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 1&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 2&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 3&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 4&lt;/li&gt;</div>
+				<div>&lt;/ul&gt;</div>
+				<div>&lt;ol&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 1&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 2&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 3&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li&gt;item 4&lt;/li&gt;</div>
+				<div>&lt;/ol&gt;</div>
 			</code>
 		</div>
 	</div>
@@ -545,6 +315,65 @@
 		</div>
 	</div>
 
+	<div id="formSection" class="style-section">
+		<h2 class="style-heading">Forms</h2>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Form Styling
+			</h3>
+			<div class="style-description">
+				Default form styling
+			</div>
+			<div class="style-example">
+				<form class="lrdcom-form">
+					<input type="text" name="firstname"><br/>
+					<input type="radio" name="sex" value="male">Male<br/>
+					<input type="radio" name="sex" value="female">Female
+					<input type="checkbox" name="item1" value="item1">Item 1<br>
+					<input type="checkbox" name="item1" value="item1">Item 2
+					<select>
+						<option value="item1">item 1</option>
+						<option value="item2">item 2</option>
+						<option value="item3">item 3</option>
+					</select>
+					<select multiple>
+						<option value="item1">item 1</option>
+						<option value="item2">item 2</option>
+						<option value="item3">item 3</option>
+					</select>
+					<textarea>
+						Textarea text.
+					</textarea>
+					<input class="btn" type="submit" value="Submit">
+				</form>
+			</div>
+			<code class="style-code">
+				<div>&lt;form class="lrdcom-form"&gt;</div>
+					<div class="indent-1">&lt;input type="text" name="firstname"&gt;&lt;br/&gt;</div>
+					<div class="indent-1">&lt;input type="radio" name="sex" value="male"&gt;Male&lt;br/&gt;</div>
+					<div class="indent-1">&lt;input type="radio" name="sex" value="female"&gt;Female</div>
+					<div class="indent-1">&lt;input type="checkbox" name="item1" value="item1"&gt;Item 1&lt;br&gt;</div>
+					<div class="indent-1">&lt;input type="checkbox" name="item1" value="item1"&gt;Item 2</div>
+					<div class="indent-1">&lt;select&gt;</div>
+						<div class="indent-2">&lt;option value="item1"&gt;item 1&lt;/option&gt;</div>
+						<div class="indent-2">&lt;option value="item2"&gt;item 2&lt;/option&gt;</div>
+						<div class="indent-2">&lt;option value="item3"&gt;item 3&lt;/option&gt;</div>
+					<div class="indent-1">&lt;/select&gt;</div>
+					<div class="indent-1">&lt;select multiple&gt;</div>
+						<div class="indent-2">&lt;option value="item1"&gt;item 1&lt;/option&gt;</div>
+						<div class="indent-2">&lt;option value="item2"&gt;item 2&lt;/option&gt;</div>
+						<div class="indent-2">&lt;option value="item3"&gt;item 3&lt;/option&gt;</div>
+					<div class="indent-1">&lt;/select&gt;</div>
+					<div class="indent-1">&lt;textarea&gt;</div>
+						<div class="indent-2">Textarea text.</div>
+					<div class="indent-1">&lt;/textarea&gt;</div>
+					<div class="indent-1">&lt;input class="btn" type="submit" value="Submit"&gt;</div>
+				<div>&lt;/form&gt;</div>
+			</code>
+		</div>
+	</div>
+
 	<div id="headingSection" class="style-section">
 		<h2 class="style-heading">Headings</h2>
 
@@ -591,6 +420,205 @@
 					<div class="indent-1">&lt;p&gt;Sub heading&lt;/p&gt;</div>
 				<div>&lt;/div&gt;</div>
 				<div>&lt;h2 class="light-heading"&gt;Light Heading&lt;/h2&gt;</div>
+			</code>
+		</div>
+	</div>
+
+	<div id="moduleSection" class="style-section">
+		<h2 class="style-heading">Modules</h2>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Banners Module
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Banners
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Quote Section
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				CTA Navigation Boxes
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Icon - Title - Text Block
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Logos
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Image - Text Split
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Case Study Box
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Stats Graphic
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Callout
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Info Pop Up
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Video Pop Up
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
+			</code>
+		</div>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Selection Nav
+			</h3>
+			<div class="style-description">
+
+			</div>
+			<div class="style-example">
+
+			</div>
+			<code class="style-code">
+
 			</code>
 		</div>
 	</div>
@@ -667,114 +695,35 @@
 		</div>
 	</div>
 
-	<div id="formSection" class="style-section">
-		<h2 class="style-heading">Forms</h2>
+	<div id="detailLegend" class="style-section">
+		<h2 class="style-heading">Example Legend</h2>
 
 		<div class="style-item">
 			<h3 class="style-title">
-				Form Styling
+				Item X Title
 			</h3>
-			<div class="style-description">
-				Default form styling
-			</div>
+			<p class="style-description">
+				Brief explanation of user experience details for item x.
+			</p>
 			<div class="style-example">
-				<form class="lrdcom-form">
-					<input type="text" name="firstname"><br/>
-					<input type="radio" name="sex" value="male">Male<br/>
-					<input type="radio" name="sex" value="female">Female
-					<input type="checkbox" name="item1" value="item1">Item 1<br>
-					<input type="checkbox" name="item1" value="item1">Item 2
-					<select>
-						<option value="item1">item 1</option>
-						<option value="item2">item 2</option>
-						<option value="item3">item 3</option>
-					</select>
-					<select multiple>
-						<option value="item1">item 1</option>
-						<option value="item2">item 2</option>
-						<option value="item3">item 3</option>
-					</select>
-					<textarea>
-						Textarea text.
-					</textarea>
-					<input class="btn" type="submit" value="Submit">
-				</form>
-			</div>
-			<div class="style-details">
-				<table>
-					<tr><td>padding: 1px 0px;</td></tr>
-					<tr><td>outline: -webkit-focus-ring-color auto 5px;</td></tr>
-				</table>
-			</div>
-		</div>
-	</div>
-
-	<div id="defaultSection" class="style-section">
-		<h2 class="style-heading">Defaults</h2>
-		<div class="style-item">
-			<h3 class="style-title">
-				Anchors
-			</h3>
-			<div class="style-description">
-				Default link styling
-			</div>
-			<div class="style-example">
-				<a href="#">Click Me</a>
+				<div class="item-x">Here it is.</div>
 			</div>
 			<code class="style-code">
-				&lt;a href="#"&gt;Click Me&lt;/table&gt;
+				&lt;div class="item-x"&gt;Here it is.&lt;/div&gt;
 			</code>
 		</div>
 		<div class="style-item">
 			<h3 class="style-title">
-				Paragraphs
+				Item Y Title
 			</h3>
-			<div class="style-description">
-				Default paragraph spacing and styles
-			</div>
+			<p class="style-description">
+				Brief explanation of user experience details for item y.
+			</p>
 			<div class="style-example">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.</p>
-				<p>Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.</p>
+				<div class="item-y">Here it is.</div>
 			</div>
 			<code class="style-code">
-				<div>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu.&lt;/p&gt;</div>
-				<div>&lt;p&gt;Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.&lt;/p&gt;</div>
-			</code>
-		</div>
-		<div class="style-item">
-			<h3 class="style-title">
-				Lists
-			</h3>
-			<div class="style-description">
-				Unorderd and ordered lists.
-			</div>
-			<div class="style-example">
-				<ul>
-					<li>item 1</li>
-					<li>item 2</li>
-					<li>item 3</li>
-					<li>item 4</li>
-				</ul>
-				<ol>
-					<li>item 1</li>
-					<li>item 2</li>
-					<li>item 3</li>
-					<li>item 4</li>
-				</ol>
-			</div>
-			<code class="style-code">
-				<div>&lt;ul&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 1&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 2&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 3&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 4&lt;/li&gt;</div>
-				<div>&lt;/ul&gt;</div>
-				<div>&lt;ol&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 1&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 2&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 3&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li&gt;item 4&lt;/li&gt;</div>
-				<div>&lt;/ol&gt;</div>
+				&lt;div class="item-y"&gt;Here it is.&lt;/div&gt;
 			</code>
 		</div>
 	</div>
