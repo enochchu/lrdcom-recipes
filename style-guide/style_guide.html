@@ -112,6 +112,10 @@
 		.style-code .indent-2 {
 			margin-left: 3em;
 		}
+
+		.style-code .indent-3 {
+			margin-left: 4.5em;
+		}
 	</style>
 	<script src="http://cdn.alloyui.com/1.5.1/aui/aui-min.js"></script>
 	<script>
@@ -656,10 +660,8 @@
 
 			</div>
 			<div class="style-example">
-
 			</div>
 			<code class="style-code">
-
 			</code>
 		</div>
 
@@ -668,13 +670,39 @@
 				Quote Section
 			</h3>
 			<div class="style-description">
-
+				This section usually spans the width of the screen with large triangles on the background on either side of the section to frame the quote.
 			</div>
 			<div class="style-example">
+				<div class="quote-wrapper">
+					<div class="quote">
+						Mocha trifecta coffee cultivar at, aroma, robusta bar aroma in mocha. White skinny lungo seasonal shop turkish sit aroma id aroma. Doppio cortado crema, aged steamed as americano eu sweet ristretto.
+					</div>
 
+					<div class="quote-source">
+						<div class="quote-author">
+							Author
+						</div>
+
+						<div class="author-role">
+							Author Title
+						</div>
+					</div>
+				</div>
 			</div>
 			<code class="style-code">
-
+				<div>&lt;div class=&quot;quote-wrapper&quot;&gt;</div>
+					<div class="indent-1">&lt;div class=&quot;quote&quot;&gt;</div>
+						<div class="indent-2">Mocha trifecta coffee cultivar at, aroma, robusta bar aroma in mocha. White skinny lungo seasonal shop turkish sit aroma id aroma. Doppio cortado crema, aged steamed as americano eu sweet ristretto.</div>
+					<div class="indent-1">&lt;/div&gt;</div><br>
+					<div class="indent-1">&lt;div class=&quot;quote-source&quot;&gt;</div>
+						<div class="indent-2">&lt;div class=&quot;quote-author&quot;&gt;</div>
+							<div class="indent-3">Author</div>
+						<div class="indent-2">&lt;/div&gt;</div><br>
+						<div class="indent-2">&lt;div class=&quot;author-role&quot;&gt;</div>
+							<div class="indent-3">Author Title</div>
+						<div class="indent-2">&lt;/div&gt;</div>
+					<div class="indent-1">&lt;/div&gt;</div>
+				<div>&lt;/div&gt;</div>
 			</code>
 		</div>
 
