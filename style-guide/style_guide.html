@@ -368,50 +368,101 @@
 			</div>
 			<div class="style-example">
 				<form class="lrdcom-form">
-					<input type="text" name="firstname"><br/>
-					<input type="radio" name="sex" value="male">Male<br/>
-					<input type="radio" name="sex" value="female">Female
-					<input type="checkbox" name="item1" value="item1">Item 1<br>
-					<input type="checkbox" name="item1" value="item1">Item 2
+					<label class="aui-field-label">
+						<input class="aui-field-input aui-field-input-text" name="firstname" required type="text" value="First Name (required)">
+					</label>
+
+					<label class="aui-field-label">
+						<input name="lastname" type="text" value="Last Name">
+					</label>
+
+					<label class="aui-field-label" for="male">
+						<input checked name="male" type="radio" value="Male">
+						Male
+					</label>
+
+					<label class="aui-field-label" for="female">
+						<input name="female" type="radio" value="Female">
+						Female
+					</label>
+
+					<label class="aui-field-label">
+						<input name="item1" type="checkbox" value="item 1">
+						Item 1
+					</label>
+
+					<label class="aui-field-label">
+						<input checked name="item2" type="checkbox" value="item 2">
+						Item 2
+					</label>
+
 					<select>
 						<option value="item1">item 1</option>
 						<option value="item2">item 2</option>
 						<option value="item3">item 3</option>
 					</select>
+
 					<select multiple>
 						<option value="item1">item 1</option>
 						<option value="item2">item 2</option>
 						<option value="item3">item 3</option>
 					</select>
-					<textarea>
-						Textarea text.
+
+					<textarea rows="2">
+						Textarea (height of 2 rows)
 					</textarea>
+
 					<input class="btn" type="submit" value="Submit">
 				</form>
 			</div>
-			<code class="style-code">
-				<div>&lt;form class="lrdcom-form"&gt;</div>
-					<div class="indent-1">&lt;input type="text" name="firstname"&gt;&lt;br/&gt;</div>
-					<div class="indent-1">&lt;input type="radio" name="sex" value="male"&gt;Male&lt;br/&gt;</div>
-					<div class="indent-1">&lt;input type="radio" name="sex" value="female"&gt;Female</div>
-					<div class="indent-1">&lt;input type="checkbox" name="item1" value="item1"&gt;Item 1&lt;br&gt;</div>
-					<div class="indent-1">&lt;input type="checkbox" name="item1" value="item1"&gt;Item 2</div>
-					<div class="indent-1">&lt;select&gt;</div>
-						<div class="indent-2">&lt;option value="item1"&gt;item 1&lt;/option&gt;</div>
-						<div class="indent-2">&lt;option value="item2"&gt;item 2&lt;/option&gt;</div>
-						<div class="indent-2">&lt;option value="item3"&gt;item 3&lt;/option&gt;</div>
-					<div class="indent-1">&lt;/select&gt;</div>
-					<div class="indent-1">&lt;select multiple&gt;</div>
-						<div class="indent-2">&lt;option value="item1"&gt;item 1&lt;/option&gt;</div>
-						<div class="indent-2">&lt;option value="item2"&gt;item 2&lt;/option&gt;</div>
-						<div class="indent-2">&lt;option value="item3"&gt;item 3&lt;/option&gt;</div>
-					<div class="indent-1">&lt;/select&gt;</div>
-					<div class="indent-1">&lt;textarea&gt;</div>
-						<div class="indent-2">Textarea text.</div>
-					<div class="indent-1">&lt;/textarea&gt;</div>
-					<div class="indent-1">&lt;input class="btn" type="submit" value="Submit"&gt;</div>
-				<div>&lt;/form&gt;</div>
-			</code>
+			<pre class="style-code">
+&lt;form class=&quot;lrdcom-form&quot;&gt;
+	&lt;label class=&quot;aui-field-label&quot;&gt;
+		&lt;input class=&quot;aui-field-input aui-field-input-text&quot; name=&quot;firstname&quot;
+		required type=&quot;text&quot; value=&quot;First Name (required)&quot;&gt;
+	&lt;/label&gt;
+
+	&lt;label class=&quot;aui-field-label&quot;&gt;
+		&lt;input name=&quot;lastname&quot; type=&quot;text&quot; value=&quot;Last Name&quot;&gt;
+	&lt;/label&gt;
+
+	&lt;label class=&quot;aui-field-label&quot; for=&quot;male&quot;&gt;
+		&lt;input checked name=&quot;male&quot; type=&quot;radio&quot; value=&quot;Male&quot;&gt; Male
+	&lt;/label&gt;
+
+	&lt;label class=&quot;aui-field-label&quot; for=&quot;female&quot;&gt;
+		&lt;input name=&quot;female&quot; type=&quot;radio&quot; value=&quot;Female&quot;&gt; Female
+	&lt;/label&gt;
+
+	&lt;label class=&quot;aui-field-label&quot;&gt;
+		&lt;input name=&quot;item1&quot; type=&quot;checkbox&quot; value=&quot;item 1&quot;&gt;
+		Item 1
+	&lt;/label&gt;
+
+	&lt;label class=&quot;aui-field-label&quot;&gt;
+		&lt;input checked name=&quot;item2&quot; type=&quot;checkbox&quot; value=&quot;item 2&quot;&gt;
+		Item 2
+	&lt;/label&gt;
+
+	&lt;select&gt;
+		&lt;option value=&quot;item1&quot;&gt;item 1&lt;/option&gt;
+		&lt;option value=&quot;item2&quot;&gt;item 2&lt;/option&gt;
+		&lt;option value=&quot;item3&quot;&gt;item 3&lt;/option&gt;
+	&lt;/select&gt;
+
+	&lt;select multiple&gt;
+		&lt;option value=&quot;item1&quot;&gt;item 1&lt;/option&gt;
+		&lt;option value=&quot;item2&quot;&gt;item 2&lt;/option&gt;
+		&lt;option value=&quot;item3&quot;&gt;item 3&lt;/option&gt;
+	&lt;/select&gt;
+
+	&lt;textarea rows=&quot;2&quot;&gt;
+		Textarea (height of 2 rows)
+	&lt;/textarea&gt;
+
+	&lt;input class=&quot;btn&quot; type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;
+			</pre>
 		</div>
 	</div>
 
