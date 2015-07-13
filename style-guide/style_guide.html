@@ -167,15 +167,15 @@
 	<h1 class="page-heading">Liferay.com Style Guide</h1>
 
 	<ul id="pageNavigation">
+		<li><strong>Elements:</strong></li>
 		<li><a class="animate-scroll" href="#defaultSection">Defaults</a></li>
 		<li><a class="animate-scroll" href="#buttonSection">Buttons</a></li>
 		<li><a class="animate-scroll" href="#formSection">Forms</a></li>
 		<li><a class="animate-scroll" href="#headingSection">Headings</a></li>
-		<li><a class="animate-scroll" href="#moduleSection">Modules</a></li>
 		<li><a class="animate-scroll" href="#navSection">Navs</a></li>
 		<li><a class="animate-scroll" href="#tableSection">Tables</a></li>
 		<li><div class="break"></div></li>
-		<li><a class="animate-scroll" href="#bestPracticesSection">Best Practices</a></li>
+		<li><a class="animate-scroll" href="#moduleSection">Modules:</a></li>
 
 		<li class="aui-helper-hidden hide" id="toggleGoTo"><a>Toggle Arrows</a></li>
 	</ul>
@@ -464,6 +464,78 @@
 		</div>
 	</div>
 
+	<div id="navSection" class="style-section">
+		<h2 class="style-heading">Navs</h2>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Tab Navigation
+			</h3>
+			<div class="style-description">
+				The styling for on page navigation in tab form.
+			</div>
+			<div class="style-example">
+				<ul class="nav nav-tabs">
+					<li role="presentation" class="active"><a href="#">Home</a></li>
+					<li role="presentation"><a href="#">Profile</a></li>
+					<li role="presentation"><a href="#">Messages</a></li>
+				</ul>
+			</div>
+			<code class="style-code">
+				<div>&lt;ul class="nav nav-tabs"&gt;</div>
+					<div class="indent-1">&lt;li role="presentation" class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li role="presentation"&gt;&lt;a href="#"&gt;Profile&lt;/a&gt;&lt;/li&gt;</div>
+					<div class="indent-1">&lt;li role="presentation"&gt;&lt;a href="#"&gt;Messages&lt;/a&gt;&lt;/li&gt;</div>
+				<div>&lt;/ul&gt;</div>
+			</code>
+		</div>
+	</div>
+
+	<div id="tableSection" class="style-section">
+		<h2 class="style-heading">Tables</h2>
+
+		<div class="style-item">
+			<h3 class="style-title">
+				Table Styling
+			</h3>
+			<div class="style-description">
+				Default table styling
+			</div>
+			<div class="style-example">
+				<table class="table">
+					<tr class="header-row">
+						<th class="col-1 first-col">TH</th>
+						<th class="col-2">TH</th>
+						<th class="col-3">TH</th>
+						<th class="col-4 last-col">TH</th>
+					</tr>
+					<tr>
+						<td class="col-1 first-col">TD</td>
+						<td class="col-2">TD</td>
+						<td class="col-3">TD</td>
+						<td class="col-4 last-col">TD</td>
+					</tr>
+				</table>
+			</div>
+			<code class="style-code">
+				<div>&lt;table class="table"&gt;</div>
+					<div class="indent-1">&lt;tr class="header-row"&gt;</div>
+						<div class="indent-2">&lt;th class="col-1 first-col"&gt;TH&lt;/th&gt;</div>
+						<div class="indent-2">&lt;th&gt;TH class="col-2"&lt;/th&gt;</div>
+						<div class="indent-2">&lt;th&gt;TH class="col-3"&lt;/th&gt;</div>
+						<div class="indent-2">&lt;th&gt;TH class="col-4 last-col"&lt;/th&gt;</div>
+					<div class="indent-1">&lt;/tr&gt;</div>
+					<div class="indent-1">&lt;tr&gt;</div>
+						<div class="indent-2">&lt;td class="col-1 first-col"&gt;TD&lt;/td&gt;</div>
+						<div class="indent-2">&lt;td&gt;TD class="col-2"&lt;/td&gt;</div>
+						<div class="indent-2">&lt;td&gt;TD class="col-3"&lt;/td&gt;</div>
+						<div class="indent-2">&lt;td&gt;TD class="col-4 last-col"&lt;/td&gt;</div>
+					<div class="indent-1">&lt;/tr&gt;</div>
+				<div>&lt;/table&gt;</div>
+			</code>
+		</div>
+	</div>
+
 	<div id="moduleSection" class="style-section">
 		<h2 class="style-heading">Modules</h2>
 
@@ -720,134 +792,5 @@
 
 			</code>
 		</div>
-	</div>
-
-	<div id="navSection" class="style-section">
-		<h2 class="style-heading">Navs</h2>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Tab Navigation
-			</h3>
-			<div class="style-description">
-				The styling for on page navigation in tab form.
-			</div>
-			<div class="style-example">
-				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="#">Home</a></li>
-					<li role="presentation"><a href="#">Profile</a></li>
-					<li role="presentation"><a href="#">Messages</a></li>
-				</ul>
-			</div>
-			<code class="style-code">
-				<div>&lt;ul class="nav nav-tabs"&gt;</div>
-					<div class="indent-1">&lt;li role="presentation" class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li role="presentation"&gt;&lt;a href="#"&gt;Profile&lt;/a&gt;&lt;/li&gt;</div>
-					<div class="indent-1">&lt;li role="presentation"&gt;&lt;a href="#"&gt;Messages&lt;/a&gt;&lt;/li&gt;</div>
-				<div>&lt;/ul&gt;</div>
-			</code>
-		</div>
-	</div>
-
-	<div id="tableSection" class="style-section">
-		<h2 class="style-heading">Tables</h2>
-
-		<div class="style-item">
-			<h3 class="style-title">
-				Table Styling
-			</h3>
-			<div class="style-description">
-				Default table styling
-			</div>
-			<div class="style-example">
-				<table class="table">
-					<tr class="header-row">
-						<th class="col-1 first-col">TH</th>
-						<th class="col-2">TH</th>
-						<th class="col-3">TH</th>
-						<th class="col-4 last-col">TH</th>
-					</tr>
-					<tr>
-						<td class="col-1 first-col">TD</td>
-						<td class="col-2">TD</td>
-						<td class="col-3">TD</td>
-						<td class="col-4 last-col">TD</td>
-					</tr>
-				</table>
-			</div>
-			<code class="style-code">
-				<div>&lt;table class="table"&gt;</div>
-					<div class="indent-1">&lt;tr class="header-row"&gt;</div>
-						<div class="indent-2">&lt;th class="col-1 first-col"&gt;TH&lt;/th&gt;</div>
-						<div class="indent-2">&lt;th&gt;TH class="col-2"&lt;/th&gt;</div>
-						<div class="indent-2">&lt;th&gt;TH class="col-3"&lt;/th&gt;</div>
-						<div class="indent-2">&lt;th&gt;TH class="col-4 last-col"&lt;/th&gt;</div>
-					<div class="indent-1">&lt;/tr&gt;</div>
-					<div class="indent-1">&lt;tr&gt;</div>
-						<div class="indent-2">&lt;td class="col-1 first-col"&gt;TD&lt;/td&gt;</div>
-						<div class="indent-2">&lt;td&gt;TD class="col-2"&lt;/td&gt;</div>
-						<div class="indent-2">&lt;td&gt;TD class="col-3"&lt;/td&gt;</div>
-						<div class="indent-2">&lt;td&gt;TD class="col-4 last-col"&lt;/td&gt;</div>
-					<div class="indent-1">&lt;/tr&gt;</div>
-				<div>&lt;/table&gt;</div>
-			</code>
-		</div>
-	</div>
-
-	<div id="bestPracticesSection" class="style-section">
-		<h2 class="style-heading">Best Practices</h2>
-		<strong>lego template best practices</strong>
-		<ul>
-			<li>do not use when:
-				<ul>
-					<li>complex content</li>
-					<li>layout/view of content is repeated in many places (more efficient to create new template)</li>
-					<li>velocity is required</li>
-				</ul>
-			</li>
-
-			<li>avoid using #article-$article-id.data whenever possible</li>
-			<li>reuse css classes and styles as much as possible for common styling</li>
-			<li>avoid writing excess html. if absolutely necessary, consider creating a new template</li>
-		</ul>
-		<strong>where to put css styles</strong>
-		<ul>
-			<li>rule of thumb: put css as close to its referent as possible, but reuse styles as much as possible</li>
-			<li>put in article if styles only apply to that article</li>
-			<li>put in article at the bottom of the page if the styles are used across the whole page</li>
-			<li>share style article with multiple pages if there are styles that are used on a couple of pages</li>
-			<li>put in theme if the styles are used in more than 2 or 3 page</li>
-		</ul>
-		<strong>naming conventions</strong>
-		<ul>
-			<li>include friendly url after article title (e.g. The Leading Open Source Portal for the Enterprise - /products/liferay-portal/overview)</li>
-		</ul>
-		<strong>general formatting</strong>
-		<ul>
-			<li>velocity variables are named_with_underscores (use underscores in structure element names as well)</li>
-			<li>javascript variables and css ids are namedWithCamelCasing</li>
-			<li>css classes are named-with-dashes</li>
-			<li>velocity and html uses " "</li>
-			<li>javascript uses ' '</li>
-			<li>wrap velocity variable from user input with $htmlUtil.escape()</li>
-		</ul>
-		<strong>javascript usage</strong>
-		<ul>
-			<li>if js is used in multiple places on page or on a couple of pages, put it in an article at the bottom</li>
-			<li>if only used in a lego article add to the custom_content section</li>
-		</ul>
-		<strong>image edicate</strong>
-		<ul>
-			<li>make relative url</li>
-			<li>take off time stamp</li>
-			<li>spritize when possible</li>
-			<li>make sure image size is as small as possible (optimize for web)</li>
-		</ul>
-		<strong>translations</strong>
-		<ul>
-			<li>make sure templates you make can be fully localized</li>
-			<li>if you need add a language key to content and id does not exist in the code, add it to the localization template instead of commiting it (article id# 30798511)</li>
-			<li>if updating content, make sure you check to update translated content as well</li>
-		</ul>
 	</div>
 </body>
