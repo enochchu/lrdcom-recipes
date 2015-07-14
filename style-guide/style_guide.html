@@ -95,6 +95,7 @@
 			margin: 2em 0;
 		}
 	</style>
+
 	<script src="http://cdn.alloyui.com/1.5.1/aui/aui-min.js"></script>
 	<script>
 		AUI().use(
@@ -153,7 +154,22 @@
 		<li><a class="animate-scroll" href="#navSection">Navs</a></li>
 		<li><a class="animate-scroll" href="#tableSection">Tables</a></li>
 		<li><div class="break"></div></li>
-		<li><strong><a class="animate-scroll" href="#moduleSection">Modules:</a></strong></li>
+		<li><strong>Modules:</strong></li>
+		<li><a class="animate-scroll" href="#bannersModule">Banners</a></li>
+		<li><a class="animate-scroll" href="#calloutModule">Callout</a></li>
+		<li><a class="animate-scroll" href="#carouselModule">Carousel</a></li>
+		<li><a class="animate-scroll" href="#ctaModule">CTA Navigation Boxes</a></li>
+		<li><a class="animate-scroll" href="#faqModule">FAQ</a></li>
+		<li><a class="animate-scroll" href="#iconInfoModule">Icon-Info Block</a></li>
+		<li><a class="animate-scroll" href="#imgTxtModule">Image-Text Split</a></li>
+		<li><a class="animate-scroll" href="#infoPopUpModule">Info Pop-up</a></li>
+		<li><a class="animate-scroll" href="#linkTileModule">Link Tile</a></li>
+		<li><a class="animate-scroll" href="#logosModule">Logos</a></li>
+		<li><a class="animate-scroll" href="#selectioNavModule">Selection Nav</a></li>
+		<li><a class="animate-scroll" href="#statsGraphicModule">Stats Graphic</a></li>
+		<li><a class="animate-scroll" href="#quotesModule">Quote Section</a></li>
+		<li><a class="animate-scroll" href="#transitionsModule">Transitions</a></li>
+		<li><a class="animate-scroll" href="#videoPopUpModule">Video Pop-up</a></li>
 
 		<li class="aui-helper-hidden hide" id="toggleGoTo"><a>Toggle Arrows</a></li>
 	</ul>
@@ -302,7 +318,7 @@
 
 	</div>
 
-	<div id="buttonSection" class="style-section">
+	<div class="style-section" id="buttonSection">
 		<h2 class="style-heading">Buttons</h2>
 
 		<div class="style-item">
@@ -356,7 +372,7 @@
 		</div>
 	</div>
 
-	<div id="formSection" class="style-section">
+	<div class="style-section" id="formSection">
 		<h2 class="style-heading">Forms</h2>
 
 		<div class="style-item">
@@ -469,7 +485,7 @@
 		</div>
 	</div>
 
-	<div id="headingSection" class="style-section">
+	<div class="style-section" id="headingSection">
 		<h2 class="style-heading">Headings</h2>
 
 		<div class="style-item">
@@ -529,7 +545,7 @@
 		</div>
 	</div>
 
-	<div id="navSection" class="style-section">
+	<div class="style-section" id="navSection">
 		<h2 class="style-heading">Navs</h2>
 
 		<div class="style-item">
@@ -559,7 +575,7 @@
 		</div>
 	</div>
 
-	<div id="tableSection" class="style-section">
+	<div class="style-section" id="tableSection">
 		<h2 class="style-heading">Tables</h2>
 
 		<div class="style-item">
@@ -609,10 +625,10 @@
 		</div>
 	</div>
 
-	<div id="moduleSection" class="style-section">
+	<div class="style-section">
 		<h2 class="style-heading">Modules</h2>
 
-		<div class="style-item">
+		<div class="style-item" id="bannersModule">
 			<h3 class="style-title">
 				Banners
 			</h3>
@@ -624,7 +640,7 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="calloutModule">
 			<h3 class="style-title">
 				Callout
 			</h3>
@@ -636,7 +652,7 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="carouselModule">
 			<h3 class="style-title">
 				Carousel
 			</h3>
@@ -648,7 +664,7 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="ctaModule">
 			<h3 class="style-title">
 				CTA Navigation Boxes
 			</h3>
@@ -660,7 +676,19 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="faqModule">
+			<h3 class="style-title">
+				FAQ
+			</h3>
+
+			<div class="style-description"></div>
+
+			<div class="style-example"></div>
+
+			<pre></pre>
+		</div>
+
+		<div class="style-item" id="iconInfoModule">
 			<h3 class="style-title">
 				Icon - Info Block
 			</h3>
@@ -696,7 +724,7 @@
 			</pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="imgTxtModule">
 			<h3 class="style-title">
 				Image - Text Split
 			</h3>
@@ -708,9 +736,9 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="infoPopUpModule">
 			<h3 class="style-title">
-				Info Pop Up
+				Info Pop-up
 			</h3>
 
 			<div class="style-description"></div>
@@ -720,19 +748,7 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
-			<h3 class="style-title">
-				FAQ
-			</h3>
-
-			<div class="style-description"></div>
-
-			<div class="style-example"></div>
-
-			<pre></pre>
-		</div>
-
-		<div class="style-item">
+		<div class="style-item" id="linkTileModule">
 			<h3 class="style-title">
 				Link Tile
 			</h3>
@@ -742,7 +758,7 @@
 			</div>
 
 			<div class="style-example">
-				<a class="lazy-load link-tile" data-src="/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);">
+				<a class="lazy-load link-tile" data-src="/documents/14/48397686/allianz.png" href="/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(/documents/14/48397686/allianz.png);">
 					<span>Customer-driven online portfolios put Allianz ahead of the pack.</span>
 				</a>
 			</div>
@@ -756,7 +772,7 @@ style="background-image: url(/documents/14/48397686/allianz.png);"&gt;
 			</pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="logosModule">
 			<h3 class="style-title">
 				Logos
 			</h3>
@@ -768,7 +784,7 @@ style="background-image: url(/documents/14/48397686/allianz.png);"&gt;
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="selectioNavModule">
 			<h3 class="style-title">
 				Selection Nav
 			</h3>
@@ -780,7 +796,7 @@ style="background-image: url(/documents/14/48397686/allianz.png);"&gt;
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="statsGraphicModule">
 			<h3 class="style-title">
 				Stats Graphic
 			</h3>
@@ -791,7 +807,7 @@ style="background-image: url(/documents/14/48397686/allianz.png);"&gt;
 			<pre></pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="quoteModule">
 			<h3 class="style-title">
 				Quote Section
 			</h3>
@@ -837,9 +853,21 @@ style="background-image: url(/documents/14/48397686/allianz.png);"&gt;
 			</pre>
 		</div>
 
-		<div class="style-item">
+		<div class="style-item" id="transitionsModule">
 			<h3 class="style-title">
-				Video Pop Up
+				Transitions
+			</h3>
+
+			<div class="style-description"></div>
+
+			<div class="style-example"></div>
+
+			<pre></pre>
+		</div>
+
+		<div class="style-item" id="videoPopUpModule">
+			<h3 class="style-title">
+				Video Pop-up
 			</h3>
 
 			<div class="style-description"></div>
