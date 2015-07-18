@@ -47,18 +47,16 @@ Style Guide
 	_icons (commonly used icons such as the play icons, X's, etc)
 	ROOT PAGE
 		SUB PAGE
-		SUB PAGE
-		_assets
-			_images
-			_pdfs
-			_videos
-			_ect
+		SUB PAGE (assets)
+			_image
+			_pdf
+			_video
+			_etc
 	ROOT PAGE
 		SUB PAGE
-		SUB PAGE
-		_assets
-			_images
+		SUB PAGE (assets)
+			_image
 				short_description.svg
-			_pdfs
-			_videos
-			_ect
+			_pdf
+			_video
+			_etc
