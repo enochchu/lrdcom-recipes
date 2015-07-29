@@ -1,8 +1,5 @@
-Style Guide
+[Style Guide](http://htmlpreview.github.io/?https://github.com/ryanschuhler/lrdcom-recipes/blob/master/style-guide/style_guide.html)
 ======
-
-[Check it out](http://htmlpreview.github.io/?https://github.com/ryanschuhler/lrdcom-recipes/blob/master/style-guide/style_guide.html)
-
 ## Best Practices
 #### General Formatting
 * Velocity variables are named_with_underscores (use underscores in structure element names as well)
