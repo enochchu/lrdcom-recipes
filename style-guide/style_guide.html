@@ -474,100 +474,161 @@
 
 			<div class="style-example">
 				<form class="lrdcom-form">
-					<label class="aui-field-label">
-						<input class="aui-field-input aui-field-input-text" name="firstname" required type="text" value="First Name (required)">
-					</label>
+					<input class="field hide" type="hidden" name="tactic_id" value="">
+					<fieldset>
+						<div class="field-text field-wrapper required">
+							<label>First Name</label>
+							<input class="field" name="firstname" required type="text" aria-required="true" value="">
+						</div>
 
-					<label class="aui-field-label">
-						<input name="lastname" type="text" value="Last Name">
-					</label>
+						<div class="field-text field-wrapper required">
+							<label>Last Name</label>
+							<input class="field" name="lastname" required type="text" aria-required="true" value="">
+						</div>
 
-					<label class="aui-field-label" for="male">
-						<input checked name="male" type="radio" value="Male">
-						Male
-					</label>
+						<div class="field-radio field-wrapper">
+							<label>Gender</label>
+							<div clas="field">
+								<label>
+									<input checked class="field" name="gender" type="radio" value="Male">
+									<span>Male</span>
+								</label>
+								<label>
+									<input class="field" name="gender" type="radio" value="Female">
+									<span>Female</span>
+								</label>
+							</div>
+						</div>
 
-					<label class="aui-field-label" for="female">
-						<input name="female" type="radio" value="Female">
-						Female
-					</label>
+						<div class="field-checkbox field-wrapper">
+							<label>
+								<input class="field" name="item1" type="checkbox" value="item 1">
+								<span>Checkbox</span>
+							</label>
+						</div>
 
-					<label class="aui-field-label">
-						<input name="item1" type="checkbox" value="item 1">
-						Item 1
-					</label>
+						<div class="field-checkbox field-wrapper">
+							<label>Checkboxes</label>
+							<label>
+								<input class="field" name="item1" type="checkbox" value="item 1">
+								<span>Item 1</span>
+							</label>
+							<label>
+								<input checked class="field" name="item2" type="checkbox" value="item 2">
+								<span>Item 2</span>
+							</label>
+							<label >
+								<input checked class="field" name="item3" type="checkbox" value="item 3">
+								<span>Item 3</span>
+							</label>
+						</div>
 
-					<label class="aui-field-label">
-						<input checked name="item2" type="checkbox" value="item 2">
-						Item 2
-					</label>
+						<div class="field-select field-wrapper">
+							<label>Select</label>
+							<select class="field">
+								<option value="">Items</option>
+								<option value="item1">item 1</option>
+								<option value="item2">item 2</option>
+								<option value="item3">item 3</option>
+							</select>
+						</div>
 
-					<select>
-						<option value="item1">item 1</option>
-						<option value="item2">item 2</option>
-						<option value="item3">item 3</option>
-					</select>
+						<div class="field-multi-select field-wrapper">
+							<label>Multi Select</label>
+							<select class="field" multiple>
+								<option value="item1">item 1</option>
+								<option value="item2">item 2</option>
+								<option value="item3">item 3</option>
+							</select>
+						</div>
 
-					<select multiple>
-						<option value="item1">item 1</option>
-						<option value="item2">item 2</option>
-						<option value="item3">item 3</option>
-					</select>
-
-					<textarea rows="2">
-						Textarea (height of 2 rows)
-					</textarea>
+						<div class="field-textarea field-wrapper">
+							<label>Textarea</label>
+							<textarea class="field"></textarea>
+						</div>
+					</fieldset>
 
 					<input class="btn" type="submit" value="Submit">
 				</form>
 			</div>
 
 			<pre>
-&lt;form class=&quot;lrdcom-form&quot;&gt;
-	&lt;label class=&quot;aui-field-label&quot;&gt;
-		&lt;input class=&quot;aui-field-input aui-field-input-text&quot; name=&quot;firstname&quot;
-		required type=&quot;text&quot; value=&quot;First Name (required)&quot;&gt;
-	&lt;/label&gt;
+&lt;form class="lrdcom-form"&gt;
+	&lt;input class="field hide" type="hidden" name="tactic_id" value=""&gt;
+	&lt;fieldset&gt;
+		&lt;div class="field-text field-wrapper required"&gt;
+			&lt;label&gt;First Name&lt;/label&gt;
+			&lt;input class="field" name="firstname" required type="text" aria-required="true" value=""&gt;
+		&lt;/div&gt;
 
-	&lt;label class=&quot;aui-field-label&quot;&gt;
-		&lt;input name=&quot;lastname&quot; type=&quot;text&quot; value=&quot;Last Name&quot;&gt;
-	&lt;/label&gt;
+		&lt;div class="field-text field-wrapper required"&gt;
+			&lt;label&gt;Last Name&lt;/label&gt;
+			&lt;input class="field" name="lastname" required type="text" aria-required="true" value=""&gt;
+		&lt;/div&gt;
 
-	&lt;label class=&quot;aui-field-label&quot; for=&quot;male&quot;&gt;
-		&lt;input checked name=&quot;male&quot; type=&quot;radio&quot; value=&quot;Male&quot;&gt; Male
-	&lt;/label&gt;
+		&lt;div class="field-radio field-wrapper"&gt;
+			&lt;label&gt;Gender&lt;/label&gt;
+			&lt;div clas="field"&gt;
+				&lt;label&gt;
+					&lt;input checked name="male" type="radio" value="Male"&gt;
+					&lt;span&gt;Male&lt;/span&gt;
+				&lt;/label&gt;
+				&lt;label&gt;
+					&lt;input name="female" type="radio" value="Female"&gt;
+					&lt;span&gt;Female&lt;/span&gt;
+				&lt;/label&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
 
-	&lt;label class=&quot;aui-field-label&quot; for=&quot;female&quot;&gt;
-		&lt;input name=&quot;female&quot; type=&quot;radio&quot; value=&quot;Female&quot;&gt; Female
-	&lt;/label&gt;
+		&lt;div class="field-checkbox field-wrapper"&gt;
+			&lt;label&gt;
+				&lt;input name="item1" type="checkbox" value="item 1"&gt;
+				&lt;span&gt;Checkbox&lt;/span&gt;
+			&lt;/label&gt;
+		&lt;/div&gt;
 
-	&lt;label class=&quot;aui-field-label&quot;&gt;
-		&lt;input name=&quot;item1&quot; type=&quot;checkbox&quot; value=&quot;item 1&quot;&gt;
-		Item 1
-	&lt;/label&gt;
+		&lt;div class="field-checkbox field-wrapper"&gt;
+			&lt;label&gt;Checkboxes&lt;/label&gt;
+			&lt;label&gt;
+				&lt;input name="item1" type="checkbox" value="item 1"&gt;
+				&lt;span&gt;Item 1&lt;/span&gt;
+			&lt;/label&gt;
+			&lt;label class="aui-field-label"&gt;
+				&lt;input checked name="item2" type="checkbox" value="item 2"&gt;
+				&lt;span&gt;Item 2&lt;/span&gt;
+			&lt;/label&gt;
+			&lt;label class="aui-field-label"&gt;
+				&lt;input checked name="item3" type="checkbox" value="item 3"&gt;
+				&lt;span&gt;Item 3&lt;/span&gt;
+			&lt;/label&gt;
+		&lt;/div&gt;
 
-	&lt;label class=&quot;aui-field-label&quot;&gt;
-		&lt;input checked name=&quot;item2&quot; type=&quot;checkbox&quot; value=&quot;item 2&quot;&gt;
-		Item 2
-	&lt;/label&gt;
+		&lt;div class="field-select field-wrapper"&gt;
+			&lt;label&gt;Select&lt;/label&gt;
+			&lt;select&gt;
+				&lt;option value=""&gt;Items&lt;/option&gt;
+				&lt;option value="item1"&gt;item 1&lt;/option&gt;
+				&lt;option value="item2"&gt;item 2&lt;/option&gt;
+				&lt;option value="item3"&gt;item 3&lt;/option&gt;
+			&lt;/select&gt;
+		&lt;/div&gt;
 
-	&lt;select&gt;
-		&lt;option value=&quot;item1&quot;&gt;item 1&lt;/option&gt;
-		&lt;option value=&quot;item2&quot;&gt;item 2&lt;/option&gt;
-		&lt;option value=&quot;item3&quot;&gt;item 3&lt;/option&gt;
-	&lt;/select&gt;
+		&lt;div class="field-multi-select field-wrapper"&gt;
+			&lt;label&gt;Multi Select&lt;/label&gt;
+			&lt;select multiple&gt;
+				&lt;option value="item1"&gt;item 1&lt;/option&gt;
+				&lt;option value="item2"&gt;item 2&lt;/option&gt;
+				&lt;option value="item3"&gt;item 3&lt;/option&gt;
+			&lt;/select&gt;
+		&lt;/div&gt;
 
-	&lt;select multiple&gt;
-		&lt;option value=&quot;item1&quot;&gt;item 1&lt;/option&gt;
-		&lt;option value=&quot;item2&quot;&gt;item 2&lt;/option&gt;
-		&lt;option value=&quot;item3&quot;&gt;item 3&lt;/option&gt;
-	&lt;/select&gt;
+		&lt;div class="field-textarea field-wrapper"&gt;
+			&lt;label&gt;Textarea&lt;/label&gt;
+			&lt;textarea/&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
 
-	&lt;textarea rows=&quot;2&quot;&gt;
-		Textarea (height of 2 rows)
-	&lt;/textarea&gt;
-
-	&lt;input class=&quot;btn&quot; type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+	&lt;input class="btn" type="submit" value="Submit"&gt;
 &lt;/form&gt;
 			</pre>
 		</div>
