@@ -809,44 +809,6 @@
 			<pre></pre>
 		</div>
 
-		<div class="style-item" id="infoModule">
-			<h3 class="style-title">
-				Info Block
-			</h3>
-
-			<div class="text-info">
-				<p>This is a block used to display content that contains an icon or illustration with a heading and text underneath it. Typically used to give supporting reasons for a section. Often times there are multiple of these blocks grouped together as justification for a product or feature.</p>
-
-				<p>example: <a href="https://www.liferay.com/solutions/portals">What kind of portals can I create with Liferay?</a></p>
-
-				<p>We really need to rename this module</p>
-			</div>
-
-			<div class="style-example">
-				<div class="info-block">
-					<img alt="Enterprise Ready" class="lazy-load svg" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg">
-
-					<h3>Enterprise ready</h3>
-
-					<p>Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.</p>
-				</div>
-			</div>
-
-			<pre>
-&lt;div class="info-block"&gt;
-	&lt;img alt="Enterprise Ready" class="lazy-load svg"
-	data-src="//www.liferay.com/documents/14/48126717/enterprise-ready.svg"&gt;
-
-	&lt;h3&gt;Enterprise ready&lt;/h3&gt;
-
-	&lt;p&gt;
-		Liferay is designed for scalability, reliability, and high performance --
-		both on-premises and in the cloud.
-	&lt;/p&gt;
-&lt;/div&gt;
-			</pre>
-		</div>
-
 		<div class="style-item" id="linkTileModule">
 			<h3 class="style-title">
 				Link Tiles
@@ -857,15 +819,19 @@
 			</ul>
 
 			<div class="style-example">
-				<a class="lazy-load link-tile" data-src="http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="http://www.liferay.com/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);">
-					<span>Customer-driven online portfolios put Allianz ahead of the pack.</span>
-				</a>
+				<div class="link-tile" style="max-width: 300px;">
+					<a class="lazy-load"  data-src="http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="http://www.liferay.com/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);">
+						<span>Customer-driven online portfolios put Allianz ahead of the pack.</span>
+					</a>
+				</div>
 			</div>
 
 			<pre>
-&lt;a class="lazy-load link-tile" data-src="http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="http://www.liferay.com/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);"&gt;
-	&lt;span&gt;Customer-driven online portfolios put Allianz ahead of the pack.&lt;/span&gt;
-&lt;/a&gt;
+&lt;div class="link-tile" style="max-width: 300px;"&gt;
+	&lt;a class="lazy-load"  data-src="http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77" href="http://www.liferay.com/products/liferay-portal/stories/allianz-insurance" label="Allianz Insurance" style="background-image: url(http://www.liferay.com/documents/14/48397686/allianz.png/f7b46f76-7c29-444a-a05e-7f6cefb58c77);"&gt;
+		&lt;span&gt;Customer-driven online portfolios put Allianz ahead of the pack.&lt;/span&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
 			</pre>
 		</div>
 
@@ -902,51 +868,158 @@
 				Media Objects
 			</h3>
 
+
 			<div class="text-info">
-				It allows the floating of a media object (typically images) to the left/right of a content block.
+				This module allows media objects (typically images) to be displayed along with headings and/or text.
 			</div>
 
 			<div class="style-example">
-				<div class="media">
-					<a class="pull-left" href="javascript:;">
-						<img class="media-object" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg">
-					</a>
+				<div class="block-container media">
+					<div class="block media-object w20">
+						<svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5">
+							<circle cx="50%" cy="50%" r="25%" />
+						</svg>
+					</div>
 
-					<p class="media-body pull-left">
+					<p class="block media-body w80">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.
 					</p>
 				</div>
 
-				<div class="media">
-					<p class="media-body pull-right">
+				<div class="block-container media">
+					<p class="block media-body w80">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.
 					</p>
 
-					<a class="pull-right" href="javascript:;">
-						<img class="media-object" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg">
-					</a>
+					<div class="block media-object w20">
+						<svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5">
+							<circle cx="50%" cy="50%" r="25%" />
+						</svg>
+					</div>
 				</div>
 			</div>
 
 			<pre>
-&lt;div class="media"&gt;
-	&lt;a class="pull-left" href="javascript:;"&gt;
-		&lt;img class="media-object" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg"&gt;
-	&lt;/a&gt;
+&lt;div class="block-container media"&gt;
+	&lt;div class="block media-object w20"&gt;
+		&lt;svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5"&gt;
+			&lt;circle cx="50%" cy="50%" r="25%" /&gt;
+		&lt;/svg&gt;
+	&lt;/div&gt;
 
-	&lt;p class="media-body pull-left"&gt;
+	&lt;p class="block media-body w80"&gt;
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.
 	&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class="media"&gt;
-	&lt;p class="media-body pull-right"&gt;
+&lt;div class="block-container media"&gt;
+	&lt;p class="block media-body w80"&gt;
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum nulla id nisl hendrerit pellentesque. Sed vel purus id nunc fermentum consequat in cursus mi. Suspendisse bibendum gravida turpis, eget vehicula lacus iaculis eu. Donec consectetur malesuada dolor, nec congue magna viverra vitae. Aliquam accumsan justo tortor, sit amet sagittis elit pellentesque sit amet. Ut ut tellus sit amet mauris auctor feugiat sit amet ac nisi.
 	&lt;/p&gt;
 
-	&lt;a class="pull-right" href="javascript:;"&gt;
-		&lt;img class="media-object" src="http://www.liferay.com/documents/14/48126717/enterprise-ready.svg"&gt;
-	&lt;/a&gt;
+	&lt;div class="block media-object w20"&gt;
+		&lt;svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5"&gt;
+			&lt;circle cx="50%" cy="50%" r="25%" /&gt;
+		&lt;/svg&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+			</pre>
+
+			<div class="text-info">
+				<p>You can also display the content in a block so you can have multiple of them inline. Typically used to give supporting reasons for a section. Often times there are multiple of these blocks grouped together as justification for a product or feature.</p>
+
+				<p>example: <a href="https://www.liferay.com/solutions/portals">What kind of portals can I create with Liferay?</a></p>
+			</div>
+
+			<div class="style-example">
+				<div class="block-container">
+					<div class="alt-text-color block media w33">
+						<div class="media-object">
+							<svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5">
+								<circle cx="50%" cy="50%" r="25%" />
+							</svg>
+						</div>
+
+						<div class="media-body">
+							<h3>Enterprise ready</h3>
+
+							<p>Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.</p>
+						</div>
+					</div>
+
+					<div class="alt-text-color block media w33">
+						<div class="media-object">
+							<svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5">
+								<circle cx="50%" cy="50%" r="25%" />
+							</svg>
+						</div>
+
+						<div class="media-body">
+							<h3>Enterprise ready</h3>
+
+							<p>Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.</p>
+						</div>
+					</div>
+
+					<div class="alt-text-color block media w33">
+						<div class="media-object">
+							<svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5">
+								<circle cx="50%" cy="50%" r="25%" />
+							</svg>
+						</div>
+
+						<div class="media-body">
+							<h3>Enterprise ready</h3>
+
+							<p>Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<pre>
+&lt;div class="block-container"&gt;
+	&lt;div class="alt-text-color block media w33"&gt;
+		&lt;div class="media-object"&gt;
+			&lt;svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5"&gt;
+				&lt;circle cx="50%" cy="50%" r="25%" /&gt;
+			&lt;/svg&gt;
+		&lt;/div&gt;
+
+		&lt;div class="media-body"&gt;
+			&lt;h3&gt;Enterprise ready&lt;/h3&gt;
+
+			&lt;p&gt;Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.&lt;/p&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;div class="alt-text-color block media w33"&gt;
+		&lt;div class="media-object"&gt;
+			&lt;svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5"&gt;
+				&lt;circle cx="50%" cy="50%" r="25%" /&gt;
+			&lt;/svg&gt;
+		&lt;/div&gt;
+
+		&lt;div class="media-body"&gt;
+			&lt;h3&gt;Enterprise ready&lt;/h3&gt;
+
+			&lt;p&gt;Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.&lt;/p&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;div class="alt-text-color block media w33"&gt;
+		&lt;div class="media-object"&gt;
+			&lt;svg class="primary-color secondary-background svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" stroke="#909295" fill="#E3E4E5"&gt;
+				&lt;circle cx="50%" cy="50%" r="25%" /&gt;
+			&lt;/svg&gt;
+		&lt;/div&gt;
+
+		&lt;div class="media-body"&gt;
+			&lt;h3&gt;Enterprise ready&lt;/h3&gt;
+
+			&lt;p&gt;Liferay is designed for scalability, reliability, and high performance -- both on-premises and in the cloud.&lt;/p&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
 &lt;/div&gt;
 			</pre>
 		</div>
