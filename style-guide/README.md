@@ -6,7 +6,7 @@
 * Javascript variables and CSS IDs are namedWithCamelCasing
 * Css classes are named-with-dashes
 * Use underscores in image_names
-* Use `" "` in velocity and html
+* Use `" "` in velocity, freemarker and html
 * Use `' '` in javascript
 * Wrap velocity variable from user input with `$htmlUtil.escape()`
 
@@ -33,7 +33,13 @@
 * Use relative URL
 * Take off time stamp
 * Use sprites whenever possible
-* Optimize (svg) before use
+
+	##### SVGs
+	* All svgs should be the same canvas size (60x60 and 220x120), color, and [optimized](https://jakearchibald.github.io/svgomg/) before use.
+	* Simple svgs: paste the svg code straight into html tags and style by adding relevant classes.
+		* Use class "colorType-background" for svg fill. (Example:`.accent-background`, `primary-background`, and `.secondary-background`)
+		* Use class "colorType-color" for svg stroke. (Example: `.element-color`, and `.alt-secondary-color`)
+	* More complicated svgs: save in document library and reference in the web content article
 
 #### Translations
 * Make sure templates can be fully localized
