@@ -539,55 +539,25 @@
 
 									<input class="${field_input_css_class}" type="hidden" name="$item.getString('name')" value="$value"/>
 								#elseif ($field_type == "select")
-									#set ($select_options_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+									#if ($item.getString("name") !="state")
+										#set ($select_options_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 
-									#get_options5($item, $select_options_map)
+										#get_options5($item, $select_options_map)
 
-									<select class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required>
-										<option value="">$label_text</option>
+										<select class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" $required>
+											<option value="">$label_text</option>
 
-										#foreach ($option in $select_options_map)
-											#set ($selected = "")
+											#foreach ($option in $select_options_map)
+												#set ($selected = "")
 
-											#if ($value == $option.getString('value') || (($item.getString("name") == "country") && ($option.getString('value') == $country_from_ip)))
+												#if ($value == $option.getString('value') || (($item.getString("name") == "country") && ($option.getString('value') == $country_from_ip)))
 
-												#set ($selected = "selected")
+													#set ($selected = "selected")
+												#end
+
+												<option value="$option.getString('value')" $selected>$option.getString('label')</option>
 											#end
-
-											<option value="$option.getString('value')" $selected>$option.getString('label')</option>
-										#end
-									</select>
-
-									#if ($item.getString("name") == "state")
-										#set ($states_options_json = $jsonFactoryUtil.createJSONObject())
-
-										#foreach ($option in $select_options_map)
-											#set ($country_name = "other")
-											#set ($option_value = $htmlUtil.escape($option.getString("value")))
-											#set ($country_name = $state_country_map.get($option_value))
-
-											#if (!$states_options_json.has($country_name))
-												#set ($void = $states_options_json.put($country_name, $jsonFactoryUtil.createJSONObject()))
-											#end
-
-											#if ($value == $option_value)
-												#set ($void = $states_options_json.put("selected_option", $option_value))
-											#end
-
-											#set ($state_option_json = $states_options_json.getJSONObject($country_name))
-
-											#set ($void = $state_option_json.put($option_value, $htmlUtil.escape($option.getString("label"))))
-
-											#if (!$state_option_json.has("key"))
-												#set ($void = $state_option_json.put("key", $jsonFactoryUtil.createJSONArray()))
-											#end
-
-											#set ($void = $state_option_json.getJSONArray("key").put($option_value))
-										#end
-
-										#if ($item.getString("unselectedLabel") != "")
-											#set ($void = $states_options_json.put("unselected_label", $label_text))
-										#end
+										</select>
 									#end
 								#elseif ($field_type == "richtext")
 									<span class="hs-richtext">$item.getString('defaultValue')</span>
@@ -643,8 +613,69 @@
 								#end
 							</div>
 
+							#if ($item.getString("name") == "country")
+								##Testing State Form
+								#set ($state_form = $hs_form_local_service.fetchHSFormByGUID("98cf56eb-d66e-4fde-b3e0-981bae5d474e"))
+
+								## Production State Form
+								##set ($state_form = $hs_form_local_service.fetchHSFormByGUID("72116a27-2e29-4421-a069-2f981a8188e2"))
+
+								#set ($state_form_fields = $state_form.getHSFormJSONObject().getJSONArray("fields"))
+
+								#if ($state_form_fields)
+									#set ($state_form_field = $state_form_fields.getJSONObject(0))
+
+									#if ($state_form_field.getString("name") == "state")
+										#set ($states_options_json = $jsonFactoryUtil.createJSONObject())
+
+										#set ($state_options_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
+
+										#get_options5($state_form_field, $state_options_map)
+
+										<div class="aui-field aui-field-select">
+											<label class="aui-field-label" for="state">State</label>
+											<select class="${field_input_css_class}" id="state-generated" name="state">
+
+												## kept in case of js disabled
+												<option value="null">State</option>
+
+												#foreach ($option in $state_options_map)
+													#set ($country_name = "other")
+													#set ($option_value = $htmlUtil.escape($option.getString("value")))
+													#set ($country_name = $state_country_map.get($option_value))
+
+													#if (!$states_options_json.has($country_name))
+														#set ($void = $states_options_json.put($country_name, $jsonFactoryUtil.createJSONObject()))
+													#end
+
+													#if ($value == $option_value)
+														#set ($void = $states_options_json.put("selected_option", $option_value))
+													#end
+
+													#set ($state_option_json = $states_options_json.getJSONObject($country_name))
+
+													#set ($void = $state_option_json.put($option_value, $htmlUtil.escape($option.getString("label"))))
+
+													#if (!$state_option_json.has("key"))
+														#set ($void = $state_option_json.put("key", $jsonFactoryUtil.createJSONArray()))
+													#end
+
+													#set ($void = $state_option_json.getJSONArray("key").put($option_value))
+												#end
+
+												#if ($item.getString("unselectedLabel") != "")
+													#set ($void = $states_options_json.put("unselected_label", "State/Province *"))
+												#end
+											</select>
+										</div>
+									#end
+								#end
+
+							#end
+
 							#if (($field_count == $number_of_fields_first_col.data) && !$hidden)
 				</div>
+
 				<div class="form-col form-col-2">
 							#end
 						#end
@@ -901,7 +932,7 @@
 				);
 
 				var countrySelect = A.one('#country-$reserved-article-id.data');
-				var stateSelect = A.one('#state-$reserved-article-id.data');
+				var stateSelect = A.one('#state-generated');
 
 				if (stateSelect) {
 					var stateWrapper = stateSelect.ancestor('.aui-field');
@@ -922,17 +953,17 @@
 
 					if (stateOptions) {
 						if (stateJSON['unselected_label']) {
-							stateSelect.appendChild('<option value="">' + stateJSON['unselected_label'] + '</option>');
+							stateSelect.appendChild('<option value="null">' + stateJSON['unselected_label'] + '</option>');
 						}
 
-						var keyArray = stateOptions["key"];
+						var keyArray = stateOptions['key'];
 
 						for (var key in keyArray) {
 							var stateValue = keyArray[key];
-							var selected = "";
+							var selected = '';
 
 							if (stateValue == stateJSON['selected_option']) {
-								selected = "selected";
+								selected = 'selected';
 							}
 
 							stateSelect.appendChild('<option value="' + stateValue + '"' + selected + '>' + stateOptions[stateValue] + '</option>');
@@ -942,6 +973,8 @@
 					}
 					else {
 						stateWrapper.addClass('aui-helper-hidden');
+
+						stateSelect.appendChild('<option value="null">State/Province *</option>');
 					}
 				};
 
