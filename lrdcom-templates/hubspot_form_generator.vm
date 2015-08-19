@@ -551,7 +551,6 @@
 												#set ($selected = "")
 
 												#if ($value == $option.getString('value') || (($item.getString("name") == "country") && ($option.getString('value') == $country_from_ip)))
-
 													#set ($selected = "selected")
 												#end
 
@@ -635,9 +634,7 @@
 										<div class="aui-field aui-field-select">
 											<label class="aui-field-label" for="state">State</label>
 											<select class="${field_input_css_class}" id="state-generated" name="state">
-
-												## kept in case of js disabled
-												<option value="null">State</option>
+												<option value="null">State/Province *</option>
 
 												#foreach ($option in $state_options_map)
 													#set ($country_name = "other")
@@ -648,7 +645,7 @@
 														#set ($void = $states_options_json.put($country_name, $jsonFactoryUtil.createJSONObject()))
 													#end
 
-													#if ($value == $option_value)
+													#if ($hs_contact_object.getJSONObject("state").getString("value") == $option_value)
 														#set ($void = $states_options_json.put("selected_option", $option_value))
 													#end
 
