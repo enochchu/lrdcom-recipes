@@ -4,22 +4,28 @@
 	<#assign style = "" />
 </#if>
 
+<#assign font_color = "light-color" />
+
 <#if opacity.data?has_content>
-	<#assign opacity_overlay = "opacity-overlay" />
 	<#assign opacity_color = opacity.data />
+	<#assign opacity_overlay = "opacity-overlay" />
+
+	<#if opacity_color == "#FFF">
+		<#assign font_color = "font-color" />
+	</#if>
 <#else>
-	<#assign opacity_overlay = "" />
 	<#assign opacity_color = "" />
+	<#assign opacity_overlay = "" />
 </#if>
 
 <div class="block-container main-banner ${opacity_overlay} ${position.data}" ${style}>
-	<div class="block light-color main-banner-content max-med">
+	<div class="block ${font_color} main-banner-content max-med">
 		<#if heading.data?has_content>
 			<h1>${heading.data}</h1>
 		</#if>
 
 		<#if sub_heading.data?has_content>
-			<p class="light-color sub-heading">${sub_heading.data}</p>
+			<p class="${font_color} sub-heading">${sub_heading.data}</p>
 		</#if>
 	</div>
 </div>
@@ -100,4 +106,8 @@
 			right: -200%;
 		}
 	}
+
+	<#if css?? && css.data?has_content>
+		${css.data}
+	</#if>
 </style>
