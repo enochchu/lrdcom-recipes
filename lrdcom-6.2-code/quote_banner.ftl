@@ -46,6 +46,7 @@
 	}
 
 	.quote, .quote-source {
+		position: relative;
 		z-index: 5;
 	}
 
