@@ -170,6 +170,19 @@
 			</entry>
 		</meta-data>
 	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="height" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[Height]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[400px]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
 	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="css" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
 		<meta-data locale="en_US">
 			<entry name="label">

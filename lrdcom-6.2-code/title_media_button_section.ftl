@@ -1,4 +1,4 @@
-<div class="block-justify-center block-container title-media-button-section">
+<div class="align-center block-container justify-center title-media-button-section">
 	<#if title.data?has_content || subtitle.data?has_content>
 		<div class="section-heading text-center">
 			<#if title.data?has_content>
@@ -11,7 +11,7 @@
 		</div>
 	</#if>
 
-	<div class="alt-font-color block-container">
+	<div class="align-center alt-font-color block-container justify-center">
 		<#if block_title.siblings?size gt 5>
 			<#assign block_width = 33 />
 		<#else>

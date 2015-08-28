@@ -18,7 +18,7 @@
 	<#assign opacity_overlay = "" />
 </#if>
 
-<div class="block-container main-banner ${opacity_overlay} ${position.data}" ${style}>
+<div class="align-center block-container justify-center main-banner ${opacity_overlay} ${position.data}" ${style}>
 	<div class="block ${font_color} main-banner-content max-med">
 		<#if heading.data?has_content>
 			<h1>${heading.data}</h1>
@@ -30,13 +30,17 @@
 	</div>
 </div>
 
+<#assign min_height = "400px" />
+
+<#if height?? && height.data?has_content>
+	<#assign min_height = height.data />
+</#if>
+
 <style type="text/css">
 	.aui .main-banner {
 		background-position: center;
 		background-size: cover;
-		align-items: center;
-		justify-content: center;
-		min-height: 400px;
+		min-height: ${min_height};
 		overflow: hidden;
 		position: relative;
 	}
@@ -108,6 +112,6 @@
 	}
 
 	<#if css?? && css.data?has_content>
-		${css.data}
+			${css.data}
 	</#if>
 </style>

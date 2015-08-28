@@ -19,7 +19,7 @@
 		</div>
 	</#if>
 
-	<div class="block-container block-justify-center tile-section">
+	<div class="align-center block-container justify-center tile-section">
 		<#list tile.siblings as tile>
 			<div class="block link-tile w33">
 					<#if tile.tile_logo.data?starts_with("\lsvg") >
@@ -48,7 +48,7 @@
 	}
 
 	<#list tile.siblings as tile_style_item>
-		.link-tile .logo-${tile_style_item_index + 1} {
+		.aui .link-tile .logo-${tile_style_item_index + 1} {
 			<#if tile_style_item.tile_logo.data?starts_with("\lsvg") >
 				<#assign logo_url_escaped = htmlUtil.escapeURL(tile_style_item.tile_logo.data?replace("\"","\'"))>
 				<#assign logo_url = 'data:image/svg+xml;charset=utf-8,${logo_url_escaped}'>
