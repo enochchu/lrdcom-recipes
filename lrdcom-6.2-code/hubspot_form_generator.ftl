@@ -1,15 +1,3 @@
-<#function clean_up string>
-	<#assign string = stringUtil.replace(string, "[", "") />
-	<#assign string = stringUtil.replace(string, "]", "") />
-	<#assign string = stringUtil.replace(string, '"', '') />
-
-	<#if string == "_blank">
-		<#assign string = "" />
-	</#if>
-
-	<#return string>
-</#function>
-
 <#function get_options field>
 	<#if localization_map?has_content>
 		<#assign localized_field_name = "" />
@@ -23,21 +11,25 @@
 </#function>
 
 <#assign portlet_bean_locator = objectUtil("com.liferay.portal.kernel.bean.PortletBeanLocatorUtil") />
-<#assign hs_contact_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService.velocity") />
-<#assign hs_form_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSFormLocalService.velocity") />
 
-## Testing Hubspot Account
-<#assign hs_account_id = "299703" />
-
-## Production Hubspot Account
-## <#assign hs_account_id = "252686" />
+<#assign hs_form_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSFormLocalService") />
 
 <#if request.lifecycle == 'RENDER_PHASE'>
-	<#-- <#assign ip_geocoder_util = objectUtil("com.liferay.ipgeocoder.util.IPGeocoderUtil") />
-	<#assign ip_info = ip_geocoder_util.getIPInfo(request.attributes.OSB_REMOTE_ADDRESS) />
-	<#assign country_from_ip = "" />
+	<#assign hs_contact_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService") />
 
-	<#if ip_info>
+	<#-- Testing Hubspot Account -->
+	<#assign hs_account_id = "299703" />
+
+	<#-- Production Hubspot Account
+	<#assign hs_account_id = "252686" /> -->
+
+	<#-- <#assign ip_geocoder_util = objectUtil("com.liferay.ipgeocoder.util.IPGeocoderUtil") />
+
+	<#if ip_geocoder_util??>
+		<#assign ip_info = ip_geocoder_util.getIPInfo(request.attributes.OSB_REMOTE_ADDRESS) />
+	</#if>
+
+	<#if ip_info??>
 		<#assign country_from_ip = ip_info.getCountryName() />
 	</#if> -->
 
@@ -59,13 +51,13 @@
 		</#if>
 	</#list> -->
 
-	## Create a state to country map
+	<#-- Create a state to country map -->
 
 	<#assign state_country_map = {"Armed Forces Americas": "United States","Armed Forces Europe": "United States","Alaska": "United States","Alabama": "United States","Armed Forces Pacific": "United States","Arkansas": "United States","American Samoa": "United States","Arizona": "United States","California": "United States","Colorado": "United States","Connecticut": "United States","District of Columbia": "United States","Delaware": "United States","Florida": "United States","Federated Micronesia": "United States","Georgia": "United States","Guam": "United States","Hawaii": "United States","Iowa": "United States","Idaho": "United States","Illinois": "United States","Indiana": "United States","Kansas": "United States","Kentucky": "United States","Louisiana": "United States","Massachusetts": "United States","Maryland": "United States","Maine": "United States","Marshall Islands": "United States","Michigan": "United States","Minnesota": "United States","Missouri": "United States","Northern Mariana Islands": "United States","Mississippi": "United States","Montana": "United States","North Carolina": "United States","North Dakota": "United States","Nebraska": "United States","New Hampshire": "United States","New Jersey": "United States","New Mexico": "United States","Nevada": "United States","New York": "United States","Ohio": "United States","Oklahoma": "United States","Oregon": "United States","Pennsylvania": "United States","Puerto Rico": "United States","Palau": "United States","Rhode Island": "United States","South Carolina": "United States","South Dakota": "United States","Tennessee": "United States","Texas": "United States","United States Minor Outlying Islands": "United States","Utah": "United States","Virginia": "United States","US Virgin Islands": "United States","Vermont": "United States","Washington": "United States","Wisconsin": "United States","West Virginia": "United States","Wyoming": "United States","Australian Capital Territory": "Australia","New South Wales": "Australia","Northern Territory": "Australia","Queensland": "Australia","South Australia": "Australia","Tasmania": "Australia","Victoria": "Australia","Western Australia": "Australia","Acre": "Brazil","Alagoas": "Brazil","Amazonas": "Brazil","Amapá": "Brazil","Bahia": "Brazil","Ceará": "Brazil","Distrito Federal": "Brazil","Espírito Santo": "Brazil","Goiás": "Brazil","Maranhão": "Brazil","Minas Gerais": "Brazil","Mato Grosso do Sul": "Brazil","Mato Grosso": "Brazil","Pará": "Brazil","Paraíba": "Brazil","Pernambuco": "Brazil","Piauí": "Brazil","Paraná": "Brazil","Rio de Janeiro": "Brazil","Rio Grande do Norte": "Brazil","Rondônia": "Brazil","Roraima": "Brazil","Rio Grande do Sul": "Brazil","Santa Catarina": "Brazil","Sergipe": "Brazil","São Paulo": "Brazil","Tocantins": "Brazil","Alberta": "Canada","British Columbia": "Canada","Manitoba": "Canada","New Brunswick": "Canada","Newfoundland and Labrador": "Canada","Nova Scotia": "Canada","Northwest Territories": "Canada","Nunavut": "Canada","Ontario": "Canada","Prince Edward Island": "Canada","Quebec": "Canada","Saskatchewan": "Canada","Yukon Territories": "Canada","Beijing": "China","Tianjin": "China","Hebei": "China","Shanxi": "China","Nei Mongol": "China","Liaoning": "China","Jilin": "China","Heilongjiang": "China","Shanghai": "China","Jiangsu": "China","Zhejiang": "China","Anhui": "China","Fujian": "China","Jiangxi": "China","Shandong": "China","Henan": "China","Hubei": "China","Hunan": "China","Guangdong": "China","Guangxi": "China","Hainan": "China","Chongqing": "China","Sichuan": "China","Guizhou": "China","Yunnan": "China","Xizang": "China","Shaanxi": "China","Gansu": "China","Qinghai": "China","Ningxia": "China","Xinjiang": "China","Chinese Taipei": "China","Hong Kong": "China","Macao": "China","Clare": "Ireland","Cavan": "Ireland","Cork": "Ireland","Carlow": "Ireland","Dublin": "Ireland","Donegal": "Ireland","Galway": "Ireland","Kildare": "Ireland","Kilkenny": "Ireland","Kerry": "Ireland","Longford": "Ireland","Louth": "Ireland","Limerick": "Ireland","Leitrim": "Ireland","Laois": "Ireland","Meath": "Ireland","Monaghan": "Ireland","Mayo": "Ireland","Offaly": "Ireland","Roscommon": "Ireland","Sligo": "Ireland","Tipperary": "Ireland","Waterford": "Ireland","Westmeath": "Ireland","Wicklow": "Ireland","Wexford": "Ireland","Andaman and Nicobar Islands": "India","Andhra Pradesh": "India","Arunachal Pradesh": "India","Assam": "India","Bihar": "India","Chandigarh": "India","Chhattisgarh": "India","Daman and Diu": "India","Delhi": "India","Dadra and Nagar Haveli": "India","Goa": "India","Gujarat": "India","Himachal Pradesh": "India","Haryana": "India","Jharkhand": "India","Jammu and Kashmir": "India","Karnataka": "India","Kerala": "India","Lakshadweep": "India","Maharashtra": "India","Meghalaya": "India","Manipur": "India","Madhya Pradesh": "India","Mizoram": "India","Nagaland": "India","Odisha": "India","Punjab": "India","Puducherry": "India","Rajasthan": "India","Sikkim": "India","Tamil Nadu": "India","Tripura": "India","Uttar Pradesh": "India","Uttarakhand": "India","West Bengal": "India","Agrigento": "Italy","Alessandria": "Italy","Ancona": "Italy","Aosta": "Italy","Ascoli Piceno": "Italy","L&#039;Aquila": "Italy","Arezzo": "Italy","Asti": "Italy","Avellino": "Italy","Bari": "Italy","Bergamo": "Italy","Biella": "Italy","Belluno": "Italy","Benevento": "Italy","Bologna": "Italy","Brindisi": "Italy","Brescia": "Italy","Barletta-Andria-Trani": "Italy","Bolzano": "Italy","Cagliari": "Italy","Campobasso": "Italy","Caserta": "Italy","Chieti": "Italy","Carbonia-Iglesias": "Italy","Caltanissetta": "Italy","Cuneo": "Italy","Como": "Italy","Cremona": "Italy","Cosenza": "Italy","Catania": "Italy","Catanzaro": "Italy","Enna": "Italy","Forlì-Cesena": "Italy","Ferrara": "Italy","Foggia": "Italy","Florence": "Italy","Fermo": "Italy","Frosinone": "Italy","Genoa": "Italy","Gorizia": "Italy","Grosseto": "Italy","Imperia": "Italy","Isernia": "Italy","Crotone": "Italy","Lecco": "Italy","Lecce": "Italy","Livorno": "Italy","Lodi": "Italy","Latina": "Italy","Lucca": "Italy","Monza and Brianza": "Italy","Macerata": "Italy","Messina": "Italy","Milan": "Italy","Mantua": "Italy","Modena": "Italy","Massa and Carrara": "Italy","Matera": "Italy","Naples": "Italy","Novara": "Italy","Nuoro": "Italy","Ogliastra": "Italy","Oristano": "Italy","Olbia-Tempio": "Italy","Palermo": "Italy","Piacenza": "Italy","Padua": "Italy","Pescara": "Italy","Perugia": "Italy","Pisa": "Italy","Pordenone": "Italy","Prato": "Italy","Parma": "Italy","Pistoia": "Italy","Pesaro and Urbino": "Italy","Pavia": "Italy","Potenza": "Italy","Ravenna": "Italy","Reggio Calabria": "Italy","Reggio Emilia": "Italy","Ragusa": "Italy","Rieti": "Italy","Rome": "Italy","Rimini": "Italy","Rovigo": "Italy","Salerno": "Italy","Siena": "Italy","Sondrio": "Italy","La Spezia": "Italy","Syracuse": "Italy","Sassari": "Italy","Savona": "Italy","Taranto": "Italy","Teramo": "Italy","Trento": "Italy","Turin": "Italy","Trapani": "Italy","Terni": "Italy","Trieste": "Italy","Treviso": "Italy","Udine": "Italy","Varese": "Italy","Verbano-Cusio-Ossola": "Italy","Vercelli": "Italy","Venice": "Italy","Vicenza": "Italy","Verona": "Italy","Medio Campidano": "Italy","Viterbo": "Italy","Vibo Valentia": "Italy","Aguascalientes": "Mexico","Baja California": "Mexico","Baja California Sur": "Mexico","Chihuahua": "Mexico","Colima": "Mexico","Campeche": "Mexico","Coahuila": "Mexico","Chiapas": "Mexico","Federal District": "Mexico","Durango": "Mexico","Guerrero": "Mexico","Guanajuato": "Mexico","Hidalgo": "Mexico","Jalisco": "Mexico","Mexico State": "Mexico","Michoacán": "Mexico","Morelos": "Mexico","Nayarit": "Mexico","Nuevo León": "Mexico","Oaxaca": "Mexico","Puebla": "Mexico","Querétaro": "Mexico","Quintana Roo": "Mexico","Sinaloa": "Mexico","San Luis Potosí": "Mexico","Sonora": "Mexico","Tabasco": "Mexico","Tlaxcala": "Mexico","Tamaulipas": "Mexico","Veracruz": "Mexico","Yucatán": "Mexico","Zacatecas": "Mexico"} />
 
-	## Generate Hubspot form
+	<#-- Generate Hubspot form -->
 
-	<#assign article_namespace = "article${.vars['reserved-article-title'].data}" />
+	<#assign article_namespace = "article${.vars['reserved-article-id'].data}" />
 
 	<#assign namespace = request["portlet-namespace"]>
 
@@ -79,11 +71,11 @@
 		<#assign hs_contact_object = hs_contact.getHSContactJSONObject().getJSONObject("properties") />
 	</#if>
 
-	<#-- <#if locale != "en_US">
-		## Testing Localization Form
-		## <#assign localization_form = hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060") />
+	<#if locale != "en_US">
+		<#-- Testing Localization Form -->
+		<#-- <#assign localization_form = hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060") /> -->
 
-		## Production Localization Form
+		<#-- Production Localization Form -->
 		<#assign localization_form = hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05") />
 
 		<#if localization_form.getHSFormJSONObject().getJSONArray("fields")>
@@ -105,13 +97,13 @@
 				<#assign VOID = localization_map.put(localization_form_field.getString("name"), field_map) />
 			</#list>
 		</#if>
-	</#if> -->
+	</#if>
 
 	<#assign hs_form = hs_form_local_service.fetchHSFormByGUID(hs_form_id.data) />
 
 	<#assign submit_params = "'#${article_namespace}fm'" />
 
-	<#if record_id?has_content && record_id != "">
+	<#if record_id?has_content && record_id?has_content>
 		<#assign submit_params = "${submit_params}, this.getAttribute('data-tactic-url-fields')" />
 	</#if>
 
@@ -127,24 +119,24 @@
 		<#list field_name.siblings as name>
 			<#assign article_field_values_json = jsonFactoryUtil.createJSONObject() />
 
-			<#if name.label.data != "">
+			<#if name.label.data?has_content>
 				<#assign void = article_field_values_json.put("label", name.label.data) />
 				<#assign void = article_field_values_json.put("description", name.description.data) />
 
 				<#assign void = article_field_names_json.put(name.data, article_field_values_json) />
 			</#if>
 
-			<#if name.required_message.data != "">
+			<#if name.required_message.data?has_content>
 				<#assign form_field_string = jsonFactoryUtil.createJSONObject() />
 				<#assign void = form_field_string.put("required", name.required_message.data) />
 				<#assign void = form_field_strings_json.put(name.data, form_field_string) />
 			</#if>
 		</#list>
 
-		<div class="hbspt-form">
+		<div class="hbspt-form ">
 			<div id="${article_namespace}msg"></div>
 
-			<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-new-tab="true" data-tactic-url-fields="" data-tactic-item-fields='' id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${.vars['reserved-article-title'].data}(${submit_params}); return false;">
+			<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-new-tab="true" data-tactic-url-fields="" data-tactic-item-fields='' id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${.vars['reserved-article-id'].data}(${submit_params}); return false;">
 				<#assign field_count = 0 />
 				<#assign start = 0 />
 				<#assign end = hs_form_fields.length() - 1 />
@@ -164,11 +156,11 @@
 							<#assign field_description = article_field_name_value.getString("description") />
 						</#if>
 
-						<#if label_text == "">
+						<#if !label_text?has_content>
 							<#assign label_text = item.getString("label") />
 						</#if>
 
-						<#if field_description == "">
+						<#if !field_description?has_content>
 							<#assign field_description = item.getString("description") />
 						</#if>
 
@@ -185,7 +177,7 @@
 						</#if>
 
 						<#if item.getJSONArray("selectedOptions")?has_content>
-							<#assign value = clean_up(item.getJSONArray("selectedOptions").toString()) />
+							<#assign value = item.getJSONArray("selectedOptions").toString() />
 
 							<#if hidden && field_type == "checkbox">
 								<#assign value = stringUtil.replace(value, ",", ";") />
@@ -207,18 +199,18 @@
 							<#assign value = hs_value />
 						</#if>
 
-						<#assign field_css_class = "aui-field aui-field-${field_type}" />
-						<#assign field_input_css_class = "aui-field-input aui-field-input-${field_type}" />
+						<#assign field_css_class = "field-wrapper field-${field_type}" />
+						<#assign field_input_css_class = "field field-${field_type}" />
 
-						<#if value != "">
+						<#-- <#if value?has_content>
 							<#assign field_css_class = "${field_css_class} field-filled" />
-						</#if>
+						</#if> -->
 
-						<#if hidden || (hs_smart_field && (hs_value != ""))>
-							<#assign field_css_class = "${field_css_class} aui-helper-hidden" />
+						<#if hidden || (hs_smart_field && (hs_value?has_content))>
+							<#assign field_css_class = "${field_css_class} hide" />
 							<#assign field_input_css_class = "$field_input_css_class hidden-field" />
 						<#elseif fields_to_skip?has_content && fields_to_skip.contains(item.getString("name"))>
-							##skip
+							<#-- skip -->
 						<#else>
 							<#assign field_count = field_count + 1 />
 						</#if>
@@ -226,8 +218,8 @@
 						<#assign field_css_class = "${field_css_class} field-${field_count}" />
 
 						<#if item.getString("required") == "true">
-							<#assign field_css_class = "field_css_class field-required" />
-							<#assign field_input_css_class = "${field_input_css_class} aui-field-required" />
+							<#assign field_css_class = "${field_css_class} field-required" />
+							<#assign field_input_css_class = "${field_input_css_class} field-required" />
 							<#assign required = "" />
 							<#assign label_text = "${label_text} *" />
 
@@ -237,26 +229,26 @@
 						</#if>
 
 						<#if item.getString("name") == "state">
-							<#assign field_css_class = "aui-helper-hidden ${field_css_class} state" />
+							<#assign field_css_class = "hide ${field_css_class} state" />
 						</#if>
 
-						<#if ((number_of_fields_displayed?has_content && number_of_fields_displayed != 0) && (field_count > number_of_fields_displayed) && !hidden) || (hs_smart_field && (value != "")) || (fields_to_skip?has_content && fields_to_skip.contains(item.getString("name")))>
-							##skip
+						<#if ((number_of_fields_displayed?has_content && number_of_fields_displayed != 0) && (field_count > number_of_fields_displayed) && !hidden) || (hs_smart_field && (value?has_content)) || (fields_to_skip?has_content && fields_to_skip.contains(item.getString("name")))>
+							<#-- skip -->
 						<#else>
-							<div class="${field_css_class}" id="article${.vars['reserved-article-title'].data}field${i}">
-								<#if label_text != "" && (field_type != "richtext") && (field_type != "booleancheckbox")>
-									<label class="aui-field-label" for="${item.getString('name')}">${label_text}</label>
+							<div class="${field_css_class}" id="article${.vars['reserved-article-id'].data}field${i}">
+								<#if label_text?has_content && (field_type != "richtext") && (field_type != "booleancheckbox")>
+									<label class="field-label" for="${item.getString('name')}">${label_text}</label>
 								</#if>
 
 								<#if hidden>
-									<input class="${field_input_css_class}" type="hidden" name="${item.getString('name')}" value="${value}"/>
+									<input class="${field_input_css_class}" type="hidden" name="${item.getString('name')}" value="<#-- ${value} -->"/>
 								<#elseif field_type == "select">
 									<#assign select_options_map = get_options(item) />
 									<#assign select_options_start = 0 />
 									<#assign select_options_end = select_options_map.length() - 1 />
 									<#assign select_options_range = select_options_start..select_options_end />
 
-									<select class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-title'].data}" name="${item.getString('name')}" ${required}>
+									<select class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-id'].data}" name="${item.getString('name')}" ${required}>
 										<option value="">${label_text}</option>
 
 										<#list select_options_range as i>
@@ -300,16 +292,16 @@
 											<#assign void = state_option_json.getJSONArray("key").put(option_value) />
 										</#list>
 
-										<#if item.getString("unselectedLabel") != "">
+										<#if item.getString("unselectedLabel")?has_content>
 											<#assign void = states_options_json.put("unselected_label", label_text) />
 										</#if>
 									</#if>
 								<#elseif field_type == "richtext">
 									<span class="hs-richtext">${item.getString('defaultValue')}</span>
 								<#elseif field_type == "textarea">
-									<textarea class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-title'].data}" name="${item.getString('name')}" placeholder="${label_text}" ${required}>${value}</textarea>
+									<textarea class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-id'].data}" name="${item.getString('name')}" placeholder="${label_text}" ${required}><#-- ${value} --></textarea>
 								<#elseif field_type == "booleancheckbox">
-									<label class="aui-field-label">
+									<label class="field-label">
 										<input class="${field_input_css_class}" name="${item.getString('name')}" type="checkbox" value="false" />${label_text}
 									</label>
 								<#elseif field_type == "checkbox" || field_type == "radio">
@@ -329,7 +321,7 @@
 												<#assign checked = "" />
 											</#if>
 
-											<label class="aui-field-label">
+											<label class="field-label">
 												<input class="${field_input_css_class}" ${checked} name="${item.getString('name')}" type="${field_type}" value="${option.getString('value')}" />${option.getString("label")}
 											</label>
 										</#list>
@@ -337,7 +329,7 @@
 								<#else>
 									<input
 										class="${field_input_css_class}"
-										id="${item.getString('name')}-${.vars['reserved-article-title'].data}"
+										id="${item.getString('name')}-${.vars['reserved-article-id'].data}"
 										name="${item.getString('name')}"
 										placeholder="${label_text}"
 
@@ -347,18 +339,18 @@
 											type="${field_type}"
 										</#if>
 
-										<#if item.getString('placeholder') != "">
+										<#if item.getString('placeholder')?has_content>
 											placeholder="item.getString('placeholder')"
 										</#if>
 
 										${required}
 
-										value="${value}"
+										value="<#-- ${value} -->"
 									/>
 								</#if>
 
-								<#if field_description != "">
-									<div class="aui-field-desc">${field_description}</div>
+								<#if field_description?has_content>
+									<div class="field-desc">${field_description}</div>
 								</#if>
 							</div>
 
@@ -371,12 +363,12 @@
 
 					<#assign btn_text = submit_text.data />
 
-					<#if btn_text == "">
+					<#if !btn_text?has_content>
 						<#assign btn_text = hs_form.getSubmitText() />
 					</#if>
 
 					<div class="btn-wrapper">
-						<input class="aui-button-input aui-button-input-submit btn" type="submit" value="${btn_text}" />
+						<input class="button-input button-input-submit btn" type="submit" value="${btn_text}" />
 					</div>
 				</div>
 			</form>
@@ -397,10 +389,10 @@
 
 	<#assign salesforce_campaign_id = "" />
 
-	<#-- <#assign salesforce_campaign_id = hs_form.getHSFormJSONObject().getJSONArray("metaData").getJSONObject(0).getString("value") /> -->
+	<#assign salesforce_campaign_id = hs_form.getLeadNurturingCampaignId() />
 
 	<script type="text/javascript">
-		function submitHSForm${.vars['reserved-article-title'].data}(formId, primaryTacticFields, secondaryTacticFields) {
+		function submitHSForm${.vars['reserved-article-id'].data}(formId, primaryTacticFields, secondaryTacticFields) {
 			AUI().ready(
 				'aui-base',
 				'aui-io-plugin',
@@ -422,21 +414,21 @@
 
 					var leave = false;
 
-					form.all('.aui-field-input').each(
+					form.all('.field-input').each(
 						function(node) {
 							var value = node.get('value');
 
-							if (node.hasClass('aui-field-input-booleancheckbox') && (node.get('checked') == true)) {
+							if (node.hasClass('field-input-booleancheckbox') && (node.get('checked') == true)) {
 								value = true;
 							}
 
-							if ((node.hasClass('aui-field-required') && value == '') || (node.hasClass('aui-field-required') && value == 'false')) {
+							if ((node.hasClass('field-required') && value == '') || (node.hasClass('field-required') && value == 'false')) {
 								leave = true;
 
 								return;
 							}
 
-							if (!node.hasClass('hidden-field') && (node.hasClass('aui-field-input-booleancheckbox') || node.hasClass('aui-field-input-checkbox') || node.hasClass('aui-field-input-radio'))) {
+							if (!node.hasClass('hidden-field') && (node.hasClass('field-input-booleancheckbox') || node.hasClass('field-input-checkbox') || node.hasClass('field-input-radio'))) {
 								if (node.get('checked') == true) {
 									if (fields[node.get('name')]) {
 										fields[node.get('name')] += ',' + value;
@@ -542,7 +534,7 @@
 					}
 
 					A.io.request(
-						'${request["portlet-namespace"]}',
+						'${request["resource-url"]}',
 						{
 							data: {
 								${namespace}fields: fieldsString,
@@ -585,45 +577,11 @@
 			'aui-form-validator',
 			'json-parse',
 			function(A) {
-				new A.FormValidator(
-					{
-						boundingBox: '#${article_namespace}fm',
-						fieldContainer: '.aui-field',
-						fieldStrings: A.JSON.parse('${form_field_strings_json}'),
-						rules: A.JSON.parse('${form_rules_json}')
-					}
-				);
-
-				A.all('#${article_namespace}fm .aui-field').each(
-					function(node) {
-						node.on(
-							'focus',
-							function() {
-								node.addClass('field-focused');
-							}
-						);
-
-						node.on(
-							'blur',
-							function() {
-								node.removeClass('field-focused');
-
-								if (node.one('.aui-field-input').get('value') != "") {
-									node.addClass('field-filled');
-								}
-								else {
-									node.removeClass('field-filled');
-								}
-							}
-						);
-					}
-				);
-
-				var countrySelect = A.one('#country-${.vars['reserved-article-title'].data}');
-				var stateSelect = A.one('#state-${.vars['reserved-article-title'].data}');
+				var countrySelect = A.one('#country-${.vars['reserved-article-id'].data}');
+				var stateSelect = A.one('#state-${.vars['reserved-article-id'].data}');
 
 				if (stateSelect) {
-					var stateWrapper = stateSelect.ancestor('.aui-field');
+					var stateWrapper = stateSelect.ancestor('.field');
 				}
 
 				<#if states_options_json?has_content>
@@ -657,10 +615,10 @@
 							stateSelect.appendChild('<option value="' + stateValue + '"' + selected + '>' + stateOptions[stateValue] + '</option>');
 						}
 
-						stateWrapper.removeClass('aui-helper-hidden');
+						stateWrapper.removeClass('hide');
 					}
 					else {
-						stateWrapper.addClass('aui-helper-hidden');
+						stateWrapper.addClass('hide');
 					}
 				};
 
