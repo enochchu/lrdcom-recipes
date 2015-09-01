@@ -11,7 +11,7 @@
 		</div>
 	</#if>
 
-	<div class="align-center alt-font-color block-container justify-center">
+	<div class="align-baseline alt-font-color block-container justify-center">
 		<#if block_title.siblings?size gt 5>
 			<#assign block_width = 33 />
 		<#else>
@@ -19,7 +19,15 @@
 		</#if>
 
 		<#list block_title.siblings as block>
-			<div class="block media w${block_width?round}">
+			<#assign transition_css = "on-screen-helper slide-up" />
+
+			<#if false>
+				<#assign transition_css = "${transition_css} delay-1" />
+			<#elseif false >
+				<#assign transition_css = "${transition_css} delay-2" />
+			</#if>
+
+			<div class="block media ${transition_css} w${block_width?round}">
 				<#if block.svg_code.data?has_content>
 					<div class="media-object primary-color text-center">
 						${block.svg_code.data}
