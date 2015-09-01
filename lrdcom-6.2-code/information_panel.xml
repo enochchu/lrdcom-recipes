@@ -1,0 +1,188 @@
+
+<root available-locales="en_US" default-locale="en_US">
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
+		<dynamic-element dataType="string" indexType="keyword" localizable="false" multiple="false" name="width" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
+			<dynamic-element name="option6106" type="option" value="w20">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[20%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6107" type="option" value="w30">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[30%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6108" type="option" value="w33">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[33%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6109" type="option" value="w40">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[40%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6110" type="option" value="w50">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[50%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6111" type="option" value="w60">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[60%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6112" type="option" value="w66">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[66%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6113" type="option" value="w70">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[70%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6114" type="option" value="w80">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[80%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option6115" type="option" value="w100">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[100%]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Width]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[[""]]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element dataType="string" indexType="keyword" localizable="false" multiple="false" name="background_color" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
+			<dynamic-element name="option19825" type="option" value="">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[None]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4671" type="option" value="accent-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Accent Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4672" type="option" value="alt-font-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Alt Font Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4673" type="option" value="alt-primary-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Alt Primary Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4674" type="option" value="alt-secondary-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Alt Secondary Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4675" type="option" value="complementary-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Complementary Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4676" type="option" value="element-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Element Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4677" type="option" value="primary-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Primary Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option4678" type="option" value="secondary-background">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Secondary Color]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Background Color]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[[""]]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element dataType="document-library" fieldNamespace="ddm" indexType="keyword" localizable="true" name="background_image" readOnly="false" repeatable="false" required="false" showLabel="true" type="ddm-documentlibrary" width="">
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Background Image]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[Block (embed article id)]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[Please enter the embed article id in the field below.]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+</root>
