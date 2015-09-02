@@ -12,14 +12,18 @@
 			<#assign background_image_selector = "" />
 		</#if>
 
-		<#if block.data?has_content>
-			<#assign instance_id = "${.vars['reserved-article-id'].data}_embed_${block.data}" />
-		<#else>
-			<#assign instance_id = "${.vars['reserved-article-id'].data}_null" />
-		</#if>
+		<#assign journal_article_local_service = serviceLocator.findService("com.liferay.portlet.journal.service.JournalArticleLocalService") />
 
 		<div class="${color_class} info-panel panel-section-${block_index + 1} ${block.width.data}" ${background_image_selector}>
-			<runtime-portlet name="56" instance="${instance_id}" queryString="" />
+			<#if block.data?has_content && journal_article_local_service.hasArticle(groupId, block.data)>
+				<#assign journal_content_util = staticUtil["com.liferay.portlet.journalcontent.util.JournalContentUtil"] />
+
+				<#assign content_display = journal_content_util.getDisplay(groupId, block.data, "", locale, xmlRequest) />
+
+				${content_display.getContent()}
+			<#else>
+				Please input an article id.
+			</#if>
 		</div>
 	</#list>
 </div>
