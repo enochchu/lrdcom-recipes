@@ -3,7 +3,7 @@
 	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="section" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
 		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
 			<dynamic-element dataType="string" indexType="keyword" localizable="true" name="element" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
-				<dynamic-element dataType="string" indexType="keyword" localizable="true" name="tag" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+				<dynamic-element dataType="string" indexType="keyword" localizable="false" name="tag" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[Tag]]>
@@ -29,7 +29,7 @@
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element dataType="string" indexType="keyword" localizable="true" name="element_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+				<dynamic-element dataType="string" indexType="keyword" localizable="false" name="element_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[Element Class]]>
@@ -54,7 +54,7 @@
 					</entry>
 				</meta-data>
 			</dynamic-element>
-			<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+			<dynamic-element dataType="string" indexType="keyword" localizable="false" name="block_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 				<meta-data locale="en_US">
 					<entry name="label">
 						<![CDATA[Block Class]]>
@@ -67,85 +67,155 @@
 					</entry>
 				</meta-data>
 			</dynamic-element>
-			<dynamic-element dataType="string" indexType="keyword" localizable="true" multiple="false" name="width" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
-				<dynamic-element name="option7326" type="option" value="1">
+			<dynamic-element dataType="string" indexType="keyword" localizable="false" multiple="false" name="width" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
+				<dynamic-element name="option7326" type="option" value="5">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[8%]]>
+							<![CDATA[5%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7327" type="option" value="2">
+				<dynamic-element name="option7327" type="option" value="10">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[16%]]>
+							<![CDATA[10%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7328" type="option" value="3">
+				<dynamic-element name="option7328" type="option" value="15">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[15%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7329" type="option" value="20">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[20%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7330" type="option" value="25">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[25%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7329" type="option" value="4">
+				<dynamic-element name="option7331" type="option" value="30">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[30%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7332" type="option" value="33">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[33%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7330" type="option" value="5">
+				<dynamic-element name="option8069" type="option" value="35">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[42%]]>
+							<![CDATA[35%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7331" type="option" value="6">
+				<dynamic-element name="option7333" type="option" value="40">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[40%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7334" type="option" value="45">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[45%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7335" type="option" value="50">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[50%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7332" type="option" value="7">
+				<dynamic-element name="option7336" type="option" value="55">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[58%]]>
+							<![CDATA[55%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option8069" type="option" value="8">
+				<dynamic-element name="option7337" type="option" value="60">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[60%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7338" type="option" value="65">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[65%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7339" type="option" value="66">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[66%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7333" type="option" value="9">
+				<dynamic-element name="option7340" type="option" value="70">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[70%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7341" type="option" value="75">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[75%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7334" type="option" value="10">
+				<dynamic-element name="option7342" type="option" value="80">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[84%]]>
+							<![CDATA[80%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7335" type="option" value="11">
+				<dynamic-element name="option7343" type="option" value="85">
 					<meta-data locale="en_US">
 						<entry name="label">
-							<![CDATA[92%]]>
+							<![CDATA[85%]]>
 						</entry>
 					</meta-data>
 				</dynamic-element>
-				<dynamic-element name="option7336" type="option" value="12">
+				<dynamic-element name="option7344" type="option" value="90">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[90%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7345" type="option" value="95">
+					<meta-data locale="en_US">
+						<entry name="label">
+							<![CDATA[95%]]>
+						</entry>
+					</meta-data>
+				</dynamic-element>
+				<dynamic-element name="option7346" type="option" value="100">
 					<meta-data locale="en_US">
 						<entry name="label">
 							<![CDATA[100%]]>
@@ -157,7 +227,7 @@
 						<![CDATA[Width]]>
 					</entry>
 					<entry name="predefinedValue">
-						<![CDATA[["12"]]]>
+						<![CDATA[["100"]]]>
 					</entry>
 					<entry name="tip">
 						<![CDATA[Define the width of the current block.]]>
@@ -176,7 +246,7 @@
 				</entry>
 			</meta-data>
 		</dynamic-element>
-		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="section_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+		<dynamic-element dataType="string" indexType="keyword" localizable="false" name="section_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 			<meta-data locale="en_US">
 				<entry name="label">
 					<![CDATA[Section Class]]>
@@ -201,7 +271,7 @@
 			</entry>
 		</meta-data>
 	</dynamic-element>
-	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="article_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
+	<dynamic-element dataType="string" indexType="keyword" localizable="false" name="article_class" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 		<meta-data locale="en_US">
 			<entry name="label">
 				<![CDATA[Article Class]]>
@@ -214,7 +284,7 @@
 			</entry>
 		</meta-data>
 	</dynamic-element>
-	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="css" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
+	<dynamic-element dataType="string" indexType="keyword" localizable="false" name="css" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
 		<meta-data locale="en_US">
 			<entry name="label">
 				<![CDATA[CSS]]>
