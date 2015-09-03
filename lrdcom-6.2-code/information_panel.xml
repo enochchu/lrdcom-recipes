@@ -1,6 +1,19 @@
 
 <root available-locales="en_US" default-locale="en_US">
 	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
+		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="article_id" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="small">
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Article ID]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
 		<dynamic-element dataType="string" indexType="keyword" localizable="false" multiple="false" name="width" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
 			<dynamic-element name="option6106" type="option" value="w20">
 				<meta-data locale="en_US">
@@ -175,13 +188,26 @@
 		</dynamic-element>
 		<meta-data locale="en_US">
 			<entry name="label">
-				<![CDATA[Block (embed article id)]]>
+				<![CDATA[Block Attribute(s)]]>
 			</entry>
 			<entry name="predefinedValue">
 				<![CDATA[]]>
 			</entry>
 			<entry name="tip">
-				<![CDATA[Please enter the embed article id in the field below.]]>
+				<![CDATA[please enter attributes such as classes or an id]]>
+			</entry>
+		</meta-data>
+	</dynamic-element>
+	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="css" readOnly="false" repeatable="false" required="false" showLabel="true" type="textarea" width="large">
+		<meta-data locale="en_US">
+			<entry name="label">
+				<![CDATA[CSS]]>
+			</entry>
+			<entry name="predefinedValue">
+				<![CDATA[]]>
+			</entry>
+			<entry name="tip">
+				<![CDATA[]]>
 			</entry>
 		</meta-data>
 	</dynamic-element>
