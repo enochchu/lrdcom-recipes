@@ -21,13 +21,7 @@
 		<#list block_title.siblings as block>
 			<#assign transition_css = "on-screen-helper slide-up" />
 
-			<#if false>
-				<#assign transition_css = "${transition_css} delay-1" />
-			<#elseif false >
-				<#assign transition_css = "${transition_css} delay-2" />
-			</#if>
-
-			<div class="block media ${transition_css} w${block_width?round}">
+			<div class="block media ${transition_css} ${block.animation_delay.data} w${block_width?round}">
 				<#if block.svg_code.data?has_content>
 					<div class="media-object primary-color text-center">
 						${block.svg_code.data}

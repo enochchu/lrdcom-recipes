@@ -53,6 +53,47 @@
 				</entry>
 			</meta-data>
 		</dynamic-element>
+		<dynamic-element dataType="string" indexType="keyword" localizable="false" multiple="false" name="animation_delay" readOnly="false" repeatable="false" required="false" showLabel="true" type="select" width="">
+			<dynamic-element name="option6001" type="option" value="">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[No Delay]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option7016" type="option" value="delay-1">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Delay 0.2s]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option7017" type="option" value="delay-2">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Delay 0.4s]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<dynamic-element name="option7018" type="option" value="delay-3">
+				<meta-data locale="en_US">
+					<entry name="label">
+						<![CDATA[Delay 0.6s]]>
+					</entry>
+				</meta-data>
+			</dynamic-element>
+			<meta-data locale="en_US">
+				<entry name="label">
+					<![CDATA[Animation Delay]]>
+				</entry>
+				<entry name="predefinedValue">
+					<![CDATA[[""]]]>
+				</entry>
+				<entry name="tip">
+					<![CDATA[]]>
+				</entry>
+			</meta-data>
+		</dynamic-element>
 		<meta-data locale="en_US">
 			<entry name="label">
 				<![CDATA[Block Title]]>
