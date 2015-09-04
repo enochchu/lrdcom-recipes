@@ -42,7 +42,7 @@
 					<#assign VOID = editURL.setParameter("redirect", "${currentURL}") />
 					<#assign VOID = editURL.setParameter("articleId", "${block.article_id.data}") />
 
-					<span class="lfr-icon-action lfr-icon-action-edit lfr-meta-actions">
+					<span class="lfr-icon-action lfr-icon-action-edit lfr-meta-actions pull-right">
 						<a href="${editURL}" class="taglib-icon">
 							<img src="/osb-community-theme/images/spacer.png" alt="Edit" style="background-image: url('/osb-community-theme/sprite/images/common/_sprite.png'); background-position: 50% -608px; background-repeat: no-repeat; height: 16px; width: 16px;">
 							<span class="taglib-text ">Edit</span>
