@@ -21,12 +21,15 @@
 <div class="align-center block-container justify-center main-banner ${opacity_overlay} ${position.data}" ${style}>
 	<div class="block ${font_color} main-banner-content max-med">
 		<#if heading.data?has_content>
-			<h1>${heading.data}</h1>
+			<div class="page-heading">
+				<h1>${heading.data}</h1>
+
+				<#if sub_heading.data?has_content>
+					<p class="${font_color}">${sub_heading.data}</p>
+				</#if>
+			</div>
 		</#if>
 
-		<#if sub_heading.data?has_content>
-			<p class="${font_color} sub-heading">${sub_heading.data}</p>
-		</#if>
 	</div>
 </div>
 

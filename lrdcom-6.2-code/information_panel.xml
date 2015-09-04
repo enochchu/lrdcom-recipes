@@ -1,7 +1,7 @@
 
 <root available-locales="en_US" default-locale="en_US">
 	<dynamic-element dataType="string" indexType="keyword" localizable="true" name="block" readOnly="false" repeatable="true" required="false" showLabel="true" type="text" width="large">
-		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="article_id" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="small">
+		<dynamic-element dataType="string" indexType="keyword" localizable="true" name="article_id" readOnly="false" repeatable="false" required="false" showLabel="true" type="text" width="large">
 			<meta-data locale="en_US">
 				<entry name="label">
 					<![CDATA[Article ID]]>
@@ -90,7 +90,7 @@
 					<![CDATA[Width]]>
 				</entry>
 				<entry name="predefinedValue">
-					<![CDATA[[""]]]>
+					<![CDATA[["w100"]]]>
 				</entry>
 				<entry name="tip">
 					<![CDATA[]]>
@@ -188,7 +188,7 @@
 		</dynamic-element>
 		<meta-data locale="en_US">
 			<entry name="label">
-				<![CDATA[Block Attribute(s)]]>
+				<![CDATA[Block Css Class]]>
 			</entry>
 			<entry name="predefinedValue">
 				<![CDATA[]]>
