@@ -1,4 +1,4 @@
-<div class="align-center block-container justify-center title-media-button-section">
+<div class="align-center block-container justify-center exhibit-group">
 	<#if title.data?has_content || subtitle.data?has_content>
 		<div class="section-heading text-center">
 			<#if title.data?has_content>
@@ -21,14 +21,14 @@
 		<#list block_title.siblings as block>
 			<#assign transition_css = "on-screen-helper slide-up" />
 
-			<div class="block media ${transition_css} ${block.animation_delay.data} w${block_width?round}">
+			<div class="block exhibit ${transition_css} ${block.animation_delay.data} w${block_width?round}">
 				<#if block.svg_code.data?has_content>
-					<div class="media-object primary-color text-center">
+					<div class="exhibit-media primary-color text-center">
 						${block.svg_code.data}
 					</div>
 				</#if>
 
-				<div class="media-body">
+				<div class="exhibit-body">
 					<#if block.data?has_content>
 						<h3>${block.data}</h3>
 					</#if>
