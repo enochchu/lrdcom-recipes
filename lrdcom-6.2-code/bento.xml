@@ -188,7 +188,7 @@
 		</dynamic-element>
 		<meta-data locale="en_US">
 			<entry name="label">
-				<![CDATA[Block Css Class]]>
+				<![CDATA[Block CSS Class]]>
 			</entry>
 			<entry name="predefinedValue">
 				<![CDATA[]]>
