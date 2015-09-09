@@ -14,7 +14,7 @@
 
 		<#assign journal_article_local_service = serviceLocator.findService("com.liferay.portlet.journal.service.JournalArticleLocalService") />
 
-		<div class="bento bento-section-${block_index + 1} ${color_class} ${block.width.data} ${block.data}" ${background_image_selector}>
+		<div class="bento bento-section-${block_index + 1} block ${color_class} ${block.width.data} ${block.data} responsive-justify-center" ${background_image_selector}>
 			<#if block.article_id.data?has_content && journal_article_local_service.hasArticle(groupId, block.article_id.data)>
 				<#assign journal_content_util = staticUtil["com.liferay.portlet.journalcontent.util.JournalContentUtil"] />
 
