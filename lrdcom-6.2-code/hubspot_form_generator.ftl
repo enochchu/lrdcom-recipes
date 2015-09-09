@@ -1,22 +1,35 @@
+<#--
+Todo:
+Localizing Fields
+Dependant fields
+Autofill fields (problem with ${value})
+Ip geocoder
+Override number of fields (possibly resorting order)
+check hidden multi select hack
+check if we need field_to_skip variable
+ -->
+
 <#function get_options field>
-	<#if localization_map?has_content>
+	<#if localization_map?? && localization_map?has_content>
 		<#assign localized_field_name = "" />
 
-		<#assign localized_field_name = "$field.getString('name')" + "_" + "$locale.toString().toLowerCase()" />
+		<#assign localized_field_name = "${field.getString('name')}_${stringUtil.lowerCase(locale)}" />
 
-		<#return localization_map.get(localized_field_name).get("options")>
+		<#if localization_map.getJSONObject(localized_field_name)??>
+			<#return localization_map.getJSONObject(localized_field_name).getJSONArray("options")>
+		</#if>
 	</#if>
 
 	<#return field.getJSONArray('options')>
 </#function>
+
+<#include "${templatesPath}/43374" />
 
 <#assign portlet_bean_locator = objectUtil("com.liferay.portal.kernel.bean.PortletBeanLocatorUtil") />
 
 <#assign hs_form_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSFormLocalService") />
 
 <#if request.lifecycle == 'RENDER_PHASE'>
-	<#assign hs_contact_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService") />
-
 	<#-- Testing Hubspot Account -->
 	<#assign hs_account_id = "299703" />
 
@@ -59,28 +72,30 @@
 
 	<#assign article_namespace = "article${.vars['reserved-article-id'].data}" />
 
-	<#assign namespace = request["portlet-namespace"]>
+	<#assign portlet_namespace = request["portlet-namespace"]>
 
 	<#-- <#assign hsutk = request.attributes.OSB_HUBSPOT_UTK /> -->
 
-	<#if hsutk?has_content>
-		<#assign hs_contact = hs_contact_local_service.fetchHSContactByUserToken(hsutk) />
-	</#if>
+	<#if hsutk?? && hsutk?has_content>
+		<#assign hs_contact_local_service = portlet_bean_locator.locate("hubspot-portlet", "com.liferay.hubspot.service.HSContactLocalService") />
 
-	<#if hs_contact?has_content>
-		<#assign hs_contact_object = hs_contact.getHSContactJSONObject().getJSONObject("properties") />
+		<#assign hs_contact = hs_contact_local_service.fetchHSContactByUserToken(hsutk) />
+
+		<#if hs_contact??>
+			<#assign hs_contact_object = hs_contact.getHSContactJSONObject().getJSONObject("properties") />
+		</#if>
 	</#if>
 
 	<#if locale != "en_US">
 		<#-- Testing Localization Form -->
-		<#-- <#assign localization_form = hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060") /> -->
+		<#assign localization_form = hs_form_local_service.fetchHSFormByGUID("72293d1f-6e98-4655-a0f5-e57ac01a7060") />
 
 		<#-- Production Localization Form -->
-		<#assign localization_form = hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05") />
+		<#-- <#assign localization_form = hs_form_local_service.fetchHSFormByGUID("6e0954fa-8f47-44a7-996d-e47c6f298f05") /> -->
 
-		<#if localization_form.getHSFormJSONObject().getJSONArray("fields")>
+		<#if localization_form.getHSFormJSONObject().getJSONArray("fields")??>
 			<#assign localization_form_fields = localization_form.getHSFormJSONObject().getJSONArray("fields") />
-			<#assign localization_map = "freemarker.template.SimpleHash"?new() />
+			<#assign localization_map = jsonFactoryUtil.createJSONObject() />
 
 			<#assign localization_form_start = 0 />
 			<#assign localization_form_end = localization_form_fields.length() - 1 />
@@ -89,7 +104,7 @@
 			<#list localization_form_range as i>
 				<#assign localization_form_field = localization_form_fields.getJSONObject(i) />
 
-				<#assign field_map = "freemarker.template.SimpleHash"?new() />
+				<#assign field_map = jsonFactoryUtil.createJSONObject() />
 
 				<#assign VOID = field_map.put("label", localization_form_field.getString("label")) />
 				<#assign VOID = field_map.put("options", localization_form_field.getJSONArray("options")) />
@@ -101,42 +116,18 @@
 
 	<#assign hs_form = hs_form_local_service.fetchHSFormByGUID(hs_form_id.data) />
 
-	<#assign submit_params = "'#${article_namespace}fm'" />
-
-	<#if record_id?has_content && record_id?has_content>
-		<#assign submit_params = "${submit_params}, this.getAttribute('data-tactic-url-fields')" />
-	</#if>
-
-	<#assign submit_params = "${submit_params}, this.getAttribute('data-tactic-item-fields')" />
-
-	<#if hs_form?has_content>
+	<#if hs_form?? && hs_form?has_content>
 		<#assign hs_form_fields = hs_form.getHSFormJSONObject().getJSONArray("fields") />
 		<#assign form_rules_json = jsonFactoryUtil.createJSONObject() />
 
-		<#assign article_field_names_json = jsonFactoryUtil.createJSONObject() />
-		<#assign form_field_strings_json = jsonFactoryUtil.createJSONObject() />
+		<#assign submit_params = "'#${article_namespace}fm'" />
 
-		<#list field_name.siblings as name>
-			<#assign article_field_values_json = jsonFactoryUtil.createJSONObject() />
+		<#assign submit_params = "${submit_params}, this.getAttribute('data-asset-uuid')" />
 
-			<#if name.label.data?has_content>
-				<#assign void = article_field_values_json.put("label", name.label.data) />
-				<#assign void = article_field_values_json.put("description", name.description.data) />
-
-				<#assign void = article_field_names_json.put(name.data, article_field_values_json) />
-			</#if>
-
-			<#if name.required_message.data?has_content>
-				<#assign form_field_string = jsonFactoryUtil.createJSONObject() />
-				<#assign void = form_field_string.put("required", name.required_message.data) />
-				<#assign void = form_field_strings_json.put(name.data, form_field_string) />
-			</#if>
-		</#list>
-
-		<div class="hbspt-form ">
+		<div class="hubspot-form <#-- lrdcom-form -->">
 			<div id="${article_namespace}msg"></div>
 
-			<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-new-tab="true" data-tactic-url-fields="" data-tactic-item-fields='' id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${.vars['reserved-article-id'].data}(${submit_params}); return false;">
+			<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-uuid="" id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${article_namespace}(${submit_params}); return false;">
 				<#assign field_count = 0 />
 				<#assign start = 0 />
 				<#assign end = hs_form_fields.length() - 1 />
@@ -148,13 +139,6 @@
 
 						<#assign label_text = "" />
 						<#assign field_description = "" />
-
-						<#if article_field_names_json.has(item.getString("name"))>
-							<#assign article_field_name_value = article_field_names_json.getJSONObject(item.getString("name")) />
-
-							<#assign label_text = article_field_name_value.getString("label") />
-							<#assign field_description = article_field_name_value.getString("description") />
-						</#if>
 
 						<#if !label_text?has_content>
 							<#assign label_text = item.getString("label") />
@@ -171,45 +155,46 @@
 						<#assign value = "" />
 
 						<#assign field_type = item.getString("fieldType") />
+						<#assign field_name = item.getString("name") />
 
-						<#if item.getString("defaultValue")?has_content>
+						<#if item.getString("defaultValue")?? && item.getString("defaultValue")?has_content>
 							<#assign value = item.getString("defaultValue") />
 						</#if>
 
-						<#if item.getJSONArray("selectedOptions")?has_content>
+						<#if item.getJSONArray("selectedOptions")?? && item.getJSONArray("selectedOptions")?has_content>
 							<#assign value = item.getJSONArray("selectedOptions").toString() />
 
 							<#if hidden && field_type == "checkbox">
 								<#assign value = stringUtil.replace(value, ",", ";") />
 
-								<#if hs_contact_object?? && hs_contact_object.getJSONObject("item.getString('name')")>
-									<#assign hs_value = hs_contact_object.getJSONObject("item.getString('name')").getString("value") />
+								<#if hs_contact_object?? && hs_contact_object.getJSONObject(field_name)??>
+									<#assign hs_value = hs_contact_object.getJSONObject(field_name).getString("value") />
 
 									<#if hs_value.contains(value)>
 										<#assign value = hs_value />
 									<#else>
-										<#assign value = "${value};${hs_value}" />
+										<#assign value = "<#-- ${value};${hs_value} -->" />
 									</#if>
 								</#if>
 							</#if>
 						</#if>
 
-						<#if !hidden && hs_contact_object?has_content && hs_contact_object.getJSONObject("item.getString('name')")>
-							<#assign hs_value = hs_contact_object.getJSONObject("${item.getString('name')}").getString("value") />
+						<#if !hidden && hs_contact_object?has_content && hs_contact_object.getJSONObject(field_name)??>
+							<#assign hs_value = hs_contact_object.getJSONObject(field_name).getString("value") />
 							<#assign value = hs_value />
 						</#if>
 
 						<#assign field_css_class = "field-wrapper field-${field_type}" />
 						<#assign field_input_css_class = "field field-${field_type}" />
 
-						<#-- <#if value?has_content>
+						<#if value?has_content>
 							<#assign field_css_class = "${field_css_class} field-filled" />
-						</#if> -->
+						</#if>
 
 						<#if hidden || (hs_smart_field && (hs_value?has_content))>
 							<#assign field_css_class = "${field_css_class} hide" />
-							<#assign field_input_css_class = "$field_input_css_class hidden-field" />
-						<#elseif fields_to_skip?has_content && fields_to_skip.contains(item.getString("name"))>
+							<#assign field_input_css_class = "${field_input_css_class} hidden-field" />
+						<#elseif fields_to_skip?has_content && fields_to_skip.contains(field_name)>
 							<#-- skip -->
 						<#else>
 							<#assign field_count = field_count + 1 />
@@ -225,46 +210,45 @@
 
 							<#assign form_rule = jsonFactoryUtil.createJSONObject() />
 							<#assign void = form_rule.put("required", true) />
-							<#assign void = form_rules_json.put(item.getString("name"), form_rule) />
+							<#assign void = form_rules_json.put(field_name, form_rule) />
 						</#if>
 
-						<#if item.getString("name") == "state">
+						<#-- <#if field_name == "state">
 							<#assign field_css_class = "hide ${field_css_class} state" />
-						</#if>
+						</#if> -->
 
-						<#if ((number_of_fields_displayed?has_content && number_of_fields_displayed != 0) && (field_count > number_of_fields_displayed) && !hidden) || (hs_smart_field && (value?has_content)) || (fields_to_skip?has_content && fields_to_skip.contains(item.getString("name")))>
+						<#if ((number_of_fields_displayed?? && number_of_fields_displayed != 0) && (field_count > number_of_fields_displayed) && !hidden) || (hs_smart_field && (value?has_content)) || (fields_to_skip?has_content && fields_to_skip.contains(field_name))>
 							<#-- skip -->
 						<#else>
-							<div class="${field_css_class}" id="article${.vars['reserved-article-id'].data}field${i}">
+							<div class="${field_css_class}"  id="${article_namespace}_${field_name}">
 								<#if label_text?has_content && (field_type != "richtext") && (field_type != "booleancheckbox")>
-									<label class="field-label" for="${item.getString('name')}">${label_text}</label>
+									<label class="field-label" for="${field_name}">${label_text}</label>
 								</#if>
 
 								<#if hidden>
-									<input class="${field_input_css_class}" type="hidden" name="${item.getString('name')}" value="<#-- ${value} -->"/>
+									<input class="${field_input_css_class}" type="hidden" name="${field_name}" value="<#-- ${value} -->"/>
 								<#elseif field_type == "select">
 									<#assign select_options_map = get_options(item) />
 									<#assign select_options_start = 0 />
 									<#assign select_options_end = select_options_map.length() - 1 />
 									<#assign select_options_range = select_options_start..select_options_end />
 
-									<select class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-id'].data}" name="${item.getString('name')}" ${required}>
+									<select class="${field_input_css_class}" name="${field_name}" ${required}>
 										<option value="">${label_text}</option>
 
 										<#list select_options_range as i>
 											<#assign option = select_options_map.getJSONObject(i) />
 											<#assign selected = "" />
 
-											<#if value == option.getString('value') || ((item.getString("name") == "country") && country_from_ip?? && (option.getString('value') == country_from_ip))>
-
+											<#if value == option.getString("value") || ((field_name == "country") && country_from_ip?? && (option.getString("value") == country_from_ip))>
 												<#assign selected = "selected" />
 											</#if>
 
-											<option value="${option.getString('value')}" ${selected}>${option.getString('label')}</option>
+											<option value='${option.getString("value")}' ${selected}>${option.getString("label")}</option>
 										</#list>
 									</select>
 
-									<#if item.getString("name") == "state">
+									<#if field_name == "state">
 										<#assign states_options_json = jsonFactoryUtil.createJSONObject() />
 
 										<#list select_options_range as i>
@@ -299,17 +283,16 @@
 								<#elseif field_type == "richtext">
 									<span class="hs-richtext">${item.getString('defaultValue')}</span>
 								<#elseif field_type == "textarea">
-									<textarea class="${field_input_css_class}" id="${item.getString('name')}-${.vars['reserved-article-id'].data}" name="${item.getString('name')}" placeholder="${label_text}" ${required}><#-- ${value} --></textarea>
+									<textarea class="${field_input_css_class}" name="${field_name}" placeholder="${label_text}" ${required}><#-- ${value} --></textarea>
 								<#elseif field_type == "booleancheckbox">
 									<label class="field-label">
-										<input class="${field_input_css_class}" name="${item.getString('name')}" type="checkbox" value="false" />${label_text}
+										<input class="${field_input_css_class}" name="${field_name}" type="checkbox" value="false" />${label_text}
 									</label>
 								<#elseif field_type == "checkbox" || field_type == "radio">
 									<#assign checkbox_options_map = get_options(item) />
 									<#assign checkbox_options_start = 0 />
 									<#assign checkbox_options_end = checkbox_options_map.length() - 1 />
 									<#assign checkbox_options_range = checkbox_options_start..checkbox_options_end />
-
 
 									<div class="input">
 										<#list checkbox_options_range as i>
@@ -322,25 +305,24 @@
 											</#if>
 
 											<label class="field-label">
-												<input class="${field_input_css_class}" ${checked} name="${item.getString('name')}" type="${field_type}" value="${option.getString('value')}" />${option.getString("label")}
+												<input class="${field_input_css_class}" ${checked} name="${field_name}" type="${field_type}" value='${option.getString("value")}' />${option.getString("label")}
 											</label>
 										</#list>
 									</div>
 								<#else>
 									<input
 										class="${field_input_css_class}"
-										id="${item.getString('name')}-${.vars['reserved-article-id'].data}"
-										name="${item.getString('name')}"
+										name="${field_name}"
 										placeholder="${label_text}"
 
-										<#if item.getString("name") == "email">
+										<#if field_name == "email">
 											type="email"
 										<#else>
 											type="${field_type}"
 										</#if>
 
-										<#if item.getString('placeholder')?has_content>
-											placeholder="item.getString('placeholder')"
+										<#if item.getString("placeholder")?has_content>
+											placeholder='item.getString("placeholder")''
 										</#if>
 
 										${required}
@@ -349,7 +331,7 @@
 									/>
 								</#if>
 
-								<#if field_description?has_content>
+								<#if field_description?? && field_description?has_content>
 									<div class="field-desc">${field_description}</div>
 								</#if>
 							</div>
@@ -368,7 +350,7 @@
 					</#if>
 
 					<div class="btn-wrapper">
-						<input class="button-input button-input-submit btn" type="submit" value="${btn_text}" />
+						<input class="btn" type="submit" value="${btn_text}" />
 					</div>
 				</div>
 			</form>
@@ -383,19 +365,20 @@
 
 	<#assign redirect_url = "" />
 
-	<#if hs_form.getRedirect()?has_content>
+	<#if hs_form.getRedirect()?? && hs_form.getRedirect()?has_content>
 		<#assign redirect_url = hs_form.getRedirect() />
 	</#if>
 
 	<#assign salesforce_campaign_id = "" />
 
-	<#assign salesforce_campaign_id = hs_form.getLeadNurturingCampaignId() />
+	<#if hs_form.getLeadNurturingCampaignId()?? && hs_form.getLeadNurturingCampaignId()?has_content>
+		<#assign salesforce_campaign_id = hs_form.getLeadNurturingCampaignId() />
+	</#if>
 
 	<script type="text/javascript">
-		function submitHSForm${.vars['reserved-article-id'].data}(formId, primaryTacticFields, secondaryTacticFields) {
+		function submitHSForm${article_namespace}(formId, assetUuid) {
 			AUI().ready(
 				'aui-base',
-				'aui-io-plugin',
 				'aui-io-request',
 				'json-parse',
 				function(A) {
@@ -408,17 +391,18 @@
 
 					var fields = {};
 
-					if (primaryTacticFields && (primaryTacticFields != "")) {
-						fields = A.JSON.parse(primaryTacticFields);
-					}
+					// Need to make this pull info from asset
+					// if (assetUuid && (assetUuid != "")) {
+					// 	fields = A.JSON.parse(assetInfo);
+					// }
 
 					var leave = false;
 
-					form.all('.field-input').each(
+					form.all('.field').each(
 						function(node) {
 							var value = node.get('value');
 
-							if (node.hasClass('field-input-booleancheckbox') && (node.get('checked') == true)) {
+							if (node.hasClass('field-booleancheckbox') && (node.get('checked') == true)) {
 								value = true;
 							}
 
@@ -428,7 +412,7 @@
 								return;
 							}
 
-							if (!node.hasClass('hidden-field') && (node.hasClass('field-input-booleancheckbox') || node.hasClass('field-input-checkbox') || node.hasClass('field-input-radio'))) {
+							if (!node.hasClass('hidden-field') && (node.hasClass('field-booleancheckbox') || node.hasClass('field-checkbox') || node.hasClass('field-radio'))) {
 								if (node.get('checked') == true) {
 									if (fields[node.get('name')]) {
 										fields[node.get('name')] += ',' + value;
@@ -446,23 +430,6 @@
 
 					if (leave) {
 						return;
-					}
-
-					if (secondaryTacticFields) {
-						secondaryTacticFields = A.JSON.parse(secondaryTacticFields);
-
-						if (secondaryTacticFields["asset_id"]) {
-							fields["asset_id"] = secondaryTacticFields["asset_id"];
-						}
-						if (secondaryTacticFields["asset_name"]) {
-							fields["asset_name"] = secondaryTacticFields["asset_name"];
-						}
-						if (secondaryTacticFields["asset_type"]) {
-							fields["asset_type"] = secondaryTacticFields["asset_type"];
-						}
-						if (secondaryTacticFields["asset_url"]) {
-							fields["asset_url"] = secondaryTacticFields["asset_url"];
-						}
 					}
 
 					var fieldsString = "";
@@ -532,19 +499,19 @@
 							console.log('_hsq error caught');
 						}
 					}
-
+console.log(fields);
 					A.io.request(
 						'${request["resource-url"]}',
 						{
 							data: {
-								${namespace}fields: fieldsString,
-								${namespace}guid: guid,
-								${namespace}ipAddress: ipAddress,
-								${namespace}pageURL: pageURL,
-								${namespace}pageName: pageName,
-								${namespace}redirectURL: redirectURL,
-								${namespace}salesforceCampaignId: salesforceCampaignId,
-								${namespace}userToken: userToken
+								${portlet_namespace}fields: fieldsString,
+								${portlet_namespace}guid: guid,
+								${portlet_namespace}ipAddress: ipAddress,
+								${portlet_namespace}pageURL: pageURL,
+								${portlet_namespace}pageName: pageName,
+								${portlet_namespace}redirectURL: redirectURL,
+								${portlet_namespace}salesforceCampaignId: salesforceCampaignId,
+								${portlet_namespace}userToken: userToken
 							},
 							dataType: 'json',
 							on: {
@@ -556,6 +523,7 @@
 											window.location.href = redirectURL;
 										}
 										else {
+											// localize this
 											msg.setContent('<div class="portlet-msg-success">Your request completed successfully.</div><p class="thank-you-msg">${thank_you_text.getData()}</p>');
 
 											form.hide();
@@ -563,6 +531,7 @@
 									</#if>
 								},
 								failure: function(event, id, obj) {
+									// localize this
 									msg.setContent('<div class="portlet-msg-error">Your request failed to complete.</div>');
 								}
 							}
@@ -574,11 +543,10 @@
 
 		AUI().ready(
 			'aui-base',
-			'aui-form-validator',
 			'json-parse',
 			function(A) {
-				var countrySelect = A.one('#country-${.vars['reserved-article-id'].data}');
-				var stateSelect = A.one('#state-${.vars['reserved-article-id'].data}');
+				var countrySelect = A.one('#${article_namespace}_country select');
+				var stateSelect = A.one('#${article_namespace}_state select');
 
 				if (stateSelect) {
 					var stateWrapper = stateSelect.ancestor('.field');
