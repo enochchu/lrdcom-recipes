@@ -1,3 +1,12 @@
+<#assign journal_article_local_service = serviceLocator.findService("com.liferay.portlet.journal.service.JournalArticleLocalService") />
+<#assign journal_content_util = staticUtil["com.liferay.portlet.journalcontent.util.JournalContentUtil"] />
+
+<#assign themeDisplay = request["theme-display"] />
+<#assign plid = themeDisplay["plid"]?number />
+<#assign layoutService = serviceLocator.findService("com.liferay.portal.service.LayoutLocalService") />
+<#assign layout = layoutService.getLayout(plid) />
+<#assign userHasPermissions = layoutPermission.contains(permissionChecker, layout, "UPDATE") />
+
 <div class="block-container no-padding" id="article${.vars['reserved-article-id'].data}">
 	<#list block.siblings as block>
 		<#if block.background_color.data?has_content>
@@ -12,21 +21,9 @@
 			<#assign background_image_selector = "" />
 		</#if>
 
-		<#assign journal_article_local_service = serviceLocator.findService("com.liferay.portlet.journal.service.JournalArticleLocalService") />
-
 		<div class="bento bento-section-${block_index + 1} block ${color_class} ${block.width.data} ${block.data} responsive-justify-center" ${background_image_selector}>
 			<#if block.article_id.data?has_content && journal_article_local_service.hasArticle(groupId, block.article_id.data)>
-				<#assign journal_content_util = staticUtil["com.liferay.portlet.journalcontent.util.JournalContentUtil"] />
-
-				<#assign content_display = journal_content_util.getContent(groupId, block.article_id.data, "", locale, xmlRequest) />
-
-				${content_display}
-
-				<#assign themeDisplay = request["theme-display"] />
-				<#assign plid = themeDisplay["plid"]?number />
-				<#assign layoutService = serviceLocator.findService("com.liferay.portal.service.LayoutLocalService") />
-				<#assign layout = layoutService.getLayout(plid) />
-				<#assign userHasPermissions = layoutPermission.contains(permissionChecker, layout, "UPDATE") />
+				${journal_content_util.getContent(groupId, block.article_id.data, "", locale, xmlRequest)}
 
 				<#if userHasPermissions>
 					<#assign service_context = staticUtil["com.liferay.portal.service.ServiceContextThreadLocal"].getServiceContext() />
@@ -50,7 +47,11 @@
 					</span>
 				</#if>
 			<#else>
-				Please input an article id.
+				<#if userHasPermissions>
+					<span class="lfr-configurator-visibility">
+						Please input an article id.
+					</span>
+				</#if>
 			</#if>
 		</div>
 	</#list>
