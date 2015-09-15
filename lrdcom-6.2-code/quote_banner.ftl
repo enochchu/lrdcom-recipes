@@ -50,16 +50,16 @@
 		z-index: 5;
 	}
 
-	.quote-wrapper .quote-author {
-		font-size: 1.5em;
-	}
-
-	.quote {
-		padding: 16px 48px;
-	}
-
 	.quote-wrapper {
 		padding: 70px 20px;
+	}
+
+	.quote-wrapper .quote {
+		padding: 1em 3em;
+	}
+
+	.quote-wrapper .quote-author {
+		font-size: 1.5em;
 	}
 
 	.triangle {
@@ -103,4 +103,18 @@
 		left: 0;
 		top: 0;
 	}
-</style>
+
+	@media all and (max-width: 720px) {
+		.quote-wrapper .quote {
+			padding: 2em 1em;
+		}
+
+		.triangle {
+			display: none;
+		}
+
+		.quote .triangle {
+			display: block;
+		}
+	}
+</style
