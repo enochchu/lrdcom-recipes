@@ -157,6 +157,10 @@ check if we need field_to_skip variable
 						<#assign field_type = item.getString("fieldType") />
 						<#assign field_name = item.getString("name") />
 
+						<#if localize(field_name) != field_name>
+							<#assign label_text = localize(field_name) />
+						</#if>
+
 						<#if item.getString("defaultValue")?? && item.getString("defaultValue")?has_content>
 							<#assign value = item.getString("defaultValue") />
 						</#if>
@@ -283,7 +287,7 @@ check if we need field_to_skip variable
 								<#elseif field_type == "richtext">
 									<span class="hs-richtext">${item.getString('defaultValue')}</span>
 								<#elseif field_type == "textarea">
-									<textarea class="${field_input_css_class}" name="${field_name}" placeholder="${label_text}" ${required}><#-- ${value} --></textarea>
+									<textarea class="${field_input_css_class}" name="${field_name}" ${required}><#-- ${value} --></textarea>
 								<#elseif field_type == "booleancheckbox">
 									<label class="field-label">
 										<input class="${field_input_css_class}" name="${field_name}" type="checkbox" value="false" />${label_text}
@@ -313,16 +317,11 @@ check if we need field_to_skip variable
 									<input
 										class="${field_input_css_class}"
 										name="${field_name}"
-										placeholder="${label_text}"
 
 										<#if field_name == "email">
 											type="email"
 										<#else>
 											type="${field_type}"
-										</#if>
-
-										<#if item.getString("placeholder")?has_content>
-											placeholder='item.getString("placeholder")''
 										</#if>
 
 										${required}
@@ -499,7 +498,7 @@ check if we need field_to_skip variable
 							console.log('_hsq error caught');
 						}
 					}
-console.log(fields);
+
 					A.io.request(
 						'${request["resource-url"]}',
 						{
@@ -523,16 +522,14 @@ console.log(fields);
 											window.location.href = redirectURL;
 										}
 										else {
-											// localize this
-											msg.setContent('<div class="portlet-msg-success">Your request completed successfully.</div><p class="thank-you-msg">${thank_you_text.getData()}</p>');
+											msg.setContent('<div class="portlet-msg-success">${localize("your_request_completed_successfully")}</div><p class="thank-you-msg">${thank_you_text.getData()}</p>');
 
 											form.hide();
 										}
 									</#if>
 								},
 								failure: function(event, id, obj) {
-									// localize this
-									msg.setContent('<div class="portlet-msg-error">Your request failed to complete.</div>');
+									msg.setContent('<div class="portlet-msg-error">${localize("your_request_failed_to_complete")}</div>');
 								}
 							}
 						}
