@@ -1,4 +1,4 @@
-<#assign wrapper_css_class = "case-study-tiles-wrapper" />
+<#assign wrapper_css_class = "case-study-tiles-wrapper large-padding-vertical" />
 
 <#if custom_wrapper_class.data?has_content >
 	<#assign wrapper_css_class = "${wrapper_css_class} ${custom_wrapper_class.data}" />
@@ -21,7 +21,7 @@
 
 	<div class="align-center block-container justify-center tile-section">
 		<#list tile.siblings as tile>
-			<div class="block link-tile w33">
+			<div class="block link-tile standard-padding w33">
 					<#if tile.tile_logo.data?starts_with("\lsvg") >
 						<#assign anchor_attributes = 'class="logo-${tile_index + 1}" href="${tile.tile_link.data}" label="${tile.data}"'>
 					<#else>

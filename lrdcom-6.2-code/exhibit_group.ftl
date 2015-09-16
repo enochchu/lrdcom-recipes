@@ -1,4 +1,4 @@
-<div class="align-center block-container justify-center exhibit-group">
+<div class="align-center block-container justify-center exhibit-group large-padding-vertical">
 	<#if title.data?has_content || subtitle.data?has_content>
 		<div class="section-heading text-center">
 			<#if title.data?has_content>
@@ -21,7 +21,7 @@
 		<#list block_title.siblings as block>
 			<#assign transition_css = "on-screen-helper slide-up" />
 
-			<div class="block exhibit ${transition_css} ${block.animation_delay.data} w${block_width?round}">
+			<div class="block exhibit standard-padding ${transition_css} ${block.animation_delay.data} w${block_width?round}">
 				<#if block.svg_code.data?has_content>
 					<div class="exhibit-media primary-color text-center">
 						${block.svg_code.data}
