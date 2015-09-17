@@ -1,6 +1,5 @@
 <#--
 Todo:
-Localizing Fields
 Dependant fields
 Autofill fields (problem with ${value})
 Ip geocoder
@@ -342,10 +341,16 @@ check if we need field_to_skip variable
 						</#if>
 					</#list>
 
-					<#assign btn_text = submit_text.data />
+					<#if submit_text.data?has_content>
+						<#assign btn_text = localize(submit_text.data) />
+					</#if>
 
 					<#if !btn_text?has_content>
 						<#assign btn_text = hs_form.getSubmitText() />
+					</#if>
+
+					<#if !btn_text?has_content>
+						<#assign btn_text = localize("submit") />
 					</#if>
 
 					<div class="btn-wrapper">

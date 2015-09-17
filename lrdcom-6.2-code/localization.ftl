@@ -1,18 +1,127 @@
 <#assign localization_json_object = jsonFactoryUtil.createJSONObject("
 	{
-		country: {
-			en_US: 'Country',
-			zh_CN: 'Test Translation for Country'
+		company: {
+			de_DE: 'Unternehmen',
+			en_US: 'Company',
+			es_ES: 'Empresa',
+			fr_FR: 'Société',
+			it_IT: 'Azienda',
+			ja_JP: '会社名',
+			pt_BR: 'Empresa',
+			zh_CN: '公司'
 		},
 
-		first_name: {
+		country: {
+			de_DE: 'Land',
+			en_US: 'Country',
+			es_ES: 'País',
+			fr_FR: 'Pays',
+			it_IT: 'Paese',
+			ja_JP: '国',
+			pt_BR: 'País',
+			zh_CN: '国家'
+		},
+
+		department: {
+			de_DE: 'Abteilung',
+			en_US: 'Department',
+			es_ES: 'Departamento',
+			fr_FR: 'Département',
+			it_IT: 'Reparto',
+			ja_JP: '部署',
+			pt_BR: 'Departamento',
+			zh_CN: '部门'
+		},
+
+		email: {
+			de_DE: 'E-Mail',
+			en_US: 'Email',
+			es_ES: 'Email',
+			fr_FR: 'Email',
+			it_IT: 'E-mail',
+			ja_JP: 'メールアドレス',
+			pt_BR: 'Email',
+			zh_CN: '邮箱'
+		},
+
+		firstname: {
+			de_DE: 'Vorname',
 			en_US: 'First Name',
-			zh_CN: 'Test Translation for First Name'
+			es_ES: 'Nombre',
+			fr_FR: 'Prénom',
+			it_IT: 'Nome',
+			ja_JP: '名',
+			pt_BR: 'Primeiro Nome',
+			zh_CN: '名'
+		},
+
+		job_role__c: {
+			de_DE: 'Funktionsbezeichnung',
+			en_US: 'Job Role',
+			es_ES: 'Job Role',
+			fr_FR: 'Fonction',
+			it_IT: 'Ruolo professionale',
+			ja_JP: '役割',
+			pt_BR: 'Posição',
+			zh_CN: '职位'
+		},
+
+		lastname: {
+			de_DE: 'Nachname',
+			en_US: 'Last Name',
+			es_ES: 'Apellido',
+			fr_FR: 'Nom',
+			it_IT: 'Cognome',
+			ja_JP: '姓',
+			pt_BR: 'Último Nome',
+			zh_CN: '姓'
+		},
+
+		phone: {
+			de_DE: 'Telefon',
+			en_US: 'Phone',
+			es_ES: 'Teléfono',
+			fr_FR: 'Téléphone',
+			it_IT: 'Telefono',
+			ja_JP: '電話番号',
+			pt_BR: 'Telefone',
+			zh_CN: '联系电话'
+		},
+
+		show_me_liferay: {
+			de_DE: 'Ich möchte Liferay kennen lernen',
+			en_US: 'Show Me Liferay',
+			es_ES: 'Muéstrame Liferay',
+			fr_FR: 'Je veux découvrir Liferay',
+			it_IT: 'Mostrami Liferay',
+			ja_JP: 'デモを希望',
+			pt_BR: 'Mostre-me a Liferay',
+			zh_CN: '了解并体验'
+		},
+
+		solution_interest: {
+			de_DE: 'Wofür möchten Sie Liferay nutzen?',
+			en_US: 'What are you building?',
+			es_ES: '¿Qué proyectos estás construyendo?',
+			fr_FR: 'Projet en cours',
+			it_IT: 'Che cosa sta costruendo',
+			ja_JP: '構築するサイト',
+			pt_BR: 'Qual o seu projeto com Liferay?'
+		},
+
+		state: {
+			de_DE: 'Region',
+			en_US: 'State/Province *',
+			es_ES: 'Región *',
+			fr_FR: 'Région *',
+			it_IT: 'Stato/Regione',
+			ja_JP: '県/州 *',
+			pt_BR: 'Estado/Região *',
+			zh_CN: '省份 *'
 		},
 
 		your_request_completed_successfully: {
 			en_US: 'Your request completed successfully.',
-			zh_CN: 'Your request completed successfully (zh)'
 		},
 
 		your_request_failed_to_complete: {
