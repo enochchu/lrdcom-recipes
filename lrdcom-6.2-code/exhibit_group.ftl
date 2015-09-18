@@ -42,7 +42,13 @@
 	</div>
 
 	<#if button_text.data?has_content && button_text.button_link.data?has_content>
-		<a class="btn" href="${button_text.button_link.data}">
+		<#assign button_css_data = "btn">
+
+		<#if button_text.button_class.data?has_content>
+			<#assign button_css_data = button_css_data + " " + button_text.button_class.data>
+		</#if>
+
+		<a class="${button_css_data}" href="${button_text.button_link.data}">
 			${button_text.data}
 
 			<#if button_text.icon_svg_code.data?has_content>
