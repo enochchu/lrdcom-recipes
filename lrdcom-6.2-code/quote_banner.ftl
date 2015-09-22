@@ -117,4 +117,4 @@
 			display: block;
 		}
 	}
-</style
+</style>
