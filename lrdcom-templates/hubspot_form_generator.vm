@@ -16,7 +16,7 @@
 			#set ($field_value = $record.getFieldValue($field_name))
 			#clean_up($field_value)
 
-			#if ($field_value != "")
+			#if ($validator.isNotNull($field_value))
 				#set ($VOID = $map.put($field_name, $htmlUtil.escape($field_value)))
 			#end
 		#end
@@ -48,19 +48,19 @@
 			#end
 		#end
 
-		#if ($asset_name != "")
+		#if ($validator.isNotNull($asset_name))
 			#set ($VOID = $map.put("asset_name", $htmlUtil.escape($asset_name)))
 		#end
 
-		#if ($asset_id != "")
+		#if ($validator.isNotNull($asset_id))
 			#set ($VOID = $map.put("asset_id", $htmlUtil.escape($asset_id)))
 		#end
 
-		#if ($asset_url != "")
+		#if ($validator.isNotNull($asset_url))
 			#set ($VOID = $map.put("asset_url", $htmlUtil.escape($asset_url)))
 		#end
 
-		#if ($asset_primary_buyers_stage != "")
+		#if ($validator.isNotNull($asset_primary_buyers_stage))
 			#set ($VOID = $map.put("asset_primary_buyers_stage", $htmlUtil.escape($asset_primary_buyers_stage)))
 		#end
 
@@ -603,7 +603,7 @@
 
 										$required
 
-										value="$value"
+										value="$htmlUtil.escape($value)"
 									/>
 								#end
 
