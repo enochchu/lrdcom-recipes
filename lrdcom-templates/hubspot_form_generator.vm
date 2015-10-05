@@ -300,7 +300,7 @@
 	#set ($hs_field_names = ["asset_type","campaign","leadsource","lead_source_type","product_interest","program","tactic_name","video_type"])
 
 	#set ($complete_url = $request.attributes.CURRENT_COMPLETE_URL)
-	#set ($record_id = $httpUtil.getParameter($complete_url, "tactic_id"))
+	#set ($record_id = $httpUtil.getParameter($complete_url, "tactic_id", false))
 
 	#set ($hs_url_map = $portal.getClass().forName("java.util.TreeMap").newInstance())
 	#set ($hs_url_map_string = $portal.getClass().forName("java.util.TreeMap").newInstance())
@@ -561,7 +561,7 @@
 								#elseif ($field_type == "richtext")
 									<span class="hs-richtext">$item.getString('defaultValue')</span>
 								#elseif ($field_type == "textarea")
-									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required>$value</textarea>
+									<textarea class="${field_input_css_class}" id="${item.getString('name')}-$reserved-article-id.data" name="$item.getString('name')" placeholder="$label_text" $required>$htmlUtil.escape($value)</textarea>
 								#elseif ($field_type == "booleancheckbox")
 									<label class="aui-field-label">
 										<input class="${field_input_css_class}" name="$item.getString('name')" type="checkbox" value="false" />$label_text
