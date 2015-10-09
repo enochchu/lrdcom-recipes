@@ -1,1 +1,0 @@
-Just a simple YUI test
