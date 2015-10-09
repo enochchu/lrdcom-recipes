@@ -9,6 +9,11 @@ AUI().ready(
 						return (val.length <= ruleValue);
 					}
 				},
+				fieldStrings: {
+					name: {
+						required: Liferay.Language.get('this-field-is-required')
+					}
+				},
 				rules: {
 					email: {
 						testRuleName: 5
