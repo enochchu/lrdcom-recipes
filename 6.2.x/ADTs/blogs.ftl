@@ -19,7 +19,7 @@
 
 <div id="blogs">
 	<div class=" block-container nav-container no-padding">
-		<div class="content-column" id="categoriesNav">
+		<div id="categoriesNav">
 			<div class="blogs-menu">
 				<h3>
 					<@liferay_ui.message key="categories" /><span class="rss-icon"></span>
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 
-		<div class="content-column" id="blogsList">
+		<div id="blogsList">
 			<div class="block-container blogs-menu justify-center">
 				<a class="categories-navigation-toggle class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper" href="javascript:;"><span>Toggle</span></a>
 
@@ -121,7 +121,7 @@
 					<#assign summary = blogsEntry.getContent() />
 				</#if>
 
-				<a class="blog-preview" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${assetCategoryId}')">
+				<a class="blog-preview standard-padding" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${assetCategoryId}')">
 					<img src="${blogsEntry.getSmallImageURL()}">
 					<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
 					<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
@@ -136,6 +136,19 @@
 </div>
 
 <style>
+	h1 {
+		font-size: 2em;
+		margin: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	#blogs h4 {
+		font-size: 1.3em;
+		font-weight: 500;
+	}
+
 	#blogs ul {
 		margin: 0;
 	}
@@ -144,22 +157,12 @@
 		min-height: 500px;
 	}
 
+	#blogs #blogsDisplay .blog-preview {
+		text-decoration: none;
+	}
+
 	#blogs #blogsList {
 		width: 300px;
-	}
-
-	.aui #main-content.columns-1, .aui footer.doc-footer {
-		margin-left: 300px;
-		transition: margin-left .5s;
-	}
-
-	.aui .show-blogs-nav #main-content.columns-1, .aui .show-blogs-nav footer.doc-footer {
-		margin-left: 500px;
-	}
-
-	#blogs h4 {
-		font-size: 1.3em;
-		font-weight: 500;
 	}
 
 	#blogsDisplay {
@@ -169,19 +172,8 @@
 		overflow: hidden;
 	}
 
-	#blogs #blogsDisplay .blog-preview {
-		text-decoration: none;
-	}
-
-	#blogs #blogsList .blogs-list-content {
-		li {
-			border-top: 1px solid #D0D1D3;
-			padding: 20px;
-		}
-	}
-
 	#blogs #blogsList .blogs-menu {
-		border-bottom: 1px solid #D0D1D3;
+		border-bottom: 1px solid #E3E4E5;
 	}
 
 	#blogs #blogsList .blogs-menu a {
@@ -189,7 +181,7 @@
 	}
 
 	#blogs #blogsList .blogs-list-item a {
-		border-bottom: 1px solid #D0D1D3;
+		border-bottom: 1px solid #E3E4E5;
 		box-sizing: border-box;
 		display: block;
 		padding: 1em;
@@ -206,7 +198,7 @@
 	}
 
 	#blogs #categoriesNav {
-		background-color: #313940;
+		background-color: #4C4C4E;
 		box-sizing: border-box;
 		color: #FFF;
 		height: 100%;
@@ -233,11 +225,11 @@
 	}
 
 	#blogs .blog-author, #blogs .blog-date, #blogs .blog-summary {
-		color: #939598;
+		color: #909295;
 	}
 
 	#blogs .blog-title {
-		color: #313940;
+		color: #4C4C4E;
 	}
 
 	#blogs .loading {
@@ -246,16 +238,12 @@
 
 	#blogs .nav-container {
 		background-color: #FFF;
-		border-right: 1px solid #D0D1D3;
+		border-right: 1px solid #E3E4E5;
 		bottom: 0px;
 		left: -200px;
 		position: fixed;
 		top: 100px;
 		transition: left .5s;
-	}
-
-	.show-blogs-nav #blogs .nav-container{
-		left: 0;
 	}
 
 	#blogs .nav-container a {
@@ -275,35 +263,21 @@
 		padding: .5em 1em;
 	}
 
-	h1 {
-		font-size: 2em;
-		margin: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+	.aui #main-content.columns-1, .aui footer.doc-footer {
+		margin-left: 300px;
+		transition: margin-left .5s;
 	}
 
-	.details {
-		color: #777;
-		margin: 0;
+	.aui .show-blogs-nav #main-content.columns-1, .aui .show-blogs-nav footer.doc-footer {
+		margin-left: 500px;
 	}
 
 	.rss {
 		padding: 5px 0;
 	}
 
-	.standard .icon {
-		&.message-stats {
-			background: url(../images/comment_blurb.png) no-repeat;
-		}
-
-		&.view-stats {
-			background: url(../images/views_eye.png) no-repeat;
-		}
-	}
-
-	.user-image {
-		margin-top: 0;
+	.show-blogs-nav #blogs .nav-container{
+		left: 0;
 	}
 </style>
 
