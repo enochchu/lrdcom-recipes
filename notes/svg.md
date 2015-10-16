@@ -54,6 +54,8 @@ or
 
 `<use x="100" y="100" xlink:href="path/to/name.svg#groupId" />` (**this method of referencing external svg doesn't work in most IE**)
 
+`<img src='uiIcons.svg#searchIcon(viewBox(64, 0, 32, 32))' alt="Search Icon"/>` (_the fragment identifier is buggy on Safari and not supported on ie8_)
+
 equivalent to `<use xlink:href="#bird" transform="translate(100, 100)" />`
 - in other words, copying the original object, moving it 100 user units in the x and y direction from the current position.
 - or that the new reused element is positioned relative to the original
@@ -89,7 +91,7 @@ used to store elements without rendering them -- a way to have a hidden content 
 <svg>
     <defs>
         <linearGradient id="gradient">
-            <stop offset="0%" style="stop-color: deepPink"></stop>
+            <stop offset="0%" style="stop-color: rebeccapurple"></stop>
             <stop offset="100%" style="stop-color: #009966"></stop>
         </linearGradient>
     </defs>
@@ -182,10 +184,11 @@ Reference via:
 ```
 _don't need to wrap `<symbol>` in `<defs>`_
 _the `display: none;` is necessary because while the svg defined in `<symbol>` won't render on page, it still occupies space._
+_limitation: it cannot be cached_
 
 Fallbacks:
 -----
-Mainly via js. Could use `<picture>` but poor browswer support at the moment. [read more...](http://sarasoueidan.com/blog/svg-picture/)
+Mainly via js. Could use `<picture>` but poor browser support at the moment. [read more...](http://sarasoueidan.com/blog/svg-picture/)
 
 #### hover/clicking issue:
 ```
