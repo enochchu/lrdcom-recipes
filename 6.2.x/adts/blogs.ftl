@@ -28,7 +28,7 @@
 
 			<ul class="categories-content">
 				<#assign categoriesOrderBy = orderByComparatorFactoryUtil.create("AssetCategory", ["name", false])>
-				<#assign assetCategories = assetCategoryLocalService.getVocabularyRootCategories(blogsVocabularyId, -1, -1,categoriesOrderBy) />
+				<#assign assetCategories = assetCategoryLocalService.getVocabularyRootCategories(blogsVocabularyId, -1, -1, categoriesOrderBy) />
 
 				<#list assetCategories as assetCategory>
 					<li class="category parent-category">
@@ -58,11 +58,11 @@
 
 		<div id="blogsList">
 			<div class="block-container blogs-menu justify-center">
-				<a class="categories-navigation-toggle class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper" href="javascript:;"><span>Toggle</span></a>
+				<a href="javascript:;" class="class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper"><span>Toggle</span></a>
 
-				<a class="blogs-list-menu-button"><@liferay_ui.message key="highlighted" /></a>
+				<a href="javascript:;" data-target-nodes="#blogsList"><@liferay_ui.message key="highlighted" /></a>
 
-				<a class="blogs-list-menu-button"><@liferay_ui.message key="latest" /></a>
+				<a href="javascript:;" data-target-nodes="#blogsList"><@liferay_ui.message key="latest" /></a>
 			</div>
 
 			<div class="blogs-list-container">
@@ -76,7 +76,7 @@
 							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${assetCategoryId}')">
 								<h4 class="blog-title">${htmlUtil.escape(assetEntry.getTitle())}</h4>
 								<span class="blog-author">${htmlUtil.escape(assetEntry.getUserName())}</span>
-								<time class="blog-date">${dateUtil.getDate(assetEntry.getPublishDate(), "dd MMM yyyy - HH:mm:ss", locale)}</time>
+								<time class="blog-date">${dateUtil.getDate(assetEntry.getPublishDate(), "MMM dd", locale)}</time>
 							</a>
 						</li>
 					</#list>
@@ -94,21 +94,12 @@
 				<img src="${blogsEntry.getSmallImageURL()}">
 				<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
 				<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
-				<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "dd MMM yyyy - HH:mm:ss", locale)}</time>
+				<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "MMM dd", locale)}</time>
 				<div class="blog-content">${blogsEntry.getContent()}</div>
-				<div class="blogs-comments">
-					<#-- <@liferay_portlet.renderURL varImpl="discussionURL" /> -->
 
-					<@liferay_ui.discussion
-						className=blogsEntry.class.getName()
-						classPK=assetEntry.getEntryId()
-						formAction=themeDisplay.getURLCurrent() <#-- This needs to change -->
-						formName="fm2"
-						ratingsEnabled=true
-						redirect=themeDisplay.getURLCurrent()
-						userId=assetEntry.getUserId()
-					/>
-				</div>
+				</form>
+					<@getDiscussion />
+
 			</div>
 		<#else>
 			<#assign assetEntries = assetEntryLocalService.getAssetCategoryAssetEntries(assetCategoryId, 0, 5) />
@@ -125,7 +116,7 @@
 					<img src="${blogsEntry.getSmallImageURL()}">
 					<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
 					<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
-					<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "dd MMM yyyy - HH:mm:ss", locale)}</time>
+					<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "MMM dd", locale)}</time>
 					<div class="blog-summary">${stringUtil.shorten(htmlUtil.stripHtml(summary), 100)}</div>
 				</a>
 
@@ -134,6 +125,27 @@
 		</#if>
 	</div>
 </div>
+
+<#macro getDiscussion>
+	<#assign discussionURL = renderResponse.createActionURL() />
+	<#assign assetRenderer = assetEntry.getAssetRenderer() />
+
+	<#if validator.isNotNull(assetRenderer.getDiscussionPath()) && (enableComments == "true")>
+		<#assign void = discussionURL.setParameter("struts_action", "/blogs/" + assetRenderer.getDiscussionPath()) />
+
+		<div class="blogs-comments">
+			<@liferay_ui["discussion"]
+				className=assetEntry.getClassName()
+				classPK=assetEntry.getClassPK()
+				formAction=discussionURL?string
+				formName="fm2"
+				ratingsEnabled=false
+				redirect=themeDisplay.getURLCurrent()
+				userId=assetEntry.getUserId()
+			/>
+		</div>
+	</#if>
+</#macro>
 
 <style>
 	h1 {
@@ -168,7 +180,7 @@
 	#blogsDisplay {
 		box-sizing: border-box;
 		margin: 0 auto;
-		max-width: 720px !important;
+		max-width: 720px
 		overflow: hidden;
 	}
 
@@ -282,13 +294,15 @@
 </style>
 
 <@aui.script>
+	var A = AUI();
+
 	function processAjaxData(data, url) {
 		window.history.pushState(data, '', url);
 	}
 
-	window.onpopstate = function(e) {
-		if (e.state) {
-			${portlet_namespace}refreshPortlets(e.state);
+	window.onpopstate = function(event) {
+		if (event.state) {
+			${portlet_namespace}refreshPortlets(event.state);
 		}
 	};
 
@@ -296,8 +310,6 @@
 		window,
 		'${portlet_namespace}getBlogEntries',
 		function(assetCategoryId) {
-			var A = AUI();
-
 			var data = {${portlet_namespace}assetCategoryId: assetCategoryId};
 
 			${portlet_namespace}refreshPortlets(data);
@@ -309,8 +321,6 @@
 		window,
 		'${portlet_namespace}getBlogEntryContent',
 		function(assetEntryId, assetCategoryId) {
-			var A = AUI();
-
 			var data = {
 				${portlet_namespace}assetCategoryId: assetCategoryId,
 				${portlet_namespace}assetEntryId: assetEntryId
@@ -325,8 +335,6 @@
 		window,
 		'${portlet_namespace}refreshPortlets',
 		function(data) {
-			var A = AUI();
-
 			if (!data) {
 				data = {};
 			}
@@ -345,8 +353,8 @@
 			blogsListContainer.placeAfter(A.Node.create('<div class="loading-animation" />'));
 			blogsDisplay.placeAfter(A.Node.create('<div class="loading-animation" />'));
 
-			blogsListContainer.remove();
-			blogsDisplay.remove();
+<#-- 			blogsListContainer.remove();
+			blogsDisplay.remove(); -->
 
 			var refreshURL = '${portletURLUtil.getRefreshURL(request, themeDisplay)}';
 
@@ -370,8 +378,7 @@
 			);
 
 			processAjaxData(data, data['url']);
-
-			console.log(data);
+console.log("data: ", data);
 		},
 		['aui-base', 'querystring']
 	);
