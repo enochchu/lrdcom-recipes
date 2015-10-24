@@ -44,18 +44,9 @@
 
 			<#assign fieldsMap = svg.getFieldsMap(svg.getFileVersion().getFileVersionId()) />
 
-			<#list fieldsMap?keys as structureKey>
-			<#--
-				<#list fieldsMap[structureKey].iterator() as field>
-					<#if field.getName() == 'svg_code'>
-						<span class="svg-code">${field.getValue()}</span>
-					</#if>
-
-					<#if field.getName() == 'type'>
-						<span class="svg-type">${field.getValue()}</span>
-					</#if>
-				</#list>
-			 -->
+			<#list fieldsMap.values() as field>
+				<span class="svg-code">${field.get("svg_code").getValue()}</span>
+				<span class="svg-type">${field.get("type").getValue()}</span>
 			</#list>
 		</div>
 	</#list>

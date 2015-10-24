@@ -1,5 +1,8 @@
 <#assign liferay_ui = taglibLiferayHash["/WEB-INF/tld/liferay-ui.tld"] />
 
+<#assign dl_file_entry_local_service_util = staticUtil["com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil"]>
+<#assign journal_article_local_service_util = staticUtil["com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil"] />
+
 <style>
 	.portlet-asset-publisher .portlet-body {
 		display: flex;
@@ -13,14 +16,29 @@
 <#list entries as entry>
 	<#assign entry = entry />
 
+	<#attempt>
+		<#assign dl_file_entry = dl_file_entry_local_service_util.fetchDLFileEntryByUuidAndGroupId(entry.getClassUuid(), entry.getGroupId()) >
+
+		<#assign resource_id = dl_file_entry.getFileEntryId() />
+		<#assign folder_id = dl_file_entry.getFolderId() />
+	<#recover>
+	</#attempt>
+
+	<#attempt>
+		<#assign article = journal_article_local_service_util.fetchArticleByUuidAndGroupId(entry.getClassUuid(), entry.getGroupId()) >
+
+		<#assign resource_id = article.getArticleId() />
+	<#recover>
+	</#attempt>
+
 	<#assign assetRenderer = entry.getAssetRenderer() />
 
 	<#assign entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale)) />
 
-	<#assign viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, entry) />
+	<#assign viewURL = "/resource"/>
 
-	<#if assetLinkBehavior != "showFullContent">
-		<#assign viewURL = assetRenderer.getURLViewInContext(renderRequest, renderResponse, viewURL) />
+	<#if resource_id??>
+		<#assign viewURL = "${viewURL}?resource_id=" + resource_id />
 	</#if>
 
 	<div class="link-tile standard-padding w33">
