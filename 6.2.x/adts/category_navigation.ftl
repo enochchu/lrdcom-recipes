@@ -11,6 +11,9 @@
 
 <#assign portlet_namespace = renderResponse.getNamespace()>
 
+<#assign service_context = objectUtil("com.liferay.portal.service.ServiceContextThreadLocal").getServiceContext() />
+<#assign http_servlet_request = service_context.getRequest() />
+
 <@liferay_portlet.renderURL varImpl="searchURL" />
 
 <div class="categories-navigation" id="${portlet_namespace}categoriesNavigation">
@@ -24,7 +27,14 @@
 			<div class="align-center block-container justify-center navigation-inputs">
 				<#list entries as curVocabulary>
 					<#assign curVocabularyName = stringUtil.replace(curVocabulary.getName(), " ", "_")?lower_case />
+
 					<#assign curVocabularyValue = paramUtil.getString(request, curVocabularyName) />
+
+					<#if !curVocabularyValue?has_content>
+						<#assign curVocabularyValue = paramUtil.getString(http_servlet_request, curVocabularyName) />
+						<#assign curVocabularyValue = stringUtil.replace(curVocabularyValue, " ", "+") />
+					</#if>
+
 					<#assign curVocabularyArray = stringUtil.split(curVocabularyValue, "+") />
 
 					<#assign selectedCategories = objectUtil("com.liferay.portal.kernel.util.UniqueList") />
@@ -45,7 +55,7 @@
 						label=""
 						name="${curVocabularyName}_select"
 
-						onChange="${portlet_namespace}filter('${curVocabularyName}', this.value, false);"
+						onChange="${portlet_namespace}filter('${curVocabularyName}', this.value);"
 					>
 						<@aui.option
 							label=curVocabulary.getName()
@@ -100,9 +110,10 @@
 				<#list allSelectedCategories as curCategoryIdsList>
 					<#if !curCategoryIdsList.isEmpty()>
 						<div class="category-container">
-							<#assign assetCategory = assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryIdsList?first)) />
+							<#assign vocabularyName = "" />
 
-							<#if assetCategory??>
+							<#if assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryIdsList?first))??>
+								<#assign assetCategory = assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryIdsList?first)) />
 								<#assign assetVocabulary = assetVocabularyLocalServiceUtil.fetchAssetVocabulary(assetCategory.getVocabularyId()) />
 							</#if>
 
@@ -113,18 +124,18 @@
 							</#if>
 
 							<#list curCategoryIdsList as curCategoryId>
-								<#assign curAssetCategory = assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryId)) />
+								<#if assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryId))??>
+									<#assign curAssetCategory = assetCategoryLocalServiceUtil.fetchAssetCategory(getterUtil.getLong(curCategoryId)) />
 
-								<#if curAssetCategory??>
 									<span class="asset-category-title">
-										<#assign taglibRemove = renderResponse.getNamespace() + "filter('" + vocabularyName + "', '" + curAssetCategory.getCategoryId() + "', false);" />
+										<#assign filterOnly = renderResponse.getNamespace() + "filter('" + vocabularyName + "', '" + curAssetCategory.getCategoryId() + "', 'only');" />
 
-										<#assign taglibSearch = renderResponse.getNamespace() + "filter('" + vocabularyName + "', '" + curAssetCategory.getCategoryId() + "', true);" />
+										<#assign remove = renderResponse.getNamespace() + "filter('" + vocabularyName + "', '" + curAssetCategory.getCategoryId() + "');" />
 
 										<@aui.a
 											href="javascript:;"
-											onclick=taglibSearch
-											title="Search"
+											onclick=filterOnly
+											title="Filter Only"
 										>
 											${htmlUtil.escape(curAssetCategory.getTitle(locale))}
 										</@aui.a>
@@ -132,7 +143,7 @@
 										<@aui.a
 											cssClass="remove"
 											href="javascript:;"
-											onclick=taglibRemove
+											onclick=remove
 											title="Remove"
 										>
 											x
@@ -162,7 +173,7 @@
 	Liferay.provide(
 		window,
 		'${portlet_namespace}filter',
-		function(param, value, remove) {
+		function(param, value, filterType) {
 			var A = AUI();
 
 			var inputEl = A.one('#${portlet_namespace}' + param);
@@ -174,21 +185,21 @@
 			if (value == '-1') {
 				inputEl.set('value', '');
 			}
-			else if ((inputEl.get('value') == '') || remove) {
+			else if ((inputEl.get('value') == '') || (filterType == "only")) {
 				inputEl.set('value', value);
 			}
 			else {
 				var values = inputEl.get('value');
 
 				if (values.indexOf(value) != -1) {
-					var newValues = values.split(',');
+					var newValues = values.split('+');
 
 					newValues.splice(newValues.indexOf(value), 1);
 
 					inputEl.set('value', newValues.join());
 				}
 				else {
-					inputEl.set('value', values + ',' + value);
+					inputEl.set('value', values + '+' + value);
 				}
 			}
 
@@ -250,9 +261,19 @@
 
 			var refreshURL = '${portletURLUtil.getRefreshURL(request, themeDisplay)}';
 
+			var params = {};
+
+			if (refreshURL.split('?').length > 1) {
+				var refreshURLPieces = refreshURL.split('?');
+
+				params = A.QueryString.parse(refreshURLPieces[1]);
+
+				refreshURL = refreshURLPieces[0];
+			}
+
 			Liferay.Portlet.addHTML(
 				{
-					data: A.mix({}, data, true),
+					data: A.mix(params, data, true),
 					onComplete: function(portlet, portletId) {
 						portlet.refreshURL = refreshURL;
 
