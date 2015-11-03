@@ -2,20 +2,19 @@
 <#assign liferay_portlet = taglibLiferayHash["/WEB-INF/tld/liferay-portlet.tld"] />
 <#assign liferay_ui = taglibLiferayHash["/WEB-INF/tld/liferay-ui.tld"] />
 
-<#assign assetCategoryLocalService = serviceLocator.findService("com.liferay.portlet.asset.service.AssetCategoryLocalService")>
-<#assign assetEntryLocalService = serviceLocator.findService("com.liferay.portlet.asset.service.AssetEntryLocalService")>
-<#assign blogsEntryLocalService = serviceLocator.findService("com.liferay.portlet.blogs.service.BlogsEntryLocalService")>
+<#assign asset_category_local_service = serviceLocator.findService("com.liferay.portlet.asset.service.AssetCategoryLocalService")>
+<#assign asset_entry_local_service = serviceLocator.findService("com.liferay.portlet.asset.service.AssetEntryLocalService")>
+<#assign blogs_entry_local_service = serviceLocator.findService("com.liferay.portlet.blogs.service.BlogsEntryLocalService")>
 
-<#assign portletURLUtil = objectUtil("com.liferay.portlet.PortletURLUtil") />
-<#assign portletURLFactoryUtil = objectUtil("com.liferay.portlet.PortletURLFactoryUtil") />
+<#assign portlet_URL_util = objectUtil("com.liferay.portlet.PortletURLUtil") />
 
-<#assign orderByComparatorFactoryUtil = staticUtil["com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil"]>
+<#assign order_by_comparator_factory_util = staticUtil["com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil"]>
 
 <#assign portlet_namespace = renderResponse.getNamespace()>
 
-<#assign blogsVocabularyId = getterUtil.getLong(166994) />
-<#assign assetCategoryId = paramUtil.getLong(request, "asset_category_id") />
-<#assign assetEntryId = paramUtil.getLong(request, "asset_entry_id") />
+<#assign blogs_vocabulary_Id = getterUtil.getLong(166994) />
+<#assign asset_category_id = paramUtil.getLong(request, "asset_category_id") />
+<#assign asset_entry_id = paramUtil.getLong(request, "asset_entry_id") />
 
 <div id="blogs">
 	<div class=" block-container nav-container no-padding">
@@ -27,17 +26,17 @@
 			</div>
 
 			<ul class="categories-content">
-				<#assign categoriesOrderBy = orderByComparatorFactoryUtil.create("AssetCategory", ["name", false])>
-				<#assign assetCategories = assetCategoryLocalService.getVocabularyRootCategories(blogsVocabularyId, -1, -1, categoriesOrderBy) />
+				<#assign categories_order_by = order_by_comparator_factory_util.create("AssetCategory", ["name", false])>
+				<#assign asset_categories = asset_category_local_service.getVocabularyRootCategories(blogs_vocabulary_Id, -1, -1, categories_order_by) />
 
-				<#list assetCategories as assetCategory>
+				<#list asset_categories as assetCategory>
 					<li class="category parent-category">
 						<a href="javascript:;" data-category-id="${assetCategory.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${assetCategory.getCategoryId()}');">
 							<h4>${assetCategory.getName()}</h4>
 						</a>
 
 						<ul>
-							<#list assetCategoryLocalService.getChildCategories(assetCategory.getCategoryId()) as childAssetCategory>
+							<#list asset_category_local_service.getChildCategories(assetCategory.getCategoryId()) as childAssetCategory>
 								<li class="category child-category">
 									<a href="javascript:;" data-category-id="${childAssetCategory.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${childAssetCategory.getCategoryId()}');">${childAssetCategory.getName()}</a>
 								</li>
@@ -67,13 +66,13 @@
 
 			<div class="blogs-list-container">
 				<ul class="blogs-list-content">
-					<#assign assetEntries = assetEntryLocalService.getAssetCategoryAssetEntries(assetCategoryId) />
+					<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id) />
 
-					<#list assetEntries as assetEntry>
-						<#assign blogsEntry = blogsEntryLocalService.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
+					<#list asset_entries as assetEntry>
+						<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
 
 						<li class="blogs-list-item">
-							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${assetCategoryId}')">
+							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${asset_category_id}')">
 								<h4 class="blog-title">${htmlUtil.escape(assetEntry.getTitle())}</h4>
 								<span class="blog-author">${htmlUtil.escape(assetEntry.getUserName())}</span>
 								<time class="blog-date">${dateUtil.getDate(assetEntry.getPublishDate(), "MMM dd", locale)}</time>
@@ -86,9 +85,9 @@
 	</div>
 
 	<div id="blogsDisplay">
-		<#if assetEntryId != 0>
-			<#assign assetEntry = assetEntryLocalService.getEntry(assetEntryId) />
-			<#assign blogsEntry = blogsEntryLocalService.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
+		<#if asset_entry_id != 0>
+			<#assign assetEntry = asset_entry_local_service.getEntry(asset_entry_id) />
+			<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
 
 			<div class="blog-entry" >
 				<img src="${blogsEntry.getSmallImageURL()}">
@@ -98,21 +97,21 @@
 				<div class="blog-content">${blogsEntry.getContent()}</div>
 
 				</form>
-					<@getDiscussion />
+					<@get_discussion />
 
 			</div>
 		<#else>
-			<#assign assetEntries = assetEntryLocalService.getAssetCategoryAssetEntries(assetCategoryId, 0, 5) />
+			<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id, 0, 5) />
 
-			<#list assetEntries as assetEntry>
-				<#assign blogsEntry = blogsEntryLocalService.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
+			<#list asset_entries as assetEntry>
+				<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
 				<#assign summary = blogsEntry.getDescription() />
 
 				<#if (validator.isNull(summary))>
 					<#assign summary = blogsEntry.getContent() />
 				</#if>
 
-				<a class="blog-preview standard-padding" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${assetCategoryId}')">
+				<a class="blog-preview standard-padding" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${asset_category_id}')">
 					<img src="${blogsEntry.getSmallImageURL()}">
 					<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
 					<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
@@ -126,18 +125,18 @@
 	</div>
 </div>
 
-<#macro getDiscussion>
-	<#assign discussionURL = renderResponse.createActionURL() />
-	<#assign assetRenderer = assetEntry.getAssetRenderer() />
+<#macro get_discussion>
+	<#assign discussion_URL = renderResponse.createActionURL() />
+	<#assign asset_renderer = assetEntry.getAssetRenderer() />
 
-	<#if validator.isNotNull(assetRenderer.getDiscussionPath()) && (enableComments == "true")>
-		<#assign void = discussionURL.setParameter("struts_action", "/blogs/" + assetRenderer.getDiscussionPath()) />
+	<#if validator.isNotNull(asset_renderer.getDiscussionPath()) && (enableComments == "true")>
+		<#assign void = discussion_URL.setParameter("struts_action", "/blogs/" + asset_renderer.getDiscussionPath()) />
 
 		<div class="blogs-comments">
 			<@liferay_ui["discussion"]
 				className=assetEntry.getClassName()
 				classPK=assetEntry.getClassPK()
-				formAction=discussionURL?string
+				formAction=discussion_URL?string
 				formName="fm2"
 				ratingsEnabled=false
 				redirect=themeDisplay.getURLCurrent()
@@ -309,8 +308,8 @@
 	Liferay.provide(
 		window,
 		'${portlet_namespace}getBlogEntries',
-		function(assetCategoryId) {
-			var data = {${portlet_namespace}asset_category_id: assetCategoryId};
+		function(asset_category_id) {
+			var data = {${portlet_namespace}asset_category_id: asset_category_id};
 
 			${portlet_namespace}refreshPortlets(data);
 		},
@@ -320,10 +319,10 @@
 	Liferay.provide(
 		window,
 		'${portlet_namespace}getBlogEntryContent',
-		function(assetEntryId, assetCategoryId) {
+		function(asset_entry_id, asset_category_id) {
 			var data = {
-				${portlet_namespace}asset_category_id: assetCategoryId,
-				${portlet_namespace}asset_entry_id: assetEntryId
+				${portlet_namespace}asset_category_id: asset_category_id,
+				${portlet_namespace}asset_entry_id: asset_entry_id
 			};
 
 			${portlet_namespace}refreshPortlets(data);
@@ -356,7 +355,7 @@
 <#-- 			blogsListContainer.remove();
 			blogsDisplay.remove(); -->
 
-			var refreshURL = '${portletURLUtil.getRefreshURL(request, themeDisplay)}';
+			var refreshURL = '${portlet_URL_util.getRefreshURL(request, themeDisplay)}';
 
 			Liferay.Portlet.addHTML(
 				{
