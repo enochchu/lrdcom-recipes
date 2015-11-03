@@ -14,8 +14,8 @@
 <#assign portlet_namespace = renderResponse.getNamespace()>
 
 <#assign blogsVocabularyId = getterUtil.getLong(166994) />
-<#assign assetCategoryId = paramUtil.getLong(request, "assetCategoryId") />
-<#assign assetEntryId = paramUtil.getLong(request, "assetEntryId") />
+<#assign assetCategoryId = paramUtil.getLong(request, "asset_category_id") />
+<#assign assetEntryId = paramUtil.getLong(request, "asset_entry_id") />
 
 <div id="blogs">
 	<div class=" block-container nav-container no-padding">
@@ -310,7 +310,7 @@
 		window,
 		'${portlet_namespace}getBlogEntries',
 		function(assetCategoryId) {
-			var data = {${portlet_namespace}assetCategoryId: assetCategoryId};
+			var data = {${portlet_namespace}asset_category_id: assetCategoryId};
 
 			${portlet_namespace}refreshPortlets(data);
 		},
@@ -322,8 +322,8 @@
 		'${portlet_namespace}getBlogEntryContent',
 		function(assetEntryId, assetCategoryId) {
 			var data = {
-				${portlet_namespace}assetCategoryId: assetCategoryId,
-				${portlet_namespace}assetEntryId: assetEntryId
+				${portlet_namespace}asset_category_id: assetCategoryId,
+				${portlet_namespace}asset_entry_id: assetEntryId
 			};
 
 			${portlet_namespace}refreshPortlets(data);
