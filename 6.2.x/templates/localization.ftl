@@ -36,8 +36,11 @@
 		email: {
 			de_DE: 'E-Mail',
 			en_US: 'Email',
+			es_ES: 'Email',
+			fr_FR: 'Email',
 			it_IT: 'E-mail',
 			ja_JP: 'メールアドレス',
+			pt_BR: 'Email',
 			zh_CN: '邮箱'
 		},
 
@@ -52,15 +55,10 @@
 			zh_CN: '名'
 		},
 
-		get_a_quote: {
-			de_DE: 'Angebot anfordern',
-			en_US: 'Get a Quote',
-			zh_CN: '获取企业版报价'
-		},
-
 		job_role__c: {
 			de_DE: 'Funktionsbezeichnung',
 			en_US: 'Job Role',
+			es_ES: 'Job Role',
 			fr_FR: 'Fonction',
 			it_IT: 'Ruolo professionale',
 			ja_JP: '役割',
@@ -88,12 +86,6 @@
 			ja_JP: '電話番号',
 			pt_BR: 'Telefone',
 			zh_CN: '联系电话'
-		},
-
-		project_use_case: {
-			de_DE: 'Anwendungsfall',
-			en_US: 'Project Use Case',
-			zh_CN: '项目使用场景'
 		},
 
 		show_me_liferay: {
@@ -147,17 +139,3 @@
 		<#return key>
 	</#if>
 </#function>
-
-<#--
-
-Missing translations:
-
-de_DE: 'get_a_quote', 'project_use_case',
-es_ES: 'get_a_quote', 'job_role__c', 'project_use_case',
-fr_FR: 'get_a_quote', 'project_use_case',
-it_IT: 'get_a_quote', 'project_use_case',
-ja_JP: 'get_a_quote', 'project_use_case',
-pt_BR: 'get_a_quote', 'project_use_case',
-zh_CN: 'get_a_quote', 'solution_interest'
-
--->
