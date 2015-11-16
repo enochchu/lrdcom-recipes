@@ -29,16 +29,16 @@
 				<#assign categories_order_by = order_by_comparator_factory_util.create("AssetCategory", ["name", false])>
 				<#assign asset_categories = asset_category_local_service.getVocabularyRootCategories(blogs_vocabulary_Id, -1, -1, categories_order_by) />
 
-				<#list asset_categories as assetCategory>
+				<#list asset_categories as asset_category>
 					<li class="category parent-category">
-						<a href="javascript:;" data-category-id="${assetCategory.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${assetCategory.getCategoryId()}');">
-							<h4>${assetCategory.getName()}</h4>
+						<a href="javascript:;" data-category-id="${asset_category.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${asset_category.getCategoryId()}');">
+							<h4>${asset_category.getName()}</h4>
 						</a>
 
 						<ul>
-							<#list asset_category_local_service.getChildCategories(assetCategory.getCategoryId()) as childAssetCategory>
+							<#list asset_category_local_service.getChildCategories(asset_category.getCategoryId()) as child_asset_category>
 								<li class="category child-category">
-									<a href="javascript:;" data-category-id="${childAssetCategory.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${childAssetCategory.getCategoryId()}');">${childAssetCategory.getName()}</a>
+									<a href="javascript:;" data-category-id="${child_asset_category.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${child_asset_category.getCategoryId()}');">${child_asset_category.getName()}</a>
 								</li>
 							</#list>
 						</ul>
@@ -68,14 +68,14 @@
 				<ul class="blogs-list-content">
 					<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id) />
 
-					<#list asset_entries as assetEntry>
-						<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
+					<#list asset_entries as asset_entry>
+						<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
 
 						<li class="blogs-list-item">
-							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${asset_category_id}')">
-								<h4 class="blog-title">${htmlUtil.escape(assetEntry.getTitle())}</h4>
-								<span class="blog-author">${htmlUtil.escape(assetEntry.getUserName())}</span>
-								<time class="blog-date">${dateUtil.getDate(assetEntry.getPublishDate(), "MMM dd", locale)}</time>
+							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${asset_entry.getEntryId()}', '${asset_category_id}')">
+								<h4 class="blog-title">${htmlUtil.escape(asset_entry.getTitle())}</h4>
+								<span class="blog-author">${htmlUtil.escape(asset_entry.getUserName())}</span>
+								<time class="blog-date">${dateUtil.getDate(asset_entry.getPublishDate(), "MMM dd", locale)}</time>
 							</a>
 						</li>
 					</#list>
@@ -86,15 +86,15 @@
 
 	<div id="blogsDisplay">
 		<#if asset_entry_id != 0>
-			<#assign assetEntry = asset_entry_local_service.getEntry(asset_entry_id) />
-			<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
+			<#assign asset_entry = asset_entry_local_service.getEntry(asset_entry_id) />
+			<#assign blogs_entry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
 
 			<div class="blog-entry" >
-				<img src="${blogsEntry.getSmallImageURL()}">
-				<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
-				<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
-				<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "MMM dd", locale)}</time>
-				<div class="blog-content">${blogsEntry.getContent()}</div>
+				<img src="${blogs_entry.getSmallImageURL()}">
+				<h2 class="blog-title">${htmlUtil.escape(blogs_entry.getTitle())}</h2>
+				<span class="blog-author">${htmlUtil.escape(blogs_entry.getUserName())}</span>
+				<time class="blog-date">${dateUtil.getDate(blogs_entry.getCreateDate(), "MMM dd", locale)}</time>
+				<div class="blog-content">${blogs_entry.getContent()}</div>
 
 				</form>
 					<@get_discussion />
@@ -103,19 +103,19 @@
 		<#else>
 			<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id, 0, 5) />
 
-			<#list asset_entries as assetEntry>
-				<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(assetEntry.getClassUuid(), assetEntry.getGroupId()) />
-				<#assign summary = blogsEntry.getDescription() />
+			<#list asset_entries as asset_entry>
+				<#assign blogs_entry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
+				<#assign summary = blogs_entry.getDescription() />
 
 				<#if (validator.isNull(summary))>
-					<#assign summary = blogsEntry.getContent() />
+					<#assign summary = blogs_entry.getContent() />
 				</#if>
 
-				<a class="blog-preview standard-padding" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${assetEntry.getEntryId()}', '${asset_category_id}')">
-					<img src="${blogsEntry.getSmallImageURL()}">
-					<h2 class="blog-title">${htmlUtil.escape(blogsEntry.getTitle())}</h2>
-					<span class="blog-author">${htmlUtil.escape(blogsEntry.getUserName())}</span>
-					<time class="blog-date">${dateUtil.getDate(blogsEntry.getCreateDate(), "MMM dd", locale)}</time>
+				<a class="blog-preview standard-padding" href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${asset_entry.getEntryId()}', '${asset_category_id}')">
+					<img src="${blogs_entry.getSmallImageURL()}">
+					<h2 class="blog-title">${htmlUtil.escape(blogs_entry.getTitle())}</h2>
+					<span class="blog-author">${htmlUtil.escape(blogs_entry.getUserName())}</span>
+					<time class="blog-date">${dateUtil.getDate(blogs_entry.getCreateDate(), "MMM dd", locale)}</time>
 					<div class="blog-summary">${stringUtil.shorten(htmlUtil.stripHtml(summary), 100)}</div>
 				</a>
 
@@ -127,20 +127,20 @@
 
 <#macro get_discussion>
 	<#assign discussion_URL = renderResponse.createActionURL() />
-	<#assign asset_renderer = assetEntry.getAssetRenderer() />
+	<#assign asset_renderer = asset_entry.getAssetRenderer() />
 
 	<#if validator.isNotNull(asset_renderer.getDiscussionPath()) && (enableComments == "true")>
 		<#assign void = discussion_URL.setParameter("struts_action", "/blogs/" + asset_renderer.getDiscussionPath()) />
 
 		<div class="blogs-comments">
 			<@liferay_ui["discussion"]
-				className=assetEntry.getClassName()
-				classPK=assetEntry.getClassPK()
+				className=asset_entry.getClassName()
+				classPK=asset_entry.getClassPK()
 				formAction=discussion_URL?string
 				formName="fm2"
 				ratingsEnabled=false
 				redirect=themeDisplay.getURLCurrent()
-				userId=assetEntry.getUserId()
+				userId=asset_entry.getUserId()
 			/>
 		</div>
 	</#if>
