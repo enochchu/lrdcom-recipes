@@ -12,9 +12,13 @@
 
 <#assign portlet_namespace = renderResponse.getNamespace()>
 
-<#assign blogs_vocabulary_Id = getterUtil.getLong(166994) />
+<#assign blogs_vocabulary_id = getterUtil.getLong(166994) />
+<#assign highlighted_category_id = getterUtil.getLong(211321) />
 <#assign asset_category_id = paramUtil.getLong(request, "asset_category_id") />
 <#assign asset_entry_id = paramUtil.getLong(request, "asset_entry_id") />
+
+<#assign default_end_count = getterUtil.getInteger(10) />
+<#assign default_start_count = getterUtil.getInteger(0) />
 
 <div id="blogs">
 	<div class=" block-container nav-container no-padding">
@@ -27,7 +31,7 @@
 
 			<ul class="categories-content">
 				<#assign categories_order_by = order_by_comparator_factory_util.create("AssetCategory", ["name", false])>
-				<#assign asset_categories = asset_category_local_service.getVocabularyRootCategories(blogs_vocabulary_Id, -1, -1, categories_order_by) />
+				<#assign asset_categories = asset_category_local_service.getVocabularyRootCategories(blogs_vocabulary_id, -1, -1, categories_order_by) />
 
 				<#list asset_categories as asset_category>
 					<li class="category parent-category">
@@ -59,17 +63,23 @@
 			<div class="block-container blogs-menu justify-center">
 				<a href="javascript:;" class="class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper"><span>Toggle</span></a>
 
-				<a href="javascript:;" data-target-nodes="#blogsList"><@liferay_ui.message key="highlighted" /></a>
+				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(${highlighted_category_id});"><@liferay_ui.message key="highlighted" /></a>
 
-				<a href="javascript:;" data-target-nodes="#blogsList"><@liferay_ui.message key="latest" /></a>
+				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(0);"><@liferay_ui.message key="latest" /></a>
 			</div>
 
 			<div class="blogs-list-container">
 				<ul class="blogs-list-content">
-					<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id) />
+					<#-- <#if asset_category_id != 0 > -->
+						<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id, default_start_count, default_end_count) />
+					<#-- <#else> -->
+<#-- pull only from blogs -->
+					<#-- 	<#assign asset_entries = asset_entry_local_service.getAssetEntries(default_start_count, default_end_count) />
+					</#if> -->
 
 					<#list asset_entries as asset_entry>
-						<#assign blogsEntry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
+<#-- null check this -->
+						<#assign blogs_entry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
 
 						<li class="blogs-list-item">
 							<a href="javascript:;" onclick="${portlet_namespace}getBlogEntryContent('${asset_entry.getEntryId()}', '${asset_category_id}')">
@@ -97,11 +107,11 @@
 				<div class="blog-content">${blogs_entry.getContent()}</div>
 
 				</form>
-					<@get_discussion />
 
+				<@get_discussion />
 			</div>
 		<#else>
-			<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id, 0, 5) />
+			<#assign asset_entries = asset_entry_local_service.getAssetCategoryAssetEntries(asset_category_id, default_start_count, 5) />
 
 			<#list asset_entries as asset_entry>
 				<#assign blogs_entry = blogs_entry_local_service.getBlogsEntryByUuidAndGroupId(asset_entry.getClassUuid(), asset_entry.getGroupId()) />
