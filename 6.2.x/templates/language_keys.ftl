@@ -88,6 +88,15 @@
 			zh_CN: '联系电话'
 		},
 
+		project_use_case: {
+			de_DE: 'Anwendungsfall',
+			en_US: 'Project Use Case',
+			es_ES: 'Caso de Uso del Proyecto',
+			ja_JP: '利用されるプロジェクト',
+			pt_BR: 'Projeto do Caso de Sucesso',
+			zh_CN: '项目使用案例'
+		},
+
 		show_me_liferay: {
 			de_DE: 'Ich möchte Liferay kennen lernen',
 			en_US: 'Show Me Liferay',
