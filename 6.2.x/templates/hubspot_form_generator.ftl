@@ -5,6 +5,8 @@ Override number of fields (possibly resorting order)
 check hidden multi select hack
 check if we need field_to_skip variable
 check asset primary buyers stage event firing stuff
+hs-contact undefined error on L-591 `<#if value.indexOf(option.getString("value")) != -1>` replicate incognito
+null catch for the localization template (43374) so that if something breaks there, it doesn't break the form generator
  -->
 
 <#-- <#function clean_up string>
@@ -145,7 +147,7 @@ in get options${localization_map}
 		</#attempt>
 	</#if>
 
-	<div class="hubspot-form <#-- lrdcom-form -->">
+	<div class="lrdcom-form">
 		<div id="${article_namespace}msg"></div>
 
 		<form action="https://forms.hubspot.com/uploads/form/v2/${hs_account_id}/${hs_form_id.data}" data-asset-info="${asset_info?html}" data-asset-new-tab="true" id="${article_namespace}fm" method="POST" onsubmit="submitHSForm${article_namespace}('#${article_namespace}fm', this.getAttribute('data-asset-info')); return false;">
@@ -428,6 +430,7 @@ in get options${localization_map}
 			}
 		);
 	</script>
+
 <#elseif request.lifecycle == 'RESOURCE_PHASE'>
 	<#assign fields = stringUtil.split(request.parameters.fields, ":;:") />
 
