@@ -2,12 +2,16 @@ SVG
 ======
 **general good practices**:
 
-add `<title>...</title>` and `<desc>...</desc>` for accessibility
+ideally `<title>...</title>` and `<desc>...</desc>` for accessibility - in theory, doesn't work too well
 
 add `role="img"` attribute in the opening svg tag if the svg is purely graphical.
 If the svg has interactive components, add the role attribute to define the interactive parts. For example: ``<a xlink:href="path" role="link">``
 
-[read more...](http://www.sitepoint.com/tips-accessible-svg/)
+add `aria-labelledby="title desc"` to augment the `<title>..</title>`
+
+in wrapping `<div>`, add `aria-label="graphical representation of xyz"`
+
+[read more...](https://www.youtube.com/watch?v=0NFct2yOfiI)
 
 **basics**:
 
@@ -120,6 +124,9 @@ used to store elements without rendering them -- a way to have a hidden content 
 
 Responsive SVGs:
 ----
+firefox cuts off svgs
+- because it renders `overflow: hidden;` by default
+
 #### SVG embedded using `<img>` or `<object>`
 - to make responsive, remove width and height but leave viewbox attribute.
 - add
@@ -192,6 +199,24 @@ Mainly via js. Could use `<picture>` but poor browser support at the moment. [re
 
 #### hover/clicking issue:
 ```
-fill: none; || fill: transparent;
+fill: transparent;
 pointer-events: visible;
 ```
+
+#### using javascript in SVG:
+`<script> ... </script>`
+
+*note `<` and `&` in the script tag will break the svg as the xml parser will intrepret it as the beginning of an element.
+workaround:
+
+```
+<script>
+    //<! [CDATA[
+        ...
+    //]]>
+</script>
+```
+or
+`<script xlink:href="file.js"></script>`
+
+*note the different script attribute*
