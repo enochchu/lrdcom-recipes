@@ -25,7 +25,7 @@
 		<div id="categoriesNav">
 			<div class="blogs-menu">
 				<h3>
-					<@liferay_ui.message key="categories" /><span class="rss-icon"></span>
+					<@liferay_ui.message key="categories" />
 				</h3>
 			</div>
 
@@ -34,9 +34,22 @@
 				<#assign asset_categories = asset_category_local_service.getVocabularyRootCategories(blogs_vocabulary_id, -1, -1, categories_order_by) />
 
 				<#list asset_categories as asset_category>
+					<#if asset_category.categoryId == 167001>
+						<#assign svg_icon_id = "tech">
+					<#elseif asset_category.categoryId == 166998>
+						<#assign svg_icon_id = "lrlogo">
+					<#elseif asset_category.categoryId == 166999>
+						<#assign svg_icon_id = "business">
+					<#else>
+						<#assign svg_icon_id = "trending">
+					</#if>
+
 					<li class="category parent-category">
 						<a href="javascript:;" data-category-id="${asset_category.getCategoryId()}" onclick="${portlet_namespace}getBlogEntries('${asset_category.getCategoryId()}');">
-							<h4>${asset_category.getName()}</h4>
+							<h4>
+								<svg class="svg-align" id="${svg_icon_id}"><use xlink:href="#blogs-${svg_icon_id}" /></svg>
+								${asset_category.getName()}
+							</h4>
 						</a>
 
 						<ul>
@@ -51,21 +64,39 @@
 			</ul>
 
 			<div class="social-nav">
-				<span class="facebook social-img"><@liferay_ui.message key="facebook" /></span>
-				<span class="linkedin social-img"><@liferay_ui.message key="linkedin" /></span>
-				<span class="rss social-img"><@liferay_ui.message key="rss" /></span>
-				<span class="social-img twitter"><@liferay_ui.message key="twitter" /></span>
-				<span class="social-img youtube"><@liferay_ui.message key="youtube" /></span>
+				<a href="">
+					<svg><use xlink:href="#blogs-fb" /></svg>
+				</a>
+				<a href="">
+					<svg><use xlink:href="#blogs-linkedin" /></svg>
+				</a>
+				<a href="">
+					<svg><use xlink:href="#blogs-rss" /></svg>
+				</a>
+				<a href="">
+					<svg><use xlink:href="#blogs-twitter" /></svg>
+				</a>
+				<a href="">
+					<svg><use xlink:href="#blogs-youtube" /></svg>
+				</a>
 			</div>
 		</div>
 
 		<div id="blogsList">
 			<div class="block-container blogs-menu justify-center">
-				<a href="javascript:;" class="class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper"><span>Toggle</span></a>
+				<a href="javascript:;" class="class-toggle" data-target-class="show-blogs-nav" data-target-nodes="#wrapper">
+					<svg class="svg-align"><use xlink:href="#blogs-hamburger" /></svg>
+				</a>
 
-				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(${highlighted_category_id});"><@liferay_ui.message key="highlighted" /></a>
+				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(${highlighted_category_id});">
+					<svg class="svg-align"><use xlink:href="#blogs-trending" /></svg>
+					<@liferay_ui.message key="highlighted" />
+				</a>
 
-				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(0);"><@liferay_ui.message key="latest" /></a>
+				<a href="javascript:;" onclick="${portlet_namespace}getBlogEntries(0);">
+					<svg class="svg-align"><use xlink:href="#blogs-latest" /></svg>
+					<@liferay_ui.message key="latest" />
+				</a>
 			</div>
 
 			<div class="blogs-list-container">
@@ -227,10 +258,25 @@
 		width: 200px;
 	}
 
-	#blogs #categoriesNav a {
+	#blogs #categoriesNav li a {
 		color: #FFF;
 		display: block;
 		padding: .5em 1em;
+	}
+
+	#blogs #categoriesNav #business,
+	#blogs #categoriesNav #tech,
+	#blogs #categoriesNav #trending {
+		fill: transparent;
+		height: 21px;
+		stroke: #FFF;
+		width: 24px;
+	}
+
+	#blogs #categoriesNav #lrlogo {
+		fill: #FFF;
+		height: 21px;
+		width: 24px;
 	}
 
 	#blogs #categoriesNav .child-category:hover {
@@ -249,6 +295,27 @@
 		color: #909295;
 	}
 
+	#blogs .blogs-menu a {
+		color: #909295;
+	}
+
+	#blogs .blogs-menu a:active,
+	#blogs .blogs-menu a:focus {
+		color: #1C75B9;
+	}
+
+	#blogs .blogs-menu a:hover svg,
+	#blogs .blogs-menu a:active svg,
+	#blogs .blogs-menu a:focus svg {
+		stroke: #1C75B9;
+	}
+
+	#blogs .blogs-menu svg {
+		height: 21px;
+		stroke: #909295;
+		width: 21px;
+	}
+
 	#blogs .blog-title {
 		color: #4C4C4E;
 	}
@@ -263,7 +330,7 @@
 		bottom: 0px;
 		left: -200px;
 		position: fixed;
-		top: 100px;
+		top: 105px;
 		transition: left .5s;
 	}
 
@@ -284,6 +351,20 @@
 		padding: .5em 1em;
 	}
 
+	#blogs .social-nav {
+		border-top: 1px solid #E3E4E5;
+		display: flex;
+		justify-content: space-around;
+		margin-top: 10px;
+	}
+
+	#blogs .social-nav svg {
+		fill: #909295;
+		height: 40px;
+		stroke: transparent;
+		width: 21px;
+	}
+
 	.aui #main-content.columns-1, .aui footer.doc-footer {
 		margin-left: 300px;
 		transition: margin-left .5s;
@@ -293,12 +374,12 @@
 		margin-left: 500px;
 	}
 
-	.rss {
-		padding: 5px 0;
+	.show-blogs-nav #blogs .nav-container {
+		left: 0;
 	}
 
-	.show-blogs-nav #blogs .nav-container{
-		left: 0;
+	.svg-align {
+		vertical-align: text-bottom;
 	}
 </style>
 
