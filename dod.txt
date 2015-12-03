@@ -1,0 +1,8 @@
+Approved by stakeholders
+Peer reviewed if includes code
+Device and browser agnostic
+Thoroughly tested (functionality/interactions, permissions, links, signed out, etc.)
+Localized (translation tickets created if needed)
+SEO best practices implemented
+Load time optimized (images, lazy loading, etc.)
+Trackable (analytics)

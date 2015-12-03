@@ -1,0 +1,13 @@
+Hubspot localization process
+
+Summary: When creating a targeted article that is locale specific, be sure and add in the appropriate language localization.
+
+Example case:
+
+We created an article for the /products/liferay-portal/ee/overview which presents different logos, logos which are more relevant to German speakers. But we only provided German text. Because hubspot local overrides language selection, the odd case where someone is viewing the site in English, but has their hubpot locale as Germany will have that article alone in German (if that is articles' default).
+
+If the article is localized, then the text content will be according to the site language selection.
+
+Process
+- Create new localized article.
+- Check if there is default or additional languages that ought to be added to the newly created article.

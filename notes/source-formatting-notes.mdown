@@ -1,0 +1,6 @@
+##Images##
+- file names should use underscores instead of dashes
+
+
+##Java##
+- use `Validator.isNull` & `Validator.isNotNull` only for strings

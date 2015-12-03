@@ -1,0 +1,76 @@
+#set ($portalBeanLocator = $portal.getClass().forName("com.liferay.portal.kernel.bean.PortalBeanLocatorUtil"))
+#set ($dateFormatFactoryUtil = $portalBeanLocator.locate("com.liferay.portal.kernel.util.DateFormatFactoryUtil"))
+
+## Format display date
+
+#set ($dateFormatDateTime = $dateFormatFactory.getDate(1, $locale, $time_zone))
+
+#set ($dateFormat = $dateFormatFactoryUtil.getSimpleDateFormat('EEE, dd MMM yyyy hh:mm:ss Z'))
+
+#set ($displayDate = $dateFormat.parse($reserved-article-display-date.data))
+
+<div class="entry">
+	<div class="header">
+		<div class="heading">
+			$title.data
+		</div>
+
+		#if($validator.isNotNull($subtitle))
+			<div class="sub-title">
+				<i>
+					$subtitle.data
+				</i>
+			</div>
+		#end
+	</div>
+
+	<div class="entry-body">
+		#if ($validator.isNotNull($body))
+			<p>
+				$body.data
+			</p>
+
+			<br />
+		#end
+
+		#if ($use-default-about-content && ($use-default-about-content.data == true))
+			#set ($defaultAboutContent = $journalContentUtil.getContent($getterUtil.getLong($groupId), "PRESS-RELEASE-ABOUT", "", $locale.toString(), $xmlRequest))
+
+			<p>
+				$!defaultAboutContent
+			</p>
+
+			<br />
+		#end
+
+		#foreach ($curAboutContent in $about-content.siblings)
+			#if ($validator.isNotNull($curAboutContent.title) || $validator.isNotNull($curAboutContent.body))
+				<div class="press-release-about">
+					<strong class="title">$curAboutContent.title.data</strong>
+
+					<em class="body">$curAboutContent.body.data</em>
+				</div>
+
+				<br />
+			#end
+		#end
+
+		#if ($use-default-contact-info && ($use-default-contact-info.data == true))
+			#set ($defaultContactInfo = $journalContentUtil.getContent($getterUtil.getLong($groupId), "PRESS-RELEASE-CONTACT", "", $locale.toString(), $xmlRequest))
+
+			<p>
+				$!defaultContactInfo
+			</p>
+
+			<br />
+		#end
+
+		#foreach ($curContactInfo in $contact-info.siblings)
+			#if ($validator.isNotNull($curContactInfo))
+				$curContactInfo.data
+
+				<br />
+			#end
+		#end
+	</div>
+</div>
