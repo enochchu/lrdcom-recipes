@@ -1,4 +1,12 @@
-<div class="light-color quote-wrapper ${background_color.data}">
+<#assign container_class = "quote-wrapper ${background_color.data}">
+
+<#if background_color.data == "light-background">
+	<#assign container_class = container_class + " font-color">
+<#else>
+	<#assign container_class = container_class + " light-color">
+</#if>
+
+<div class="${container_class}">
 	<#if quote.data?has_content>
 		<div class="max-med quote">
 			${quote.data}
